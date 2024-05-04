@@ -1,19 +1,17 @@
 #!/bin/bash
-# Den Pfad zum Quell- und Backupverzeichnis ohne abschließenden Schrägstrich '/' angeben.
 dir=$(dirname "$(realpath "$0")")
-quelle=/mnt/fivem/losthope     		# Welches Verzeichnis soll gesichert werden?
-backup=/mnt/fivembackup      	# Wo sollen die Sicherungen gespeichert werden?
-nosave=$dir/exclude.txt # Ausschlüsse werden in dieser Datei zeilenweise eingetragen.
-# Ab hier muss man eigentlich nichts mehr ändern.
+quelle=/path/to/source
+backup=/path/to/destination/
+nosave=$dir/exclude.txt
 
 last_backup_file="$dir/.last_backup_path"
 if [ -f "$last_backup_file" ]; then
   last_backup_path=$(cat "$last_backup_file")
 else
-  last_backup_path="" # If the file doesn't exist, default to empty
+  last_backup_path=""
 fi
 
-# Ausschlussdatei neu anlegen, nur falls noch keine existiert:
+
 touch $nosave
 
 # Datum ermitteln:
