@@ -70,7 +70,7 @@ function backup ()
 if [[ $day != 01 && $day != 09 && $day != 16 && $day != 24 ]]; then
  # and if weekday = ... then backup in the subfolder of the weekday:
  case "$weekday" in Mon|Tue|Wed|Thu|Fri|Sat|Sun) backup $weekday ;; esac
- # Note: For an operating system with English language settings, the weekday names must be changed as follows: 'Mon|Tue|Wed|Thu|Fri|Sat|Sun'.
+ # Note: For an operating system with German language settings, the weekday names must be changed as follows: 'Mo|Di|Mi|Do|Fr|Sa|So'.
 fi
 
 ## Weekly backups:
