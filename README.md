@@ -10,7 +10,7 @@ They will get updates if needed.
 | Bash/repotools/* | Scripts i still use to maintain my own repository hosting emby-server |
 | Bash/backup.sh | Simple Backupscript using rsync |
 | Bash/fivemupdate.sh | Automaticly retrieves the latest fxserver artifacts unpacks and install them. |
-| Batch/Windows Activation (c) by Andrew(v1.0).bat | A Batch based KMS Windows/Office Activator (not maintained anymore). |
+| Batch/Windows Activation.bat | A Batch based KMS Windows/Office Activator (not maintained anymore). |
 | Batch/passwd.bat | A simple password generator. |
 | Powershell/fivemupdate.ps1 | The Windows equivalent to fivemupdate.sh. |
 
