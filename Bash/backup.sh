@@ -1,102 +1,104 @@
 #!/bin/bash
+# Specify the path to the source and backup directory without a trailing slash '/'.
 dir=$(dirname "$(realpath "$0")")
-quelle=/path/to/source
-backup=/path/to/destination/
-nosave=$dir/exclude.txt
+source=/mnt/fivem/losthope         		# Which directory should be backed up?
+backup=/mnt/fivembackup       		# Where should the backups be stored?
+excludeFile=$dir/exclude.txt # Exclusions are entered line by line in this file.
+# From here you don't really need to change anything.
 
-last_backup_file="$dir/.last_backup_path"
-if [ -f "$last_backup_file" ]; then
-  last_backup_path=$(cat "$last_backup_file")
+lastBackupFile="$dir/.last_backup_path"
+if [ -f "$lastBackupFile" ]; then
+  lastBackupPath=$(cat "$lastBackupFile")
 else
-  last_backup_path=""
+  lastBackupPath="" # If the file doesn't exist, default to empty
 fi
 
+# Create exclusion file, only if it does not already exist:
+touch $excludeFile
 
-touch $nosave
+# Determine the date:
+weekday=$(date +"%a") # %a = Day of the week as short text. Note that the content of the variable depends on the system's set language.
+day=$(date +"%d")       # %d = Day of the month as a two-digit number.
+month=$(date +"%m")     # %m = Month as a two-digit number.
 
-# Datum ermitteln:
-wochentag=$(date +"%a") # %a = Wochentag in Kurzform als Text. Beachtet dabei, dass der Inhalt der Variable von der eingestellten Sprache im System abhängig ist.
-tag=$(date +"%d")       # %d = Tagdatum als zweistellige Zahl.
-monat=$(date +"%m")     # %m = Monatsdatum als zweistellige Zahl.
-
-# Backup Funktion definieren:
+# Define backup function:
 function backup ()
 {
 
- start_time=$(date +%s)
- backup_path="$backup/$1/"
+ startTime=$(date +%s)
+ backupPath="$backup/$1/"
 
- echo >"$backup/_letzte_Sicherung.txt"
- echo "-----------------------------------------------" >> "$backup/_letzte_Sicherung.txt"
- echo "Starting backup: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_letzte_Sicherung.txt"
- echo "Backup Path: $backup_path" >> "$backup/_letzte_Sicherung.txt"
- echo "Source Path: $quelle" >> "$backup/_letzte_Sicherung.txt"
- echo "Link Destionation used: $last_backup_path" >> "$backup/_letzte_Sicherung.txt"
- echo "-----------------------------------------------" >> "$backup/_letzte_Sicherung.txt"
- echo -e '\n' >>"$backup/_letzte_Sicherung.txt"
+ echo >"$backup/_last_backup.txt"
+ echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
+ echo "Starting backup: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_last_backup.txt"
+ echo "Backup Path: $backupPath" >> "$backup/_last_backup.txt"
+ echo "Source Path: $source" >> "$backup/_last_backup.txt"
+ echo "Link Destination used: $lastBackupPath" >> "$backup/_last_backup.txt"
+ echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
+ echo -e '\n' >>"$backup/_last_backup.txt"
 
 
 
- if [ -n "$last_backup_path" ]; then
-  link_dest_option="--link-dest=$last_backup_path"
+ if [ -n "$lastBackupPath" ]; then
+  linkDestOption="--link-dest=$lastBackupPath"
  else
-  link_dest_option=""
+  linkDestOption=""
  fi
 
- rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$nosave" $link_dest_option "$quelle/" "$backup/$1/" >>"$backup/_letzte_Sicherung.txt" 2>&1
- rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$nosave" --link-dest="/mnt/fivem/OldScripts/" "/mnt/fivem/OldScripts/" "$backup/$1/OldScripts/" 2>&1
+ rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$excludeFile" $linkDestOption "$source/" "$backup/$1/" >>"$backup/_last_backup.txt" 2>&1
+ rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$excludeFile" --link-dest="/mnt/fivem/OldScripts/" "/mnt/fivem/OldScripts/" "$backup/$1/OldScripts/" 2>&1
  mysqldump --single-transaction -u fivem -pnewaera -h 49.13.172.228 fivem>"$backup/$1/sql_backup_$(date "+%Y-%m-%d").sql" 
 
 
- end_time=$(date +%s)
- duration=$((end_time - start_time))
- backup_size=$(du -sh "$backup_path" | cut -f1)
+ endTime=$(date +%s)
+ duration=$((endTime - startTime))
+ backupSize=$(du -sh "$backupPath" | cut -f1)
 
- echo -e '\n'>> "$backup/_letzte_Sicherung.txt"
- echo "-----------------------------------------------" >> "$backup/_letzte_Sicherung.txt"
- echo "Backup completed: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_letzte_Sicherung.txt"
- echo "Duration: $duration seconds" >> "$backup/_letzte_Sicherung.txt"
- echo "Backup Size: $backup_size" >> "$backup/_letzte_Sicherung.txt"
- echo "-----------------------------------------------" >> "$backup/_letzte_Sicherung.txt"
+ echo -e '\n'>> "$backup/_last_backup.txt"
+ echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
+ echo "Backup completed: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_last_backup.txt"
+ echo "Duration: $duration seconds" >> "$backup/_last_backup.txt"
+ echo "Backup Size: $backupSize" >> "$backup/_last_backup.txt"
+ echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
 
- mv $backup/_letzte_Sicherung.txt $backup/$1/_letzte_Sicherung_$(date "+%Y-%m-%d").txt
- echo "$backup/$1" > $last_backup_file
+ mv $backup/_last_backup.txt $backup/$1/_last_backup_$(date "+%Y-%m-%d").txt
+ echo "$backup/$1" > $lastBackupFile
  }
 
-## tägliche Sicherung (Montag - Sonntag):
-# Nur wenn der Tag nicht der 01, 09, 16 oder 24 ist wird hier gesichert - sonst wird eine Wochen- oder Monatssicherung durchgeführt:
-if [[ $tag != 01 && $tag != 09 && $tag != 16 && $tag != 24 ]]; then
- # und wenn Wochentag = ... dann Sicherung im Unterordner vom Wochentag:
- case "$wochentag" in Mon|Tue|Wed|Thu|Fri|Sat|Sun) backup $wochentag ;; esac
- # Hinweis: Bei einem Betriebssystem mit englischer Spracheinstellung muss man die Wochentagsnamen wie folgt verändern: 'Mon|Tue|Wed|Thu|Fri|Sat|Sun'.
+## Daily backup (Monday - Sunday):
+# Only if the day is not the 1st, 9th, 16th or 24th, a backup is made here - otherwise a weekly or monthly backup is performed:
+if [[ $day != 01 && $day != 09 && $day != 16 && $day != 24 ]]; then
+ # and if weekday = ... then backup in the subfolder of the weekday:
+ case "$weekday" in Mon|Tue|Wed|Thu|Fri|Sat|Sun) backup $weekday ;; esac
+ # Note: For an operating system with English language settings, the weekday names must be changed as follows: 'Mon|Tue|Wed|Thu|Fri|Sat|Sun'.
 fi
 
-## Wochensicherungen:
-# Hinweis:
-# 1. Woche ist die Monatssicherung.
+## Weekly backups:
+# Note:
+# 1st week is the month's backup.
 
-# 2. Woche (9. Tag):
-case "$tag" in 09) backup 09 ;; esac
+# 2nd week (9th day):
+case "$day" in 09) backup 09 ;; esac
 
-# 3. Woche (16. Tag):
-case "$tag" in 16) backup 16 ;; esac
+# 3rd week (16th day):
+case "$day" in 16) backup 16 ;; esac
 
-# 4. Woche (24. Tag):
-case "$tag" in 24) backup 24 ;; esac
+# 4th week (24th day):
+case "$day" in 24) backup 24 ;; esac
 
-## Monatssicherungen:
-# wenn gerader Monat (Mg):
-case "$monat" in 02|04|06|08|10|12)
- # und wenn 1.ter im Monat:
- case "$tag" in 01)
+## Monthly backups:
+# if even month (Mg):
+case "$month" in 02|04|06|08|10|12)
+ # and if 1st of the month:
+ case "$day" in 01)
  backup Mg
  ;; esac
 ;; esac
 
-# wenn ungerader Monat (Mu):
-case "$monat" in 01|03|05|07|09|11)
- # und wenn 1.ter im Monat:
- case "$tag" in 01)
+# if odd month (Mu):
+case "$month" in 01|03|05|07|09|11)
+ # and if 1st of the month:
+ case "$day" in 01)
  backup Mu
  ;; esac
 ;; esac
