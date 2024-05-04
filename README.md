@@ -6,6 +6,7 @@ They will get updates if needed.
 | Script File | Information |
 |------------------|-----------------------------------------------------------------------------------------------------------------------|
 | Bash/auth-backup | Was used to automaticly restore google authenticator file0 for 2FA SSH-server logins, whenever the user deleted them. |
+| Bash/ubuntu-cleanup.sh | Simple script to cleanup ubuntu, uninstall not needed packages via deborphan, cleanup /var/logs, do system update apt update/full-upgrade |
 | Bash/backup.sh | Simple Backupscript using rsync |
 | Bash/fivemupdate.sh | Automaticly retrieves the latest fxserver artifacts unpacks and install them. |
 | Batch/Windows Activation (c) by Andrew(v1.0).bat | A Batch based KMS Windows/Office Activator (not maintained anymore). |
