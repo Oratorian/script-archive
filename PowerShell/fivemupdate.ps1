@@ -5,6 +5,25 @@ $RUN_SCRIPT = "FXServer.exe"
 $pageUrl = "https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/"
 $ScriptDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 
+# Function to check and install 7-Zip
+function Ensure-7ZipInstalled {
+    $sevenZipPath = "C:\Program Files\7-Zip\7z.exe"
+    $installerUrl = "https://www.7-zip.org/a/7z2404-x64.msi"
+    $installerPath = "$Env:TEMP\7z2404-x64.msi"
+
+    if (-Not (Test-Path $sevenZipPath)) {
+        Write-Output "7-Zip is not installed. Installing now, Downloading to $installerPath"
+        Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+        Start-Process "msiexec.exe" -ArgumentList "/i", "$installerPath", "/quiet" -Wait -Verb RunAs
+        Write-Output "7-Zip installation complete."
+    } else {
+        Write-Output "7-Zip is already installed."
+    }
+}
+
+# Ensure 7-Zip is installed before using it
+Ensure-7ZipInstalled
+
 if (-Not [string]::IsNullOrWhiteSpace($UPDATE_DIR) -and (Test-Path $UPDATE_DIR)) {
     Write-Output "Using update directory: $UPDATE_DIR"
 } else {
@@ -19,12 +38,10 @@ if (-Not [string]::IsNullOrWhiteSpace($FIVEM_DIR) -and (Test-Path $FIVEM_DIR)) {
     Write-Output "Default FiveM directory is not set or inaccessible. Falling back to script directory: $FIVEM_DIR"
 }
 
-
 if (-Not (Test-Path $UPDATE_DIR)) {
     New-Item -ItemType Directory -Path $UPDATE_DIR
     Write-Output "Created directory: $UPDATE_DIR"
 }
-
 
 $webContent = Invoke-WebRequest -Uri $pageUrl
 $links = $webContent.Links.Href | Where-Object { $_ -match '\d{4}[^"]+' } | Sort-Object -Descending
@@ -37,20 +54,20 @@ $destinationFile = "${UPDATE_DIR}/${versionCode}.7z"
 if ([string]::IsNullOrWhiteSpace($versionCode) -or (Test-Path $destinationFile)) {
     Write-Output "Nothing to do"
 } else {
-        $scriptProcessName = $RUN_SCRIPT -replace '\.exe$', ''
-        try {
-            $scriptProcess = Get-Process -Name $scriptProcessName -ErrorAction SilentlyContinue
-            Stop-Process -Name $scriptProcessName -Force -ErrorAction Stop
-            Write-Output "Stopped running script: $RUN_SCRIPT"
-        } catch {
-            Write-Output "No running process found for: $RUN_SCRIPT. Nothing to stop."
-        }
+    $scriptProcessName = $RUN_SCRIPT -replace '\.exe$', ''
+    try {
+        $scriptProcess = Get-Process -Name $scriptProcessName -ErrorAction SilentlyContinue
+        Stop-Process -Name $scriptProcessName -Force -ErrorAction Stop
+        Write-Output "Stopped running script: $RUN_SCRIPT"
+    } catch {
+        Write-Output "No running process found for: $RUN_SCRIPT. Nothing to stop."
+    }
 
-        Invoke-WebRequest -Uri $downUrl -OutFile $destinationFile
-        & 7z x $destinationFile -o"$FIVEM_DIR" -aoa
-        
-        Start-Process "$FIVEM_DIR/$RUN_SCRIPT"
-        Write-Output "Started new script: $RUN_SCRIPT"
+    Invoke-WebRequest -Uri $downUrl -OutFile $destinationFile
+    & 7z x $destinationFile -o"$FIVEM_DIR" -aoa
+    
+    Start-Process "$FIVEM_DIR/$RUN_SCRIPT"
+    Write-Output "Started new script: $RUN_SCRIPT"
 }
 
 Get-ChildItem $UPDATE_DIR -Filter "*.7z" | 
