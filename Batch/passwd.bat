@@ -46,7 +46,6 @@ goto Main
 
 :SetPassword
 set /a Type=!random! %% 4
-set /p Comment=
 if "!Type!"=="0" (
     set /a Num=!random! %% 10
     set Password=!Password!!Num!
@@ -290,9 +289,10 @@ if !TempLength! GTR 1 (
     set /a TempLength=!TempLength! - 1
     goto SetPassword
 )
-ECHO ^[!date! !time!] [L:!Length!] [C:!Comment!] !Password!!\n!>>"PWGen_Log.ini"
+set /p comment=Add a comment for the Password : 
+ECHO ^[!date! !time!] [L:!Length!] [C:!comment!]  !Password!!\n!>>"PWGen_Log.ini"
 goto Main
 
 
 :Quit
-quit
+exit
