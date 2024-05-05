@@ -20,7 +20,7 @@ echo   3) Quit
 echo .
 echo .
 echo|set/p =!Password!|clip
-echo Result: !Password!
+echo Password: !Password!
 choice /c 123456 /n /cs /t 9999 /d 6 /m "Choose an option from the list."
 set Select=!errorlevel!
 
