@@ -7,17 +7,16 @@ $ScriptDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
 
 # Function to check and install 7-Zip
 function Ensure-7ZipInstalled {
-    $sevenZipPath = "C:\Program Files\7-Zip\7z.exe"
-    $installerUrl = "https://www.7-zip.org/a/7z2404-x64.msi"
-    $installerPath = "$Env:TEMP\7z2404-x64.msi"
+    $sevenZipPath = "$ScriptDir\7z.exe"
+    $installerUrl = "https://7-zip.org/a/7zr.exe"
+
 
     if (-Not (Test-Path $sevenZipPath)) {
-        Write-Output "7-Zip is not installed. Installing now, Downloading to $installerPath"
-        Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
-        Start-Process "msiexec.exe" -ArgumentList "/i", "$installerPath", "/quiet" -Wait -Verb RunAs
-        Write-Output "7-Zip installation complete."
+        Write-Output "7-Zip is not installed. Installing now, Downloading to $sevenZipPath"
+        Invoke-WebRequest -Uri $installerUrl -OutFile $sevenZipPath
+        Write-Output "7-Zip Download complete."
     } else {
-        Write-Output "7-Zip is already installed."
+        Write-Output "7-Zip exists."
     }
 }
 
@@ -65,12 +64,12 @@ if ([string]::IsNullOrWhiteSpace($versionCode) -or (Test-Path $destinationFile))
 
     Invoke-WebRequest -Uri $downUrl -OutFile $destinationFile
     & 7z x $destinationFile -o"$FIVEM_DIR" -aoa
-    
+
     Start-Process "$FIVEM_DIR/$RUN_SCRIPT"
     Write-Output "Started new script: $RUN_SCRIPT"
 }
 
-Get-ChildItem $UPDATE_DIR -Filter "*.7z" | 
-    Sort-Object CreationTime -Descending | 
+Get-ChildItem $UPDATE_DIR -Filter "*.7z" |
+    Sort-Object CreationTime -Descending |
     Select-Object -Skip 5 |
     Remove-Item -Force
