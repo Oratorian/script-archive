@@ -11,6 +11,7 @@ They will get updates if needed.
 | Bash/backup.sh | Simple Backupscript using rsync |
 | Bash/Crunchyroll-Notify.sh | Script that notifies you about releases on crunchroll for your fav. show. It sends them via IFTT,Discord,Email or Slack.|
 | Bash/emby-html-overview.sh | Script creates a simple by CSS stylesheet modifiable html file. |
+| Bash/ssh-keygen-ui.sh | A simple bash based ssh_keygen GUI using dialog. Can be run by root or user with sudo as well as a normal systemuser. |
 | Bash/fivemupdate.sh | Automaticly retrieves the latest fxserver artifacts unpacks and install them. |
 | Batch/Windows Activation.bat | A Batch based KMS Windows/Office Activator (not maintained anymore). |
 | Batch/passwd.bat | A simple password generator. |
