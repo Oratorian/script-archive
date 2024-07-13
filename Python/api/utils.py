@@ -2,14 +2,10 @@ import os
 import json
 from cryptography.fernet import Fernet
 import secrets
-
-API_KEYS_FILE = 'api_keys.enc'
-INITIAL_API_KEY_FILE = 'initial_api_key.enc'
-SUDO_PASSWORD_FILE = 'sudo_password.enc'
-KEY_FILE = 'encryption_key.bin'
+import config
 
 def load_encryption_key():
-    with open(KEY_FILE, 'rb') as f:
+    with open(config.key_file, 'rb') as f:
         encryption_key = f.read()
     return encryption_key
 
@@ -17,7 +13,7 @@ encryption_key = load_encryption_key()
 cipher = Fernet(encryption_key)
 
 def load_sudo_password():
-    with open(SUDO_PASSWORD_FILE, 'rb') as f:
+    with open(config.sudo_password_file, 'rb') as f:
         encrypted_sudo_password = f.read()
     return cipher.decrypt(encrypted_sudo_password).decode()
 
@@ -42,15 +38,15 @@ def decrypt_string(encrypted_data):
     return decrypted_data.decode()
 
 def load_api_keys():
-    if os.path.exists(API_KEYS_FILE):
-        with open(API_KEYS_FILE, 'rb') as f:
+    if os.path.exists(config.api_keys_file):
+        with open(config.api_keys_file, 'rb') as f:
             encrypted_api_keys = f.read()
         return decrypt_json(encrypted_api_keys)
     return {}
 
 def save_api_keys(api_keys):
     encrypted_api_keys = encrypt_json(api_keys)
-    with open(API_KEYS_FILE, 'wb') as f:
+    with open(config.api_keys_file, 'wb') as f:
         f.write(encrypted_api_keys)
 
 def generate_api_key(api_keys):
@@ -61,15 +57,15 @@ def generate_api_key(api_keys):
         part2 = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
         if (sum(c.isalpha() for c in part2) >= 3 and sum(c.isdigit() for c in part2) >= 3):
             break
-    part3 = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(5, 10)))
-    key = '{part1}_{part2}-{part3}'
+    part3 = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(35, 35)))
+    key = f'{part1}_{part2}-{part3}'
     api_keys[key] = True
     save_api_keys(api_keys)
     return key
 
 def load_initial_api_key():
-    if os.path.exists(INITIAL_API_KEY_FILE):
-        with open(INITIAL_API_KEY_FILE, 'rb') as f:
+    if os.path.exists(config.master_key_file):
+        with open(config.master_key_file, 'rb') as f:
             encrypted_initial_api_key = f.read()
         return decrypt_string(encrypted_initial_api_key)
     return None

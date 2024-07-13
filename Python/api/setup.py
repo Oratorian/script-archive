@@ -2,27 +2,19 @@ import os
 import json
 import secrets
 from cryptography.fernet import Fernet
-
-api_keys_file = 'api_keys.enc'
-initial_key_file = 'initial_api_key.enc'
-sudo_password_file = 'sudo_password.enc'
-key_file = 'encryption_key.bin'
+import config
 
 def load_or_generate_encryption_key():
-    if os.path.exists(key_file):
-        with open(key_file, 'rb') as f:
+    if os.path.exists(config.key_file):
+        with open(config.key_file, 'rb') as f:
             encryption_key = f.read()
         print("Encryption key already exists. Using the existing key.")
     else:
         encryption_key = Fernet.generate_key()
-        with open(key_file, 'wb') as f:
+        with open(config.key_file, 'wb') as f:
             f.write(encryption_key)
-        api_keys = {initial_api_key: True}
-        encrypted_api_keys = cipher.encrypt(json.dumps(api_keys).encode())
-        with open(api_keys_file, 'wb') as f:
-            f.write(encrypted_api_keys)
-        print("New encryption key and APIkey Database generated and saved.")
         cipher = Fernet(encryption_key)
+        print("New encryption key and APIkey Database generated and saved.")
         reset_sudo_password(cipher)
         reset_master_key(cipher)
         exit()
@@ -31,18 +23,30 @@ def load_or_generate_encryption_key():
 def reset_sudo_password(cipher):
     sudo_password = input("Please enter your new sudo password: ")
     encrypted_sudo_password = cipher.encrypt(sudo_password.encode())
-    with open(sudo_password_file, 'wb') as f:
+    with open(config.sudo_password_file, 'wb') as f:
         f.write(encrypted_sudo_password)
     print("Sudo password saved (encrypted).")
     print(f"Encrypted sudo password: {encrypted_sudo_password.decode()}\n")
 
 def reset_master_key(cipher):
-    initial_api_key = secrets.token_urlsafe(32)
-    encrypted_initial_api_key = cipher.encrypt(initial_api_key.encode())
-    with open(initial_key_file, 'wb') as f:
-        f.write(encrypted_initial_api_key)
-    print("Master APIkey saved (encrypted).")
-    print(f"New Master APIkey (save this securely): {initial_api_key}\n")
+    master_key = generate_api_key()
+    encrypted_master_key = cipher.encrypt(master_key.encode())
+    with open(config.master_key_file, 'wb') as f:
+        f.write(encrypted_master_key)
+    print("Master API key saved (encrypted).")
+    print(f"New Master API key (save this securely): {master_key}\n")
+
+def generate_api_key():
+    import random
+    import string
+    part1 = 'MAS' #join(random.choices(string.ascii_uppercase, k=2))
+    while True:
+        part2 = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+        if (sum(c.isalpha() for c in part2) >= 3 and sum(c.isdigit() for c in part2) >= 3):
+            break
+    part3 = ''.join(random.choices(string.ascii_letters + string.digits, k=random.randint(35, 35)))
+    key = f'{part1}_{part2}-{part3}'
+    return key
 
 def main():
     encryption_key = load_or_generate_encryption_key()
