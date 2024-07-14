@@ -10,7 +10,6 @@ def health():
     load1, load5, load15 = os.getloadavg()
     memory = psutil.virtual_memory()
     disk = psutil.disk_usage('/')
-    
     health_info = {
         "load_average": {
             "1m": load1,
@@ -30,5 +29,4 @@ def health():
             "percent": disk.percent
         }
     }
-    
     return jsonify(health_info), 200
