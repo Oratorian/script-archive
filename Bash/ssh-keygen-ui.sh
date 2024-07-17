@@ -53,23 +53,23 @@ delete_key() {
     local ssh_dir="$user_home/.ssh"
     local auth_keys="$ssh_dir/authorized_keys"
 
-    # Extract comments from the authorized_keys file
+    # Extract User from the authorized_keys file
     if [ -f "$auth_keys" ]; then
-        local comments
-        comments=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
+        local User
+        User=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
 
-        if [ -z "$comments" ]; then
+        if [ -z "$User" ]; then
             dialog --title "Delete SSH Key" --msgbox "No SSH keys found to delete." 5 50
             return
         fi
 
-        # Present the comments in a menu for selection
+        # Present the User in a menu for selection
         local comment_choice
-        comment_choice=$(dialog --menu "Select the SSH key to delete:" 20 60 10 $comments 3>&1 1>&2 2>&3 3>&-)
+        comment_choice=$(dialog --menu "Select the SSH key to delete:" 20 60 10 $User 3>&1 1>&2 2>&3 3>&-)
 
         if [ -n "$comment_choice" ]; then
             local selected_comment
-            selected_comment=$(echo "$comments" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
+            selected_comment=$(echo "$User" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
 
             # Find and remove the corresponding public key entry from authorized_keys
             local key_line
@@ -96,23 +96,23 @@ view_keys() {
     local ssh_dir="$user_home/.ssh"
     local auth_keys="$ssh_dir/authorized_keys"
 
-    # Extract comments from the authorized_keys file
+    # Extract User from the authorized_keys file
     if [ -f "$auth_keys" ]; then
-        local comments
-        comments=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
+        local User
+        User=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
 
-        if [ -z "$comments" ]; then
+        if [ -z "$User" ]; then
             dialog --title "View SSH Keys" --msgbox "No SSH keys found to view." 5 50
             return
         fi
 
-        # Present the comments in a menu for selection
+        # Present the User in a menu for selection
         local comment_choice
-        comment_choice=$(dialog --menu "Select the SSH key to view:" 20 60 10 $comments 3>&1 1>&2 2>&3 3>&-)
+        comment_choice=$(dialog --menu "Select the SSH key to view:" 20 60 10 $User 3>&1 1>&2 2>&3 3>&-)
 
         if [ -n "$comment_choice" ]; then
             local selected_comment
-            selected_comment=$(echo "$comments" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
+            selected_comment=$(echo "$User" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
 
             local key_path="$ssh_dir/id_ed25519_$selected_comment"
             local key_pub_path="$key_path.pub"
@@ -139,23 +139,23 @@ restore_public_key() {
     local ssh_dir="$user_home/.ssh"
     local auth_keys="$ssh_dir/authorized_keys"
 
-    # Extract comments from the authorized_keys file
+    # Extract User from the authorized_keys file
     if [ -f "$auth_keys" ]; then
-        local comments
-        comments=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
+        local User
+        User=$(awk '{print $NF}' "$auth_keys" | nl -w2 -s' ')
 
-        if [ -z "$comments" ]; then
+        if [ -z "$User" ]; then
             dialog --title "Restore Public Key" --msgbox "No private key files found to restore from." 5 50
             return
         fi
 
-        # Present the comments in a menu for selection
+        # Present the User in a menu for selection
         local comment_choice
-        comment_choice=$(dialog --menu "Select the SSH key to restore:" 20 60 10 $comments 3>&1 1>&2 2>&3 3>&-)
+        comment_choice=$(dialog --menu "Select the SSH key to restore:" 20 60 10 $User 3>&1 1>&2 2>&3 3>&-)
 
         if [ -n "$comment_choice" ]; then
             local selected_comment
-            selected_comment=$(echo "$comments" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
+            selected_comment=$(echo "$User" | awk -v choice="$comment_choice" '$1 == choice { $1=""; print $0 }' | xargs)
 
             local key_path="$ssh_dir/id_ed25519_$selected_comment"
 
@@ -202,7 +202,7 @@ choose_user() {
         # Root user, show all system users except 'nobody' and those containing 'libvirt'
         exec 3>&1
         user=$(dialog --title "Select User" --cancel-label "Exit" --menu "Choose a user:" 20 60 10 \
-            $(getent passwd | awk -F: '$3 >= 1000 && $1 != "nobody" && $1 !~ /libvirt/ {print $1 " " $1}') 2>&1 1>&3)
+            $(getent passwd | awk -F: '$3 >= 1000 && $3 <= 1999 && $1 != "nobody" && $1 !~ /libvirt/ {print $1 " " $1}') 2>&1 1>&3)
         exec 3>&-
     else
         # Regular user, only their username
