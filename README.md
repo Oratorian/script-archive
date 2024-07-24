@@ -16,7 +16,8 @@ They will get updates if needed.
 | Batch/Windows Activation.bat | A Batch based KMS Windows/Office Activator (not maintained anymore). |
 | Batch/passwd.bat | A simple password generator. |
 | Powershell/fivemupdate.ps1 | The Windows equivalent to fivemupdate.sh. |
-| Python/api | a multi purpose API with modular endpoints (work in progress). |
+| Python/api | A multi purpose API with modular endpoints (work in progress). |
+| Python/wol | A small Wake-On-Lan script utilising python, WebUI to add,delete and wake PC's. Secured with login. |
 
 
 Feel free to use and modify them, Please fork them and send Pull requests.
