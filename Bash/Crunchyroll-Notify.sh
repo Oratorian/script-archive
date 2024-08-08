@@ -60,7 +60,7 @@ fi
 current_day=$(date +%a)
 
 # Fetch the RSS feed
-rss_feed=$(curl -s "$rss_url")
+rss_feed=$(curl -sL "$rss_url")
 
 # Parse the XML and extract necessary elements
 media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:mediaId, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
@@ -152,7 +152,7 @@ while IFS= read -r line; do
     link=$(echo "$line" | cut -d'|' -f3)
     description=$(echo "$line" | cut -d'|' -f4)
     thumbnail_url=$(echo "$line" | cut -d'|' -f5)
-    
+
     for user_id in "${!user_media_ids[@]}"; do
         if [ "$media_id" == "$user_id" ] && [ "${user_media_ids[$user_id]}" == "$current_day" ]; then
             if [[ ! "$ANNOUNCED_IDS" == *"$media_id"* ]]; then
