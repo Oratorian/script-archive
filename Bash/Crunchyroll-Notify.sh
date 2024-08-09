@@ -9,8 +9,8 @@ rss_url="https://www.crunchyroll.com/rss/calender?time=$current_timestamp"
 # User-specified mediaIds to check
 # To obtain the mediaID visit https://www.crunchyroll.com/rss/calender and look for something like this - > <crunchyroll:mediaId>929014</crunchyroll:mediaId> < -
 # You need to do this for all shows you want to get a release notifycation for.
-# Add them into the array below in the folowwing format : ["id"]="day" where day is the day of the week when the anime should air seperated by comma
-user_media_ids=(["926043"]="Mi")
+# Add them into the array below in the folowwing format : ["id"]="day" where day is the day of the week when the anime should air seperated by whitespace
+user_media_ids=(["id1"]="day of release" ["id1"]="day of release"["id2"]="day of release" ["id3"]="day of release")
 
 # Notification service configurations
 notify_email=false
