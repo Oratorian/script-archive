@@ -33,8 +33,8 @@ ifttt_key="your_ifttt_key"
 # Slack configuration
 slack_webhook_url="https://hooks.slack.com/services/your/slack/webhook/url"
 
-# Discord configuration
-discord_webhook_url="https://discord.com/your/discord/channel/webhook/"
+# Discord configuration Allows for multiple webhooks, Configuration to allow where to announce what, will follow.
+discord_webhook_url="https://discord.com/your/discord/channel/webhook1/ https://discord.com/your/discord/channel/webhook2/ https://discord.com/your/discord/channel/webhook2/ ..."
 
 # File to keep track of announced media IDs
 announced_file="/tmp/announced_media_ids"
@@ -61,6 +61,12 @@ current_day=$(date +%a)
 
 # Fetch the RSS feed
 rss_feed=$(curl -sL "$rss_url")
+
+# Check if the fetched content is valid XML
+if ! echo "$rss_feed" | grep -q "<?xml"; then
+    echo "Error: The fetched content is not valid XML."
+    exit 1
+fi
 
 # Parse the XML and extract necessary elements
 media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:mediaId, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
@@ -138,11 +144,12 @@ notify_via_discord() {
                               }],
                               "attachments": []
                           }')
-
+for webhook_url in "${discord_webhook_urls[@]}"; do
     curl -s -X POST \
         -H 'Content-Type: application/json' \
         -d "$json_payload" \
         "$discord_webhook_url"
+done
 }
 
 # Check if any user-specified mediaIds are found in the RSS feed
