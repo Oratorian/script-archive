@@ -86,6 +86,12 @@ current_day=$(date +%a)
 # Fetch the RSS feed
 rss_feed=$(curl -sL "$rss_url")
 
+# Check if the fetched content is valid XML
+if ! echo "$rss_feed" | grep -q "<?xml"; then
+    echo "Error: The fetched content is not valid XML."
+    exit 1
+fi
+
 # Parse the XML and extract necessary elements
 media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:seriesTitle, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
 
