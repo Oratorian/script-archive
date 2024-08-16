@@ -80,13 +80,6 @@ add_title_to_announced() {
     ANNOUNCED_TITLES["$title"]=1
 }
 
-# Reset the announced IDs at 00:01 every day
-current_time=$(date +%H:%M)
-if [ "$current_time" == "00:01" ]; then
-    ANNOUNCED_IDS=""
-    echo -n "" > "$announced_file"
-fi
-
 # Get the current day of the week (Mon, Tue, Wed, etc.)
 current_day=$(date +%a)
 
