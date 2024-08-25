@@ -65,12 +65,13 @@ fi
 
 # Function to check if a title is in the announced list
 is_title_announced() {
-    local title="$1"
-    if [[ -n "${ANNOUNCED_TITLES[$title]}" ]]; then
-        return 0
-    else
-        return 1
-    fi
+    local keyword="$1"
+    for announced_title in "${!ANNOUNCED_TITLES[@]}"; do
+        if [[ "$announced_title" == *"$keyword"* ]]; then
+            return 0
+        fi
+    done
+    return 1
 }
 
 # Function to add a title to the announced list
@@ -183,8 +184,8 @@ while IFS= read -r line; do
     thumbnail_url=$(echo "$line" | cut -d'|' -f5)
 
     for user_title in "${!user_media_ids[@]}"; do
-        if [ "$series_title" == "$user_title" ] && [ "${user_media_ids[$user_title]}" == "$current_day" ]; then
-            if ! is_title_announced "$series_title"; then
+        if [[ "$series_title" == *"$user_title"* ]] && [ "${user_media_ids[$user_title]}" == "$current_day" ]; then
+            if ! is_title_announced "$user_title"; then
                 if [ "$notify_email" = true ]; then notify_via_email "$series_title"; fi
                 if [ "$notify_pushover" = true ]; then notify_via_pushover "$series_title"; fi
                 if [ "$notify_ifttt" = true ]; then notify_via_ifttt "$series_title"; fi

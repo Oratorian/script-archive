@@ -1,9 +1,9 @@
 function load_pcs() {
     $.ajax({
         type: 'GET',
-        url: '/api/wol_server.py?load=true',
+        url: '/api/load',  // Ensure this URL matches the Flask route
         headers: {
-            'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash'))
+            'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash')),
         },
         success: function(data) {
             if (data.success) {
@@ -18,7 +18,6 @@ function load_pcs() {
             } else {
                 console.log("Failed to load PC list");
                 M.toast({html: data.message});
-                $('#auth-modal').modal('open');
             }
         },
         error: function(xhr, status, error) {
@@ -29,10 +28,34 @@ function load_pcs() {
     });
 }
 
+// Call load_pcs() when the page loads or user logs in
+$(document).ready(function() {
+    load_pcs();  // Ensure this is called after login
+});
+
+$(document).ready(function() {
+    $('#logout-button').click(function() {
+        $.ajax({
+            type: 'GET',
+            url: '/logout',  // This should match your Flask logout route
+            success: function() {
+                // Redirect to the login page or display a message
+                window.location.href = '/login';
+            },
+            error: function(xhr, status, error) {
+                console.log("Logout failed", "status:", status, "error:", error);
+                M.toast({html: 'Failed to log out. Please try again.'});
+            }
+        });
+    });
+});
+
+
+
 function wake_pc(mac) {
     $.ajax({
         type: 'GET',
-        url: '/api/wol_server.py?wake=' + mac,
+        url: '/api/wake?mac=' + mac,  // Adjusted URL to match Flask route
         headers: {
             'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash'))
         },
@@ -62,7 +85,7 @@ function delete_pc(mac, isReauth = false) {
 
     $.ajax({
         type: 'GET',
-        url: '/api/wol_server.py?delete=' + mac,
+        url: '/api/delete?mac=' + mac,  // Adjusted URL to match Flask route
         headers: {
             'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash'))
         },
@@ -89,17 +112,23 @@ $('#add-pc-form').submit(function(event) {
     const mac = $('#mac').val();
     const ip = $('#ip').val();
     const hostname = $('#hostname').val();
+
+    const dataToSend = JSON.stringify({
+        'mac': mac,
+        'ip': ip,
+        'hostname': hostname
+    });
+
+    console.log("Data being sent:", dataToSend);  // Debugging log
+
     $.ajax({
         type: 'POST',
-        url: '/api/wol_server.py',
+        url: '/api/add',
         headers: {
-            'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash'))
+            'Authorization': 'Basic ' + btoa(sessionStorage.getItem('username') + ':' + sessionStorage.getItem('passwordHash')),
+            'Content-Type': 'application/json'
         },
-        data: {
-            'mac': mac,
-            'ip': ip,
-            'hostname': hostname
-        },
+        data: dataToSend,  // Send JSON string data
         success: function(data) {
             if (data.success) {
                 console.log("PC added successfully", data);
@@ -117,3 +146,4 @@ $('#add-pc-form').submit(function(event) {
         dataType: 'json'
     });
 });
+
