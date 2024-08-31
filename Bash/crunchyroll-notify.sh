@@ -43,31 +43,23 @@ discord_webhook_url="https://discord.com/your/discord/channel/webhook/"
 # File to keep track of announced series titles
 announced_file="/tmp/announced_series_titles"
 
-# Declare the associative array for announced titles
 declare -A ANNOUNCED_TITLES
 touch "$announced_file"
 
-# Load the announced series titles from the file into the associative array
 if [ -f "$announced_file" ]; then
     while IFS= read -r line; do
         ANNOUNCED_TITLES["$line"]=1
     done < "$announced_file"
 fi
 
-# Reset the announced series titles at 00:01 every day
 install_cron_job() {
-    # Define the desired cron job
     local cron_job="$cron_time > $announced_file"
 
-    # Check if the exact cron job already exists
     local cron_exists=$(crontab -l 2>/dev/null | grep -F "$cron_job")
 
-    # If the exact cron job doesn't exist
     if [ -z "$cron_exists" ]; then
-        # Remove any existing cron job with the same command
         crontab -l 2>/dev/null | grep -v "$announced_file" | crontab -
 
-        # Add the new cron job with the updated time
         (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
         echo "Cron job installed to empty the announced file daily at $cron_time."
     else
@@ -142,7 +134,6 @@ notify_via_discord() {
     local link="$3"
     local description=$(clean_description "$(decode_html_entities "$4")")
     local thumbnail_url="$5"
-    #local image_url="${thumbnail_url%.*}_full.jpg"
 
     local markdown_link="[$title]($link)"
 
