@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Generate the current UNIX timestamp
-current_timestamp=$(date +%s)
+#Cron style schedule when the announce file needs to be reset (Default: 0 0 * * * [Every Day Midnight])
+cron_time="5 0 * * *"
 
 # URL of the Crunchyroll RSS feed with the current timestamp
-rss_url="https://www.crunchyroll.com/rss/calender?time=$current_timestamp"
+rss_url="https://www.crunchyroll.com/rss/calender?time=$(date +%s)"
 
-# User-specified mediaIds to check
+# User-specified seriesTitle to check
 # To obtain the seriesTitle visit https://www.crunchyroll.com/rss/calender and look for something like this - > <crunchyroll:seriesTitle>Bye Bye, Earth</crunchyroll:seriesTitle> < -
 # You need to do this for all shows you want to get a release notifycation for.
 # Add them into the array below in the following format : ["Title of the show"]="day" where day is the day of the week when the anime should air, each show in a new line
@@ -23,7 +23,7 @@ notify_ifttt=false
 notify_slack=false
 notify_discord=true
 
-# Email configuration
+# Email configuration (Not working, needs more attention)
 email_recipient="your_email@example.com"
 
 # Pushover configuration
@@ -45,8 +45,6 @@ announced_file="/tmp/announced_series_titles"
 
 # Declare the associative array for announced titles
 declare -A ANNOUNCED_TITLES
-
-# Ensure the announced file exists
 touch "$announced_file"
 
 # Load the announced series titles from the file into the associative array
@@ -57,13 +55,28 @@ if [ -f "$announced_file" ]; then
 fi
 
 # Reset the announced series titles at 00:01 every day
-current_time=$(date +%H:%M)
-if [ "$current_time" == "00:01" ]; then
-    > "$announced_file"
-    ANNOUNCED_TITLES=()
-fi
+install_cron_job() {
+    # Define the desired cron job
+    local cron_job="$cron_time > $announced_file"
 
-# Function to check if a title is in the announced list
+    # Check if the exact cron job already exists
+    local cron_exists=$(crontab -l 2>/dev/null | grep -F "$cron_job")
+
+    # If the exact cron job doesn't exist
+    if [ -z "$cron_exists" ]; then
+        # Remove any existing cron job with the same command
+        crontab -l 2>/dev/null | grep -v "$announced_file" | crontab -
+
+        # Add the new cron job with the updated time
+        (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
+        echo "Cron job installed to empty the announced file daily at $cron_time."
+    else
+        echo "Cron job already exists and is up to date."
+    fi
+}
+
+install_cron_job
+
 is_title_announced() {
     local keyword="$1"
     for announced_title in "${!ANNOUNCED_TITLES[@]}"; do
@@ -74,34 +87,25 @@ is_title_announced() {
     return 1
 }
 
-# Function to add a title to the announced list
 add_title_to_announced() {
     local title="$1"
     echo "$title" >> "$announced_file"
     ANNOUNCED_TITLES["$title"]=1
 }
 
-# Get the current day of the week (Mon, Tue, Wed, etc.)
-current_day=$(date +%a)
-
-# Fetch the RSS feed
 rss_feed=$(curl -sL "$rss_url")
+current_day=$(date +%a)
+media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:seriesTitle, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
 
-# Check if the fetched content is valid XML
 if ! echo "$rss_feed" | grep -q "<?xml"; then
     echo "Error: The fetched content is not valid XML."
     exit 1
 fi
 
-# Parse the XML and extract necessary elements
-media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:seriesTitle, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
-
-# Function to notify via email
 notify_via_email() {
     echo "Series Title $1 found in RSS feed!" | mail -s "Crunchyroll Series Title Alert" "$email_recipient"
 }
 
-# Function to notify via Pushover
 notify_via_pushover() {
     curl -s \
         --form-string "token=$pushover_app_token" \
@@ -110,7 +114,6 @@ notify_via_pushover() {
         https://api.pushover.net/1/messages.json
 }
 
-# Function to notify via IFTTT
 notify_via_ifttt() {
     curl -s -X POST \
         -H "Content-Type: application/json" \
@@ -118,7 +121,6 @@ notify_via_ifttt() {
         https://maker.ifttt.com/trigger/$ifttt_event/with/key/$ifttt_key
 }
 
-# Function to notify via Slack
 notify_via_slack() {
     curl -s -X POST \
         -H 'Content-type: application/json' \
@@ -126,17 +128,14 @@ notify_via_slack() {
         "$slack_webhook_url"
 }
 
-# Function to clean HTML tags and unwanted parts from description
 clean_description() {
     echo "$1" | sed -E 's/<img[^>]*>//g; s/<br \/>//g'
 }
 
-# Function to decode HTML entities using xmlstarlet
 decode_html_entities() {
     echo "$1" | xmlstarlet unescape
 }
 
-# Function to notify via Discord with embed
 notify_via_discord() {
     local series_title="$1"
     local title="$2"
@@ -175,7 +174,6 @@ notify_via_discord() {
         "$discord_webhook_url"
 }
 
-# Check if any user-specified seriesTitles are found in the RSS feed
 while IFS= read -r line; do
     series_title=$(echo "$line" | cut -d'|' -f1)
     title=$(echo "$line" | cut -d'|' -f2)
