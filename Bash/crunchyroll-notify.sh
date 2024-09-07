@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# Generate the current UNIX timestamp
-current_timestamp=$(date +%s)
-
 #Cron style schedule when the announce file needs to be reset (Default: 0 0 * * * [Every Day Midnight])
 cron_time="5 0 * * *"
 
 # URL of the Crunchyroll RSS feed with the current timestamp
-rss_url="https://www.crunchyroll.com/rss/calender?time=$current_timestamp"
+rss_url="https://www.crunchyroll.com/rss/calender?time=$(date +%s)"
 
 # User-specified seriesTitle to check
 # To obtain the seriesTitle visit https://www.crunchyroll.com/rss/calender and look for something like this - > <crunchyroll:seriesTitle>Bye Bye, Earth</crunchyroll:seriesTitle> < -
@@ -37,7 +34,7 @@ notify_echo=false
 # Also announce releases with (<lang> Dub), Replace with whatever Dub you want but only one.
 dub='(german dub)'
 
-# Email configuration
+# Email configuration (Not working, needs more attention)
 email_recipient="your_email@example.com"
 
 # Pushover configuration
