@@ -95,41 +95,52 @@ function delete_pc(mac) {
     });
 }
 
+// Function to handle shutdown with modal input
 function shutdown_pc(ip) {
-    const username = prompt("Enter your username for shutdown:");
-    const password = prompt("Enter your password for shutdown:");
-    if (!password) {
-        M.toast({html: 'Password is required for shutdown.'});
-        return;
-    }
-    if (!username) {
-        M.toast({html: 'Username is required for shutdown.'});
-        return;
-    }
+    const modalInstance = M.Modal.getInstance(document.getElementById('shutdownModal'));
+    modalInstance.open(); // Open the modal when the shutdown icon is clicked
 
-    $.ajax({
-        type: 'POST',
-        url: '/api/shutdown',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            'username' : username,
-            'pc_ip': ip,
-            'password': password
-        }),
-        success: function(data) {
-            if (data.success) {
-                console.log("Shutdown command sent successfully to", ip);
-                M.toast({html: data.message});
-            } else {
-                console.log("Failed to send shutdown command to", ip);
-                M.toast({html: data.message});
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log("Error sending shutdown command", "status:", status, "error:", error);
-            M.toast({html: 'Failed to send shutdown command. Please try again.'});
-        },
-        dataType: 'json'
+    document.getElementById('submitShutdown').addEventListener('click', function() {
+        const username = document.getElementById('modal-username').value;
+        const password = document.getElementById('modal-password').value;
+
+        if (!username) {
+            M.toast({html: 'Username is required for shutdown.'});
+            return;
+        }
+        if (!password) {
+            M.toast({html: 'Password is required for shutdown.'});
+            return;
+        }
+
+        // Make the AJAX request to shutdown PC
+        $.ajax({
+            type: 'POST',
+            url: '/api/shutdown',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                'username': username,
+                'pc_ip': ip,
+                'password': password
+            }),
+            success: function(data) {
+                if (data.success) {
+                    console.log("Shutdown command successful")
+                    M.toast({html: data.message});
+                } else {
+                    console.log("Shutdown command failed")
+                    M.toast({html: 'Failed to send shutdown command: ' + data.message});
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Shutdown command failed. Status:", status, "Error:", error, "Response:", xhr.responseText);
+                M.toast({html: 'Error: ' + error});
+            },
+            dataType: 'json'
+        });
+
+        // Close the modal
+        modalInstance.close();
     });
 }
 

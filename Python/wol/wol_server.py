@@ -20,6 +20,10 @@ DB_DIR = '/opt/wol/db/'  # Directory where JSON files are stored
 USERS_FILE = os.path.join(DB_DIR, 'users.json')  # Path to users.json
 PC_DATA_DIR = os.path.join(DB_DIR, 'pcs')  # Directory where user-specific JSON files will be stored
 STATIC_DIR = '/opt/wol'
+SD_DAEMON_PORT = '8080' # Port on which the shutdown-daemon process runs
+interface = 'eno1' #	The Network interface the Magic-Packet gets send to
+				   #	run : sudo lshw -C network | awk '/logical name:/ {name=$3} /ip=/ {ip=$2} /link=yes/ {print name, ip}'
+				   #	to find he active network adapter with your internal IP.
 
 if not os.path.exists(PC_DATA_DIR):
 	os.makedirs(PC_DATA_DIR)
@@ -181,7 +185,7 @@ def shutdown_pc():
 		encrypted_data = user.User.encrypt_data(combined_data, encryption_key)
 
 		# Prepare the netcat command to send the encrypted data
-		command = f"echo '{encrypted_data}' | nc {pc_ip} 8080"
+		command = f"echo '{encrypted_data}' | nc {pc_ip} {SD_DAEMON_PORT}"
 		logging.debug(f"Executing command: {command}")
 
 		# Run the netcat command and capture the output
@@ -231,9 +235,8 @@ def create_user():
 @login_required
 def get_users():
 	try:
-		users_file = os.path.join(DB_DIR, 'users.json')
-		if os.path.exists(users_file):
-			with open(users_file, 'r') as f:
+		if os.path.exists(USERS_FILE):
+			with open(USERS_FILE, 'r') as f:
 				users = json.load(f)
 			return jsonify({'success': True, 'users': users})
 		else:
@@ -252,9 +255,8 @@ def change_permission():
 		username = data['username']  # Correctly access the dictionary
 		new_permission = data['permission']
 
-		users_file = os.path.join(DB_DIR, 'users.json')
-		if os.path.exists(users_file):
-			with open(users_file, 'r') as f:
+		if os.path.exists(USERS_FILE):
+			with open(USERS_FILE, 'r') as f:
 				users = json.load(f)  # Users is a dictionary, as confirmed by your debug log
 
 			if username in users:
@@ -262,7 +264,7 @@ def change_permission():
 			else:
 				return jsonify({'success': False, 'message': 'User not found'}), 404
 
-			with open(users_file, 'w') as f:
+			with open(USERS_FILE, 'w') as f:
 				json.dump(users, f)
 
 			return jsonify({'success': True, 'message': 'Permission updated successfully'})
@@ -283,9 +285,8 @@ def delete_user():
 		data = request.get_json()
 		username = data.get('username')
 
-		users_file = os.path.join(DB_DIR, 'users.json')
-		if os.path.exists(users_file):
-			with open(users_file, 'r') as f:
+		if os.path.exists(USERS_FILE):
+			with open(USERS_FILE, 'r') as f:
 				users = json.load(f)  # Users is a dictionary
 
 			if username in users:
@@ -294,7 +295,7 @@ def delete_user():
 				return jsonify({'success': False, 'message': 'User not found'}), 404
 
 			# Save the updated users dictionary back to the file
-			with open(users_file, 'w') as f:
+			with open(USERS_FILE, 'w') as f:
 				json.dump(users, f)
 
 			# Delete all files related to the user in the PC_DATA_DIR
@@ -318,7 +319,7 @@ def wake_pc():
 		try:
 			# Run the etherwake command using subprocess
 			result = subprocess.run(
-				['sudo', 'etherwake', '-i', 'eno1', '-b', mac],
+				['sudo', 'etherwake', '-i', interface, '-b', mac],
 				capture_output=True, 
 				text=True, 
 				check=True
@@ -347,9 +348,8 @@ def change_password():
 		username = data.get('username')
 		new_password = data.get('password')
 
-		users_file = os.path.join(DB_DIR, 'users.json')
-		if os.path.exists(users_file):
-			with open(users_file, 'r') as f:
+		if os.path.exists(USERS_FILE):
+			with open(USERS_FILE, 'r') as f:
 				users = json.load(f)
 
 			if username in users:
@@ -357,7 +357,7 @@ def change_password():
 			else:
 				return jsonify({'success': False, 'message': 'User not found'}), 404
 
-			with open(users_file, 'w') as f:
+			with open(USERS_FILE, 'w') as f:
 				json.dump(users, f)
 
 			return jsonify({'success': True, 'message': 'Password updated successfully'})

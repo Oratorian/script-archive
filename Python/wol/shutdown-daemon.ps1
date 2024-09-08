@@ -1,43 +1,69 @@
-﻿# ---------------------------
+﻿# ------------------------------------
 # Shutdown Daemon PowerShell Script
-# Version 1.0.1.3
-# ---------------------------
+# Version 1.1.0.0
+# -------------------------------------
 param (
-    [string] $ipAddress = "0.0.0.0",
-    [int] $port = 8080,
+    [string] $ipAddress,
+    [int] $port,
     [string] $secretKey
 )
 
-# Define paths
+#--------------------------------------------------------------------------------
+#                               Important
+#
+# This script reads information from a .env file located in $appDataPath
+# If no .env file is present these values are default
+# ipAddress = 0.0.0.0   - IP to bind the Daemon or as start parameter with -ipAddress
+# port      = 8080      - Port to bind the Daemon or as start parameter with -port
+# secretKey =           - Secret used to communicate with the Wake-on-LAN server, cannot be empty and must be set either in .env or as start parameter with -secretKey
+#                         If not set via -secretKey or in .env prompt will come up to enter it.
+#------------------------------------------------------------------------------
+
+
+# -----------------------------
+# Begin of Configuration Section
+# Set your desired values here
+# -----------------------------
+
 $appDataPath = Join-Path -Path $env:APPDATA -ChildPath "shutdown-daemon"
+# This creates the daemon's DATA folder named "shutdown-daemon".
+# $env:APPDATA points to the user's AppData\Roaming directory.
+
 $bcryptDllPath = Join-Path -Path $appDataPath -ChildPath "BCrypt.Net-Next.dll"
+# This defines the path to the BCrypt.Net-Next.dll file, expected to be inside the "shutdown-daemon" folder.
+
 $keyFile = Join-Path -Path $appDataPath -ChildPath "enc.bin"
+# This sets the path to the encryption key file "enc.bin", located in the "shutdown-daemon" folder.
+
 $usersFilePath = Join-Path -Path $appDataPath -ChildPath "users.json"
+# This defines the path to the users file inside the "shutdown-daemon" folder,
+# Used for storing user information in JSON format.
+
 $logFilePath = Join-Path -Path $appDataPath -ChildPath "daemon.log"
+# This creates the path for the log file named in the "shutdown-daemon" folder,
+# where logging information for the daemon process can be stored.
 
-if (-not $PSBoundParameters.ContainsKey('secretKey')) {
+$envFilePath = Join-Path -Path $appDataPath -ChildPath ".env"
+# This constructs the full path to the ".env" file within the "shutdown-daemon" directory in the user's AppData folder.
+# It combines the base path stored in $appDataPath with the ".env" file name.
 
-    if ($PSCommandPath) {
-        # Running as a .ps1 script
-        $scriptName = Split-Path $PSCommandPath -Leaf
-    } elseif ($MyInvocation.MyCommand.Path) {
-        # Running as a compiled executable or script
-        $scriptName = Split-Path $MyInvocation.MyCommand.Path -Leaf
-    } elseif ([System.AppDomain]::CurrentDomain.FriendlyName) {
-        # Use FriendlyName to get the executable name when running as a compiled executable
-        $scriptName = [System.AppDomain]::CurrentDomain.FriendlyName
-    } else {
-        # Fallback for unknown cases
-        $scriptName = "UnknownScript"
-    }
+$wolip = "100.125.20.111"
+# This variable stores the IP address for Wake-on-LAN (WOL) server.
+# It will be used to communicate with the Wake-on-LAN server.
 
-    Write-Host "🔷 Please enter your secretKey as you did in wol_server.py.`n`   To skip this message Run : $scriptName -secretKey <yourkey>"
-    $secretKey = Read-Host -Prompt "secrektKey"
-    if (-not $secretKey) {
-        Write-LogMessage "❌ Error: The secretKey parameter is required and was not provided." Red
-        exit 1
-    }
-}
+$wolport = "8889"
+# This defines the port number to used by the Wake-on-LAN server.
+
+# -----------------------------
+# End of Configuration Section
+# Set your desired values here
+# -----------------------------
+
+
+# --------------------------------------------------------------------------------------
+#                                  Main Script Logic
+# Anything after this line will break functionality if you don't know what you're doing.
+# ---------------------------------------------------------------------------------------
 
 if (-not (Test-Path -Path $appDataPath)) {
     New-Item -ItemType Directory -Path $appDataPath -Force | Out-Null
@@ -91,6 +117,83 @@ function Initialize-Users {
     }
 }
 
+function Get-EnvValues {
+    # Check if the .env file exists
+    if (-not (Test-Path -Path $envFilePath)) {
+        Write-Error "The specified .env file does not exist."
+        return
+    }
+
+    # Create a hashtable to store the key-value pairs
+    $envValues = @{}
+
+    # Read the .env file line by line
+    Get-Content $envFilePath | ForEach-Object {
+        # Skip empty lines and lines that start with '#'
+        if (-not ($_ -match '^\s*$') -and -not ($_ -match '^\s*#')) {
+            # Split the line at the '=' character to extract key and value
+            $key, $value = $_ -split '=', 2
+
+            # Trim any whitespace and store the key-value pair in the hashtable
+            $envValues[$key.Trim()] = $value.Trim()
+        }
+    }
+
+    # Set default values for ipAddress, port, and secretKey if they are not set or are empty
+    $ipAddress = if ($envValues['ipAddress']) { $envValues['ipAddress'] } else { "0.0.0.0" }   # Default to 0.0.0.0 or another value
+    $port = if ($envValues['port']) { $envValues['port'] } else { "8080" }                      # Default to port 80 or another value
+    $secretKey = if ($envValues['secretKey']) { $envValues['secretKey'] } else { "" }         # Default to an empty string
+
+    # Return the values as an object
+    return [pscustomobject]@{
+        ipAddress = $ipAddress
+        port      = $port
+        secretKey = $secretKey
+    }
+}
+$global:envData = Get-EnvValues
+
+# Set default values for parameters if they are not provided
+if (-not $PSBoundParameters.ContainsKey('ipAddress')) {
+    $ipAddress = $global:envData.ipAddress
+}
+
+if (-not $PSBoundParameters.ContainsKey('port')) {
+    $port = $global:envData.port
+}
+
+if (-not $PSBoundParameters.ContainsKey('secretKey')) {
+    $secretKey = $global:envData.secretKey
+    Write-Host $secretKey
+}
+
+if (-not $secretKey) {
+
+    if ($PSCommandPath) {
+        # Running as a .ps1 script
+        $scriptName = Split-Path $PSCommandPath -Leaf
+    }
+    elseif ($MyInvocation.MyCommand.Path) {
+        # Running as a compiled executable or script
+        $scriptName = Split-Path $MyInvocation.MyCommand.Path -Leaf
+    }
+    elseif ([System.AppDomain]::CurrentDomain.FriendlyName) {
+        # Use FriendlyName to get the executable name when running as a compiled executable
+        $scriptName = [System.AppDomain]::CurrentDomain.FriendlyName
+    }
+    else {
+        # Fallback for unknown cases
+        $scriptName = "UnknownScript"
+    }
+
+    Write-Host "🔷 Please enter your secretKey as you did in wol_server.py.`n`   To skip this message Run : $scriptName -secretKey <yourkey>"
+    $secretKey = Read-Host -Prompt "secrektKey"
+    if (-not $secretKey) {
+        Write-LogMessage "❌ Error: The secretKey parameter is required and was not provided." Red
+        exit 1
+    }
+}
+
 function Write-LogMessage {
     param (
         [string] $message,
@@ -123,7 +226,7 @@ function Invoke-Key {
 }
 
 function Import-KeyUserBinary {
-
+    Write-LogMessage $secretKey Cyan
     # Generate the current timestamp
     #$timestamp = [int][double]::Parse((Get-Date -UFormat %s)).ToString()
     # Remove fractional part
@@ -143,17 +246,17 @@ function Import-KeyUserBinary {
     $hash = -join ($hashBytes | ForEach-Object { "{0:x2}" -f $_ })
 
     # Prepare the headers and JSON body
-    $headers = @{"Content-Type" = "application/json"}
-    $jsonBody = @{"signature" = $hash; "timestamp" = $timestamp} | ConvertTo-Json
+    $headers = @{"Content-Type" = "application/json" }
+    $jsonBody = @{"signature" = $hash; "timestamp" = $timestamp } | ConvertTo-Json
+    $wolurl = "http://${wolip}:${wolport}"
 
     try {
         # Invoke the REST method
-        $response = Invoke-RestMethod -Uri "http://94.79.132.67:8889/api/sync_encryption_key" -Method Post -Headers $headers -Body $jsonBody
+        $response = Invoke-RestMethod -Uri "$wolurl/api/sync_encryption_key" -Method Post -Headers $headers -Body $jsonBody
 
         # Check if the response contains a success message
         if ($response.success -eq $true) {
             $encryptionKeyBase64 = $response.encryption_key
-            $usersData = $response.users_data
 
             if ($encryptionKeyBase64) {
                 # Decode the Base64-encoded encryption key back to binary
@@ -184,10 +287,6 @@ function Import-BcryptDll {
     Restore-BcryptDll
     Add-Type -Path $bcryptDllPath
 }
-
-Import-BcryptDll
-Import-KeyUserBinary
-Initialize-Users
 
 function Start-TcpServer {
     try {
@@ -223,8 +322,7 @@ function Start-TcpServer {
     }
 }
 
-
-function Decrypt-Data {
+function ConvertFrom-Encrypt {
     param (
         [string]$encryptedData
     )
@@ -261,9 +359,8 @@ function Invoke-ClientRequest {
     )
 
     try {
-        $encryptionKey = [System.Text.Encoding]::UTF8.GetBytes("secretkey1234567")
         Write-LogMessage "Data recieved : $data"
-        $decryptedData = Decrypt-Data -encryptedData $data
+        $decryptedData = ConvertFrom-Encrypt -encryptedData $data
         $parts = $decryptedData -split '\|'
         if ($parts.Length -eq 3) {
             $username, $password, $command = $parts
@@ -327,4 +424,7 @@ $null = Register-EngineEvent -SourceIdentifier ConsoleBreak -Action {
     Exit
 }
 
+Import-BcryptDll
+Initialize-Users
+Import-KeyUserBinary
 Start-TcpServer

@@ -38,41 +38,40 @@
             </div>
         </div>
         <div id="view-pcs" class="col s12">
-            <div id="view-pcs" class="col s12">
-                <h2 class="center-align">Current PCs</h2>
-                <ul class="collection" id="pcs-list"></ul>
-                <div class="center-align red-text" id="message"></div>
-            </div><BR>
-            <h2 class="center-align">Add PC</h2>
-            <div class="row">
-                <form class="col s12" id="add-pc-form">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="mac" type="text" name="mac" class="validate" required>
-                            <label for="mac">MAC Address</label>
-                        </div>
+            <h2 class="center-align">Current PCs</h2>
+            <ul class="collection" id="pcs-list"></ul>
+            <div class="center-align red-text" id="message"></div>
+        </div><br>
+        
+        <h2 class="center-align">Add PC</h2>
+        <div class="row">
+            <form class="col s12" id="add-pc-form">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="mac" type="text" name="mac" class="validate" required>
+                        <label for="mac">MAC Address</label>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="ip" type="text" name="ip" class="validate" required>
-                            <label for="ip">IP Address</label>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="ip" type="text" name="ip" class="validate" required>
+                        <label for="ip">IP Address</label>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="hostname" type="text" name="hostname" class="validate" required>
-                            <label for="hostname">Hostname</label>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="hostname" type="text" name="hostname" class="validate" required>
+                        <label for="hostname">Hostname</label>
                     </div>
-                    <div class="row">
-                        <div class="col s12">
-                            <button class="btn waves-effect waves-light" type="submit">Add PC
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <button class="btn waves-effect waves-light" type="submit">Add PC
+                            <i class="material-icons right">send</i>
+                        </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         {% if user_permission == 'admin' %}
         <div id="manage-users" class="col s12">
@@ -118,7 +117,35 @@
             <button class="btn waves-effect waves-light red" id="logout-button">Logout</button>
         </div>
     </div>
+
+    <!-- Modal Structure -->
+    <div id="shutdownModal" class="modal">
+        <div class="modal-content">
+            <h4>Shutdown PC</h4>
+            <div class="input-field">
+                <input id="modal-username" type="text" class="validate">
+                <label for="modal-username">Username</label>
+            </div>
+            <div class="input-field">
+                <input id="modal-password" type="password" class="validate">
+                <label for="modal-password">Password</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            <a href="#!" id="submitShutdown" class="waves-effect waves-light btn">Submit</a>
+        </div>
+    </div>
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="/js/wol.js"></script>
+    <script>
+        // Initialize Materialize components
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        });
+    </script>
+</body>
 </html>
