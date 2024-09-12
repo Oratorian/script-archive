@@ -1,12 +1,17 @@
 #!/bin/bash
+# This script © 2024 by Oration 'Mahesvara' is released unter the MIT license 
+# Reproduction and modifications are allowed as long as I Oratorian@github.com is credited 
+# as the original Author
+
 
 # Configuration variables
 UPDATE_DIR="/opt/fivemupdates/"
-SESSION_NAME="fivem"
+fivem_dir="/dir/to/fivem/run.sh
+SESSION_NAME="fivem" # Session name for either tmux or screen.
 USE_TMUX=true  # Set to false to use screen instead of tmux
 
-# URL of the page
-pageUrl="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/"
+# URL of the fivem artifacts release api.
+pageUrl="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/" # Don't edit this line.
 
 # Fetch the URL with the highest version number
 highestVersionUrl=$(curl -s "$pageUrl" | \
@@ -32,11 +37,11 @@ else
     if [ $? -eq 0 ]; then
         if [ "$USE_TMUX" = true ]; then
             tmux kill-session -t "$SESSION_NAME"
-            tar xf "${UPDATE_DIR}${versionCode}.tar.xz" -C /mnt/fivem/fx/
+            tar xf "${UPDATE_DIR}${versionCode}.tar.xz" -C ${fivem_dir}
             tmux new -d -s "$SESSION_NAME" ~/fx/run.sh
         else
             screen -S "$SESSION_NAME" -X quit
-            tar xf "${UPDATE_DIR}${versionCode}.tar.xz" -C /mnt/fivem/fx/
+            tar xf "${UPDATE_DIR}${versionCode}.tar.xz" -C ${fivem_dir}
             screen -d -m -S "$SESSION_NAME" ~/fx/run.sh
         fi
     else
