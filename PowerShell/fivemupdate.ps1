@@ -1,5 +1,5 @@
 ﻿#---------------------------------------------------------------------------------------------
-# This script © 2024 by Oration 'Mahesvara' is released unter the MIT license
+# This script © 2024 by Oration 'Mahesvara' is released unter the GPL-3.0 license
 # Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
 # as the original Author
 #---------------------------------------------------------------------------------------------
