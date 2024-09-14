@@ -1,11 +1,16 @@
-﻿# Configuration variables
-$UPDATE_DIR = ""
-$FIVEM_DIR = ""
-$RUN_SCRIPT = "FXServer.exe"
-$pageUrl = "https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/"
-$ScriptDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
+﻿#---------------------------------------------------------------------------------------------
+# This script © 2024 by Oration 'Mahesvara' is released unter the MIT license
+# Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
+# as the original Author
+#---------------------------------------------------------------------------------------------
 
-# Function to check and install 7-Zip
+# Configuration variables
+$UPDATE_DIR = "./updates2"  # Relative or absolute path where updates are stored
+$FIVEM_DIR = "./fivem2"     # Relative or absolute path where FiveM is installed (Typically where FXServer.exe is located)
+$RUN_SCRIPT = "FXServer.exe"
+$RELEASE = "latest"         # Can be either 'recommended' or 'latest'
+
+
 function Ensure-7ZipInstalled {
     $sevenZipPath = "$ScriptDir\7z.exe"
     $installerUrl = "https://7-zip.org/a/7zr.exe"
@@ -20,35 +25,51 @@ function Ensure-7ZipInstalled {
     }
 }
 
-# Ensure 7-Zip is installed before using it
+function Resolve-Directory {
+    param (
+        [string]$Path,
+        [string]$ScriptDir
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path)) {
+        return [System.IO.Path]::GetFullPath($Path)
+    } else {
+        $resolvedPath = Join-Path -Path $ScriptDir -ChildPath $Path
+        return [System.IO.Path]::GetFullPath($resolvedPath)
+    }
+}
+
 Ensure-7ZipInstalled
+$ScriptDir = Split-Path -Parent -Path $MyInvocation.MyCommand.Definition
+$UPDATEDIR = Resolve-Directory -Path $UPDATE_DIR -ScriptDir $ScriptDir
+$FIVEMDIR = Resolve-Directory -Path $FIVEM_DIR -ScriptDir $ScriptDir
 
-if (-Not [string]::IsNullOrWhiteSpace($UPDATE_DIR) -and (Test-Path $UPDATE_DIR)) {
-    Write-Output "Using update directory: $UPDATE_DIR"
+if (-Not [string]::IsNullOrWhiteSpace($UPDATEDIR) -and (Test-Path $UPDATEDIR)) {
+    Write-Output "Using update directory: $UPDATEDIR"
 } else {
-    $UPDATE_DIR = $ScriptDir
-    Write-Output "Default update directory is not set or inaccessible. Falling back to script directory: $UPDATE_DIR"
+    New-Item -ItemType Directory -Path $UPDATEDIR
+    Write-Output "Default update directory is not set or inaccessible. Creating directory: $UPDATEDIR"
 }
 
-if (-Not [string]::IsNullOrWhiteSpace($FIVEM_DIR) -and (Test-Path $FIVEM_DIR)) {
-    Write-Output "Using FiveM directory: $FIVEM_DIR"
+if (-Not [string]::IsNullOrWhiteSpace($FIVEMDIR) -and (Test-Path $FIVEMDIR)) {
+    Write-Output "Using FiveM directory: $FIVEMDIR"
 } else {
-    $FIVEM_DIR = "$ScriptDir\fivem"
-    Write-Output "Default FiveM directory is not set or inaccessible. Falling back to script directory: $FIVEM_DIR"
+    New-Item -ItemType Directory -Path $FIVEMDIR
+    Write-Output "Default FiveM directory is not set or inaccessible. Creating directory: $FIVEMDIR"
 }
 
-if (-Not (Test-Path $UPDATE_DIR)) {
-    New-Item -ItemType Directory -Path $UPDATE_DIR
-    Write-Output "Created directory: $UPDATE_DIR"
+
+
+$jsonData = Invoke-RestMethod -Uri "https://changelogs-live.fivem.net/api/changelog/versions/win32/server"
+
+if ($RELEASE -eq "recommended") {
+    $downloadUrl = $jsonData.recommended_download
+} else {
+    $downloadUrl = $jsonData.latest_download
 }
 
-$webContent = Invoke-WebRequest -Uri $pageUrl
-$links = $webContent.Links.Href | Where-Object { $_ -match '\d{4}[^"]+' } | Sort-Object -Descending
-$highestVersionUrl = $links[0]
-$downUrl = $pageUrl + $highestVersionUrl.TrimStart('/')
-$versionCode = $highestVersionUrl -match '\d{4}-[a-f0-9]+' | Out-Null
-$versionCode = $Matches[0] -split '-' | Select-Object -First 1
-$destinationFile = "${UPDATE_DIR}/${versionCode}.7z"
+$versionCode = ($downloadUrl -split 'master/')[1] -split '-' | Select-Object -First 1
+$destinationFile = "${UPDATEDIR}/${versionCode}.zip"
 
 if ([string]::IsNullOrWhiteSpace($versionCode) -or (Test-Path $destinationFile)) {
     Write-Output "Nothing to do"
@@ -62,14 +83,14 @@ if ([string]::IsNullOrWhiteSpace($versionCode) -or (Test-Path $destinationFile))
         Write-Output "No running process found for: $RUN_SCRIPT. Nothing to stop."
     }
 
-    Invoke-WebRequest -Uri $downUrl -OutFile $destinationFile
-    & 7z x $destinationFile -o"$FIVEM_DIR" -aoa
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $destinationFile
+    & 7z x $destinationFile -o"$FIVEMDIR" -aoa
 
-    Start-Process "$FIVEM_DIR/$RUN_SCRIPT"
-    Write-Output "Started new script: $RUN_SCRIPT"
+    Start-Process "$FIVEMDIR\$RUN_SCRIPT"
+    Write-Output "Started FXServer: $FIVEMDIR\$RUN_SCRIPT"
 }
 
-Get-ChildItem $UPDATE_DIR -Filter "*.7z" |
+Get-ChildItem $UPDATEDIR -Filter "*.zip" |
     Sort-Object CreationTime -Descending |
     Select-Object -Skip 5 |
     Remove-Item -Force
