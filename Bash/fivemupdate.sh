@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script © 2024 by Oration 'Mahesvara' is released unter the MIT license 
+# Reproduction and modifications are allowed as long as I Oratorian@github.com is credited 
+# as the original Author
+
 # Configuration variables
 UPDATE_DIR="/opt/fivemupdates/"  # Directory where updates are downloaded
 SESSION_NAME="fivem" # The session name used for tmux or screen
