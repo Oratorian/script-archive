@@ -16,15 +16,6 @@ user_media_ids=(
     "That Time I Got Reincarnated as a Slime"
     "Demon Slayer: Kimetsu no Yaiba"
     "My Hero Academia Season 7"
-    "Tower of God"
-    "The Elusive Samurai"
-    "Why Does Nobody Remember Me in This World?"
-    "Dahlia in Bloom: Crafting a Fresh Start with Magical Tools"
-    "A Nobody’s Way Up to an Exploration Hero"
-    "YATAGARASU: The Raven Does Not Choose Its Master"
-    "Wistoria: Wand and Sword"
-    "The Ossan Newbie Adventurer, Trained to Death by the Most Powerful Party, Became Invincible"
-    "A Journey Through Another World: Raising Kids While Adventuring"
 )
 
 # Notification service configurations
