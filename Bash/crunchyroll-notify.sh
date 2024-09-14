@@ -1,10 +1,11 @@
 #!/bin/bash
 
-#Cron style schedule when the announce file needs to be reset (Default: 0 0 * * * [Every Day Midnight])
-cron_time="5 0 * * *"
+#----------------
+# Config Start
+#----------------
 
-# URL of the Crunchyroll RSS feed with the current timestamp
-rss_url="https://www.crunchyroll.com/rss/calender?time=$(date +%s)"
+# Cron style schedule when the announce file needs to be reset (Default: 0 0 * * * [Every Day Midnight])
+cron_time="0 0 * * *"
 
 # User-specified seriesTitle to check
 # To obtain the seriesTitle visit https://www.crunchyroll.com/rss/calender and look for something like this - > <crunchyroll:seriesTitle>Bye Bye, Earth</crunchyroll:seriesTitle> < -
@@ -21,6 +22,9 @@ user_media_ids=(
     "Dahlia in Bloom: Crafting a Fresh Start with Magical Tools"
     "A Nobody’s Way Up to an Exploration Hero"
     "YATAGARASU: The Raven Does Not Choose Its Master"
+    "Wistoria: Wand and Sword"
+    "The Ossan Newbie Adventurer, Trained to Death by the Most Powerful Party, Became Invincible"
+    "A Journey Through Another World: Raising Kids While Adventuring"
 )
 
 # Notification service configurations
@@ -28,11 +32,19 @@ notify_email=false
 notify_pushover=false
 notify_ifttt=false
 notify_slack=false
-notify_discord=true
-notify_echo=false
+notify_discord=false
+notify_echo=true
 
-# Also announce releases with (<lang> Dub), Replace with whatever Dub you want but only one.
-dub='(german dub)'
+# To accomendate the time difference between publishing and script runtime, set time in minutes
+# the script shall announce an anime after pubdate. ex : Anime publshed @ 6 PM UTC but script runs at 6:10 PM UTC, announcerange=60 => Anime gets announced because within range, announcerange=5 => Anime does not get announced because out of range.
+ announcerange="60"
+
+# File to keep track of announced series titles
+
+announced_file="/tmp/announced_series_titles"
+
+# Set the dub to also announce on release
+dub='german dub'
 
 # Email configuration (Not working, needs more attention)
 email_recipient="your_email@example.com"
@@ -51,43 +63,44 @@ slack_webhook_url="https://hooks.slack.com/services/your/slack/webhook/url"
 # Discord configuration
 discord_webhook_url="https://discord.com/your/discord/channel/webhook/"
 
-# File to keep track of announced series titles
-announced_file="/tmp/announced_series_titles"
+#----------------
+# Config End
+#----------------
 
-# Declare the associative array for announced titles
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#-----------------
+# Functions Start
+#-----------------
 declare -A ANNOUNCED_TITLES
 
-# Ensure the announced file exists
-touch "$announced_file"
+contains_any_dub() {
+    local title="$1"
+    if [[ "$title" =~ \(.*[Dd]ub\) ]]; then
+        return 0 
+    fi
+    return 1
+}
 
-# Load the announced series titles from the file into the associative array
-if [ -f "$announced_file" ]; then
-    while IFS= read -r line; do
-        ANNOUNCED_TITLES["$line"]=1
-    done < "$announced_file"
-fi
+is_within_time_range() {
+    local pub_date="$1"
+    local range_in_minutes="$2"
 
-install_cron_job() {
-    # Define the desired cron job
-    local cron_job="$cron_time > $announced_file"
+    pub_date_seconds=$(date --date="$pub_date" +%s)
 
-    # Check if the exact cron job already exists
-    local cron_exists=$(crontab -l 2>/dev/null | grep -F "$cron_job")
+    current_time_seconds=$(date -u +%s)
 
-    # If the exact cron job doesn't exist
-    if [ -z "$cron_exists" ]; then
-        # Remove any existing cron job with the same command
-        crontab -l 2>/dev/null | grep -v "$announced_file" | crontab -
+    time_difference=$((current_time_seconds - pub_date_seconds))
 
-        # Add the new cron job with the updated time
-        (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
-        echo "Cron job installed to empty the announced file daily at $cron_time."
+    range_in_seconds=$((range_in_minutes * 60))
+
+    if ((time_difference <= range_in_seconds && time_difference >= -range_in_seconds)); then
+        return 0
     else
-        echo "Cron job already exists and is up to date."
+        return 1
     fi
 }
 
-# Function to check if a title is in the announced list
 is_title_announced() {
     local keyword="$1"
     for announced_title in "${!ANNOUNCED_TITLES[@]}"; do
@@ -98,27 +111,36 @@ is_title_announced() {
     return 1
 }
 
-# Function to add a title to the announced list
+install_cron_job() {
+    local cron_job="$cron_time > $announced_file"
+    local cron_exists=$(crontab -l 2>/dev/null | grep -F "$cron_job")
+
+    if [ -z "$cron_exists" ]; then
+        crontab -l 2>/dev/null | grep -v "$announced_file" | crontab -
+        (
+            crontab -l 2>/dev/null
+            echo "$cron_job"
+        ) | crontab -
+        echo "Cron job installed to empty the announced file daily at $cron_time."
+    else
+        echo "Cron job already exists and is up to date."
+    fi
+}
+
 add_title_to_announced() {
     local title="$1"
-    echo "$title" >> "$announced_file"
+    echo "$title" >>"$announced_file"
     ANNOUNCED_TITLES["$title"]=1
 }
 
-# Get the current day of the week (Mon, Tue, Wed, etc.)
-current_day=$(date +%a)
-
-# Fetch the RSS feed
-rss_feed=$(curl -sL "$rss_url")
-
-# Check if the fetched content is valid XML
-if ! echo "$rss_feed" | grep -q "<?xml"; then
-    echo "Error: The fetched content is not valid XML."
-    exit 1
-fi
-
-# Parse the XML and extract necessary elements
-media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:title, '|', title, '|', link, '|', description, '|', media:thumbnail[1]/@url)" -n)
+check_announced_file() {
+    if [ ! -f "$announced_file" ]; then
+        touch "$announced_file"
+        echo "Created announced file at $announced_file."
+    else
+        echo "Announced file already exists at $announced_file."
+    fi
+}
 
 # Function to notify via email
 notify_via_email() {
@@ -161,7 +183,7 @@ Link: $link"
 
 # Function to clean HTML tags and unwanted parts from description
 clean_description() {
-    echo "$1" | sed -E 's/<img[^>]*>//g; s/<br \/>//g'
+    echo "$1" | sed -E 's/<img[^>]*>//g; s/<br \/>//g; s/&#13;//g' | tr -d '\r\n'
 }
 
 # Function to decode HTML entities using xmlstarlet
@@ -208,45 +230,73 @@ notify_via_discord() {
         "$discord_webhook_url"
 }
 
-# Function to check if the title contains any dub information
-contains_any_dub() {
-    local title="$1"
-    if [[ "$title" =~ \(.*[Dd]ub\) ]]; then
-        return 0  # True, contains some dub information
-    fi
-    return 1  # False, does not contain any dub information
-}
+#-----------------
+# Functions End
+#-----------------
 
-# Check if any user-specified seriesTitles are found in the RSS feed
+# /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+#-----------------
+# Main Code Start
+#-----------------
+
+check_announced_file
+
+if [ -f "$announced_file" ]; then
+    while IFS= read -r line; do
+        ANNOUNCED_TITLES["$line"]=1
+    done <"$announced_file"
+fi
+
+rss_feed=$(curl -sL "https://www.crunchyroll.com/rss/calendar?time=$(date +%s)")
+
+if ! echo "$rss_feed" | grep -q "<?xml"; then
+    echo "Error: The fetched content is not valid XML."
+    exit 1
+fi
+
+media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:title, '|', title, '|', pubDate, '|', link, '|', normalize-space(description), '|', media:thumbnail[contains(@url, '_full.jpg')]/@url)" -n)
+
 while IFS= read -r line; do
     series_title=$(echo "$line" | cut -d'|' -f1)
     title=$(echo "$line" | cut -d'|' -f2)
-    link=$(echo "$line" | cut -d'|' -f3)
-    description=$(echo "$line" | cut -d'|' -f4)
-    thumbnail_url=$(echo "$line" | cut -d'|' -f5)
+    pub_date=$(echo "$line" | cut -d'|' -f3)
+    link=$(echo "$line" | cut -d'|' -f4)
+    description=$(echo "$line" | cut -d'|' -f5)
+    thumbnail_url=$(echo "$line" | cut -d'|' -f6)
 
-    # Convert the title to lowercase for comparison
     lower_series_title=$(echo "$title" | tr '[:upper:]' '[:lower:]')
 
-    # Only announce titles with "(German Dub)" or titles without any dub info
-    if [[ "$lower_series_title" == *"$dub"* ]] || ! contains_any_dub "$lower_series_title"; then
-        for user_title in "${!user_media_ids[@]}"; do
+    if [[ "$lower_series_title" == *"($dub)"* ]] || ! contains_any_dub "$lower_series_title"; then
+        echo "Processing: $title (Published on: $pub_date)"
+
+        if ! is_within_time_range "$pub_date" "$announcerange"; then
+            continue
+        fi
+
+        for user_title in "${user_media_ids[@]}"; do
             lower_user_title=$(echo "$user_title" | tr '[:upper:]' '[:lower:]')
 
-            # If the title matches the user-specified title and the current day
-            if [[ "$lower_series_title" == "$lower_user_title"* ]]; then #&& [ "${user_media_ids[$user_title]}" == "$current_day" ]; then
+            if [[ "$lower_series_title" == "$lower_user_title"* ]]; then
                 if ! is_title_announced "$user_title"; then
-                    # Announce the title
-                    if [ "$notify_email" = true ]; then notify_via_email "$series_title"; fi
-                    if [ "$notify_pushover" = true ]; then notify_via_pushover "$series_title"; fi
-                    if [ "$notify_ifttt" = true ]; then notify_via_ifttt "$series_title"; fi
-                    if [ "$notify_slack" = true ]; then notify_via_slack "$series_title"; fi
-                    if [ "$notify_discord" = true ]; then notify_via_discord "$series_title" "$title" "$link" "$description" "$thumbnail_url"; fi
-                    if [ "$notify_echo" = true ]; then notify_via_echo "$series_title" "$title" "$link" "$description" "$thumbnail_url"; fi
+                    [ "$notify_email" = true ] && notify_via_email "$series_title"
+                    [ "$notify_pushover" = true ] && notify_via_pushover "$series_title"
+                    [ "$notify_ifttt" = true ] && notify_via_ifttt "$series_title"
+                    [ "$notify_slack" = true ] && notify_via_slack "$series_title"
+                    [ "$notify_discord" = true ] && notify_via_discord "$series_title" "$title" "$link" "$description" "$thumbnail_url"
+                    [ "$notify_echo" = true ] && notify_via_echo "$series_title" "$title" "$link" "$description" "$thumbnail_url"
                     add_title_to_announced "$title"
                 fi
             fi
         done
+    else
+        continue
     fi
 done <<< "$media_items"
+
 install_cron_job
+
+#-----------------
+# Main Code End
+#-----------------
