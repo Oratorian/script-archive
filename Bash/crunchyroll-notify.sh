@@ -28,7 +28,7 @@ notify_echo=true
 
 # To accomendate the time difference between publishing and script runtime, set time in minutes
 # the script shall announce an anime after pubdate. ex : Anime publshed @ 6 PM UTC but script runs at 6:10 PM UTC, announcerange=60 => Anime gets announced because within range, announcerange=5 => Anime does not get announced because out of range.
- announcerange="60"
+announcerange="60"
 
 # File to keep track of announced series titles
 
@@ -68,7 +68,7 @@ declare -A ANNOUNCED_TITLES
 contains_any_dub() {
     local title="$1"
     if [[ "$title" =~ \(.*[Dd]ub\) ]]; then
-        return 0 
+        return 0
     fi
     return 1
 }
@@ -194,11 +194,11 @@ notify_via_discord() {
     local markdown_link="[$title]($link)"
 
     json_payload=$(jq -n --arg title "$title" \
-                          --arg description "$description" \
-                          --arg url "$link" \
-                          --arg image_url "$thumbnail_url" \
-                          --arg mlink "$markdown_link" \
-                          '{
+        --arg description "$description" \
+        --arg url "$link" \
+        --arg image_url "$thumbnail_url" \
+        --arg mlink "$markdown_link" \
+        '{
                               "content": null,
                               "embeds": [{
                                   "title": "New Episode Released",
@@ -226,7 +226,6 @@ notify_via_discord() {
 #-----------------
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 #-----------------
 # Main Code Start
@@ -284,7 +283,7 @@ while IFS= read -r line; do
     else
         continue
     fi
-done <<< "$media_items"
+done <<<"$media_items"
 
 install_cron_job
 
