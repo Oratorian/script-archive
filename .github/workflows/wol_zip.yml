@@ -18,7 +18,7 @@ jobs:
     # Create a zip file of the 'wol' directory
     - name: Zip the wol directory
       run: |
-        zip -r wol.zip /Python/wol/
+        zip -r wol.zip Python/wol/
 
     # Upload the zip file as an artifact
     - name: Upload the ZIP artifact
