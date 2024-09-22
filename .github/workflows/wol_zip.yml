@@ -1,6 +1,5 @@
 name: Zip and Release Python/wol Directory
 
-# Trigger on push to main branch
 on:
   push:
     branches:
@@ -13,27 +12,32 @@ jobs:
     steps:
     # Checkout the repository
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     # Create a zip file of the 'Python/wol' directory
     - name: Zip the Python/wol directory
       run: |
         zip -r python_wol.zip Python/wol/
 
-    # Get the version from the most recent Git tag
-    - name: Get version from git tags
-      id: get_version
-      run: echo "::set-output name=VERSION::$(git describe --tags --abbrev=0)"
+    # Get the latest tag or generate one if none exists
+    - name: Get Version Tag
+      id: get_tag
+      run: |
+        # Get the latest tag
+        TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+        # Increment the patch version
+        NEW_TAG=$(echo $TAG | awk -F. '{printf "v%d.%d.%d", $1, $2, $3+1}')
+        echo "::set-output name=NEW_TAG::$NEW_TAG"
 
-    # Create a new GitHub release
+    # Create a new GitHub release using the new tag
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
-        tag_name: ${{ steps.get_version.outputs.VERSION }}
-        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        tag_name: ${{ steps.get_tag.outputs.NEW_TAG }}
+        release_name: Release ${{ steps.get_tag.outputs.NEW_TAG }}
         draft: false
         prerelease: false
 
