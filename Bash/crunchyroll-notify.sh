@@ -11,11 +11,11 @@ cron_time="0 0 * * *"
 # To obtain the seriesTitle visit https://www.crunchyroll.com/rss/calender and look for something like this - > <crunchyroll:seriesTitle>Bye Bye, Earth</crunchyroll:seriesTitle> < -
 # You need to do this for all shows you want to get a release notifycation for.
 # Add them into the array below, each show in a new line
-user_media_ids=(
-    "Bye Bye, Earth"
-    "That Time I Got Reincarnated as a Slime"
-    "Demon Slayer: Kimetsu no Yaiba"
-    "My Hero Academia Season 7"
+# Format is like this ["Title"]="Dubs" Where Dubs is a comma seperated list of dubs to announce (Since Japanese is standard DUB it will always get announced and does not need to be specified here)
+declare -A user_media_ids=(
+    ["Bye Bye, Earth"]=""
+    ["The Elusive Samurai"]="English"
+    ["My Hero Academia"]="English,German"
 )
 
 # Notification service configurations
@@ -33,9 +33,6 @@ announcerange="60"
 # File to keep track of announced series titles
 
 announced_file="/tmp/announced_series_titles"
-
-# Set the dub to also announce on release
-dub='german dub'
 
 # Email configuration (Not working, needs more attention)
 email_recipient="your_email@example.com"
@@ -65,12 +62,34 @@ discord_webhook_url="https://discord.com/your/discord/channel/webhook/"
 #-----------------
 declare -A ANNOUNCED_TITLES
 
-contains_any_dub() {
+is_allowed_dub() {
     local title="$1"
-    if [[ "$title" =~ \(.*[Dd]ub\) ]]; then
-        return 0
+    local allowed_dubs="$2"
+    local lower_title=$(echo "$title" | tr '[:upper:]' '[:lower:]')
+
+    # Strip dub information and episode information from the title
+    series_name=$(echo "$lower_title" | sed 's/(.*dub)//g' | sed 's/ - episode.*//g' | sed 's/ *$//')
+
+    # If no dub is specified in the title, it's considered Japanese (default language)
+    if ! [[ "$lower_title" =~ \(.*[Dd]ub\) ]]; then
+        return 0 # Allow it (Japanese)
     fi
-    return 1
+
+    # If allowed dubs is empty, reject if dub is present
+    if [[ -z "$allowed_dubs" ]]; then
+        return 1 # No allowed dubs, reject it if dub is present
+    fi
+
+    # Loop through each allowed dub in the list
+    IFS=',' read -r -a allowed_dubs_array <<<"$allowed_dubs"
+    for dub in "${allowed_dubs_array[@]}"; do
+        # Check if the current title contains the allowed dub (match just the language part)
+        if [[ "$lower_title" == *"$(echo "$dub" | tr '[:upper:]' '[:lower:]')"*"dub"* ]]; then
+            return 0 # True, allowed dub found (e.g., "Hindi Dub", "English Dub")
+        fi
+    done
+
+    return 1 # False, no allowed dub found
 }
 
 is_within_time_range() {
@@ -206,9 +225,35 @@ notify_via_discord() {
                                   "url": $url,
                                   "color": 5814783,
                                   "fields": [{
-                                     "name": $title,
-                                     "value": $mlink
-                                   }],
+                                    "id": 802559332,
+                                    "name": "Title :",
+                                    "value": " ",
+                                    "inline": true
+                                    },
+                                    {
+                                    "id": 401448333,
+                                    "name": $title,
+                                    "value": " ",
+                                    "inline": true
+                                    },
+                                    {
+                                    "id": 897239191,
+                                    "name": " ",
+                                    "value": " ",
+                                    "inline": false
+                                    },
+                                    {
+                                    "id": 469320997,
+                                    "name": "Watch on",
+                                    "value": " ",
+                                    "inline": true
+                                    },
+                                    {
+                                    "id": 907109677,
+                                    "name": "Crunchyroll :",
+                                    "value": $mlink,
+                                    "inline": true
+                                    }],
                                   "image": {
                                       "url": $image_url
                                   }
@@ -246,7 +291,7 @@ if ! echo "$rss_feed" | grep -q "<?xml"; then
     exit 1
 fi
 
-media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(cr:title, '|', title, '|', pubDate, '|', link, '|', normalize-space(description), '|', media:thumbnail[contains(@url, '_full.jpg')]/@url)" -n)
+media_items=$(echo "$rss_feed" | xmlstarlet sel -N cr="http://www.crunchyroll.com/rss" -N media="http://search.yahoo.com/mrss/" -t -m "//item" -v "concat(crunchyroll:seriesTitle, '|', title, '|', pubDate, '|', link, '|', normalize-space(description), '|', media:thumbnail[1]/@url)" -n)
 
 while IFS= read -r line; do
     series_title=$(echo "$line" | cut -d'|' -f1)
@@ -255,28 +300,27 @@ while IFS= read -r line; do
     link=$(echo "$line" | cut -d'|' -f4)
     description=$(echo "$line" | cut -d'|' -f5)
     thumbnail_url=$(echo "$line" | cut -d'|' -f6)
-
     lower_series_title=$(echo "$title" | tr '[:upper:]' '[:lower:]')
+    allowed_dubs="${user_media_ids["$series_title"]}"
 
-    if [[ "$lower_series_title" == *"($dub)"* ]] || ! contains_any_dub "$lower_series_title"; then
-        echo "Processing: $title (Published on: $pub_date)"
+if is_allowed_dub "$lower_series_title" "$allowed_dubs"; then
 
         if ! is_within_time_range "$pub_date" "$announcerange"; then
             continue
         fi
 
-        for user_title in "${user_media_ids[@]}"; do
+        for user_title in "${!user_media_ids[@]}"; do
             lower_user_title=$(echo "$user_title" | tr '[:upper:]' '[:lower:]')
 
             if [[ "$lower_series_title" == "$lower_user_title"* ]]; then
-                if ! is_title_announced "$user_title"; then
+                if ! is_title_announced "$lower_series_title"; then
                     [ "$notify_email" = true ] && notify_via_email "$series_title"
                     [ "$notify_pushover" = true ] && notify_via_pushover "$series_title"
                     [ "$notify_ifttt" = true ] && notify_via_ifttt "$series_title"
                     [ "$notify_slack" = true ] && notify_via_slack "$series_title"
                     [ "$notify_discord" = true ] && notify_via_discord "$series_title" "$title" "$link" "$description" "$thumbnail_url"
                     [ "$notify_echo" = true ] && notify_via_echo "$series_title" "$title" "$link" "$description" "$thumbnail_url"
-                    add_title_to_announced "$title"
+                    add_title_to_announced "$lower_series_title"
                 fi
             fi
         done
