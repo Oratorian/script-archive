@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Python/wol/**'  # Only trigger when changes are made to the files in this directory
 
 jobs:
   zip_and_release:
