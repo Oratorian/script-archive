@@ -51,7 +51,7 @@ jobs:
 
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: actions/create-release@vv1.10.0
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
@@ -61,7 +61,7 @@ jobs:
         prerelease: false
 
     - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
+      uses: actions/upload-release-asset@v1.10.0
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
