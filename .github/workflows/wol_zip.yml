@@ -25,10 +25,16 @@ jobs:
     - name: Get Version Tag
       id: get_tag
       run: |
-        # Get the latest tag
+        # Get the latest tag or default to v0.0.0
         TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+        # Extract major, minor, and patch from the tag
+        IFS='.' read -r -a VERSION_PARTS <<< "${TAG/v/}"
+        MAJOR=${VERSION_PARTS[0]}
+        MINOR=${VERSION_PARTS[1]}
+        PATCH=${VERSION_PARTS[2]}
         # Increment the patch version
-        NEW_TAG=$(echo $TAG | awk -F. '{printf "v%d.%d.%d", $1, $2, $3+1}')
+        NEW_TAG="v$MAJOR.$MINOR.$((PATCH+1))"
+        echo "New tag: $NEW_TAG"
         echo "::set-output name=NEW_TAG::$NEW_TAG"
 
     # Create a new GitHub release using the new tag
