@@ -59,3 +59,12 @@ gunicorn --bind 0.0.0.0:5000 wol_server:app
 ```
 http://localhost:5000
 ```
+
+## License
+
+This script is released under the GPL-3.0 license. You are free to reproduce, modify, and distribute this script as long as the original author is credited.
+
+---
+
+**Author**: Oration 'Mahesvara'  
+**GitHub**: [Oratorian@github.com](https://github.com/Oratorian)
