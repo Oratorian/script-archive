@@ -16,6 +16,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Fetch all tags to ensure they are available locally
+    - name: Fetch all tags
+      run: git fetch --tags
+
     - name: Zip the Python/wol directory
       run: |
         zip -r python_wol.zip Python/wol/
@@ -24,19 +28,24 @@ jobs:
     - name: Get latest tag and increment if exists
       id: new_tag
       run: |
-        # Get the latest tag or use v0.0.0 if none exists
-        LATEST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.1")
-        # Extract major, minor, and patch
-        IFS='.' read -r -a VERSION_PARTS <<< "${LATEST_TAG/v/}"
+        # Get the latest tag, or use v0.0.0 if no tags exist
+        LATEST_TAG=$(git describe --tags --abbrev=0 --match "v*" || echo "v0.0.0")
+        echo "Latest tag: $LATEST_TAG"
+        # Extract major, minor, and patch numbers
+        IFS='.' read -r -a VERSION_PARTS <<< "${LATEST_TAG//v/}"
         MAJOR=${VERSION_PARTS[0]}
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
-        # Check if the tag exists and increment the patch version if it does
+        # Debugging: Print tag parts
+        echo "Major: $MAJOR, Minor: $MINOR, Patch: $PATCH"
+        # Increment the patch version if the tag already exists
         while git rev-parse -q --verify "refs/tags/v$MAJOR.$MINOR.$PATCH" > /dev/null; do
+          echo "Tag v$MAJOR.$MINOR.$PATCH already exists, incrementing patch."
           PATCH=$((PATCH+1))
         done
         NEW_TAG="v$MAJOR.$MINOR.$PATCH"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+        echo "New tag: $NEW_TAG"
 
     - name: Create Release
       id: create_release
