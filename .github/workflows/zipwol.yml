@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'Python/wol/**'
-  workflow_dispatch:
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   zip_and_release:
@@ -20,7 +20,8 @@ jobs:
       run: |
         zip -r python_wol.zip Python/wol/
 
-    - name: Get latest tag and create a new version tag
+    # Get the latest tag and automatically increment if the tag exists
+    - name: Get latest tag and increment if exists
       id: new_tag
       run: |
         # Get the latest tag or use v0.0.0 if none exists
@@ -30,8 +31,11 @@ jobs:
         MAJOR=${VERSION_PARTS[0]}
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
-        # Increment patch version
-        NEW_TAG="v$MAJOR.$MINOR.$((PATCH+1))"
+        # Check if the tag exists and increment the patch version if it does
+        while git rev-parse -q --verify "refs/tags/v$MAJOR.$MINOR.$PATCH" > /dev/null; do
+          PATCH=$((PATCH+1))
+        done
+        NEW_TAG="v$MAJOR.$MINOR.$PATCH"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
     - name: Create Release
