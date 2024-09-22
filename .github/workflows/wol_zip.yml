@@ -1,0 +1,28 @@
+name: Zip WOL Directory
+
+# Run the workflow whenever code is pushed to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  zip_wol:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository to access its content
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Create a zip file of the 'wol' directory
+    - name: Zip the wol directory
+      run: |
+        zip -r wol.zip /Python/wol/
+
+    # Upload the zip file as an artifact
+    - name: Upload the ZIP artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wol-zip
+        path: wol.zip
