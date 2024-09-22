@@ -28,32 +28,34 @@ jobs:
     - name: Get latest tag and increment if exists
       id: new_tag
       run: |
-        # Get the latest tag, or use v0.0.0 if no tags exist
+        # Fetch the latest tag or default to v0.0.0 if no tags exist
         LATEST_TAG=$(git describe --tags --abbrev=0 --match "v*" || echo "v0.0.0")
         echo "Latest tag: $LATEST_TAG"
-        # Extract major, minor, and patch numbers
+        # Extract major, minor, and patch numbers from tag
         IFS='.' read -r -a VERSION_PARTS <<< "${LATEST_TAG//v/}"
         MAJOR=${VERSION_PARTS[0]}
         MINOR=${VERSION_PARTS[1]}
         PATCH=${VERSION_PARTS[2]}
-        # Debugging: Print tag parts
+        # Debugging: Print out tag parts
         echo "Major: $MAJOR, Minor: $MINOR, Patch: $PATCH"
-        # Increment the patch version if the tag already exists
+
+        # Check if the tag exists, increment the patch if necessary
         while git rev-parse -q --verify "refs/tags/v$MAJOR.$MINOR.$PATCH" > /dev/null; do
           echo "Tag v$MAJOR.$MINOR.$PATCH already exists, incrementing patch."
           PATCH=$((PATCH+1))
         done
+
         NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Use environment file for new tag
         echo "New tag: $NEW_TAG"
 
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.NEW_TAG }}
+        tag_name: ${{ env.NEW_TAG }}  # Reference NEW_TAG from environment
         release_name: Release ${{ env.NEW_TAG }}
         draft: false
         prerelease: false
@@ -61,7 +63,7 @@ jobs:
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./python_wol.zip
