@@ -39,3 +39,13 @@ This PowerShell script monitors a Crunchyroll RSS feed for new anime releases an
 - **$GlobalDebug**: Logs messages to both file and console when set to `true`.
 - **$checkInterval**: Sets the interval for RSS feed checks in minutes.
 
+
+## License
+
+This script is released under the GPL-3.0 license. You are free to reproduce, modify, and distribute this script as long as the original author is credited.
+
+---
+
+
+**Author**: Oration 'Mahesvara'  
+**GitHub**: [Oratorian@github.com](https://github.com/Oratorian)
