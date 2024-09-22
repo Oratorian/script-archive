@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'Python/wol/**'  # Only trigger when changes are made to the files in this directory
+  workflow_dispatch:
 
 jobs:
   zip_and_release:
