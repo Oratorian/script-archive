@@ -12,14 +12,7 @@ This Python-based Wake-on-LAN server allows users to wake up computers in their 
 
 ## Requirements
 
-- **Python 3.6+**
-  
-- Required Python packages:
-  Flask==2.3.2
-  Flask-Login==0.6.2
-  bcrypt==4.0.1
-  cryptography==41.0.3
-  gunicorn
+- **Python 3.11+**
 
 ##  Installation Instructions
 - Clone the repository to your local machine:
