@@ -15,16 +15,15 @@ This Python-based Wake-on-LAN server allows users to wake up computers in their 
 - **Python 3.11+**
 
 ##  Installation Instructions
-- Clone the repository to your local machine:
+- Download script to your local machine:
 
 ```
-git clone https://github.com/Oratorian/wol-server.git
+Goto https://github.com/Oratorian/script-archive/releases
 ```
-- Navigate to the project directory:
+- Unpack files
 
-```
-cd wol-server
-```
+- Navigate to the unpacked directory
+
 - Set up a virtual environment (optional but recommended):
 ```
 python -m venv venv
