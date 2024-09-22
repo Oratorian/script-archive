@@ -1,28 +1,49 @@
-name: Zip WOL Directory
+name: Zip and Release Python/wol Directory
 
-# Run the workflow whenever code is pushed to the main branch
+# Trigger on push to main branch
 on:
   push:
     branches:
       - main
 
 jobs:
-  zip_wol:
+  zip_and_release:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository to access its content
+    # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Create a zip file of the 'wol' directory
-    - name: Zip the wol directory
+    # Create a zip file of the 'Python/wol' directory
+    - name: Zip the Python/wol directory
       run: |
-        zip -r wol.zip Python/wol/
+        zip -r python_wol.zip Python/wol/
 
-    # Upload the zip file as an artifact
-    - name: Upload the ZIP artifact
-      uses: actions/upload-artifact@v4
+    # Get the version from the most recent Git tag
+    - name: Get version from git tags
+      id: get_version
+      run: echo "::set-output name=VERSION::$(git describe --tags --abbrev=0)"
+
+    # Create a new GitHub release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: wol-zip
-        path: wol.zip
+        tag_name: ${{ steps.get_version.outputs.VERSION }}
+        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+
+    # Upload the zip file as an asset to the release
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./python_wol.zip
+        asset_name: python_wol.zip
+        asset_content_type: application/zip
