@@ -36,6 +36,7 @@ jobs:
           else
             echo "No changes found in PowerShell/${{ matrix.subdir }}"
             echo "CHANGES_FOUND=false" >> $GITHUB_ENV
+          fi
         shell: bash
 
       # Only continue if changes were found
