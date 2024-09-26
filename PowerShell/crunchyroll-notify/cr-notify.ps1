@@ -1,4 +1,77 @@
 #================================================================================================================================================================================================================================================================================================================
+﻿#---------------------------------------------------------------------------------------------
+# This script © 2024 by Oration 'Mahesvara' is released unter the GPL-3.0 license
+# Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
+# as the original Author
+#---------------------------------------------------------------------------------------------
+## Version: 1.0.2.4
+
+# Changelog
+
+## [1.0.2.4] - 2024-09-22
+### Added
+- Finalized logging and interval adjustment behavior.
+- Implemented stable behavior for RSS feed checks and notifications.
+- Polished the script flow and ensured consistency across configurations and user prompts.
+
+## [1.0.2.3] - 2024-09-22
+### Fixed
+- Adjusted the `Confirm-IntervalWarning` logic to handle interval reassignment correctly after user input.
+- Resolved minor issues related to logging inconsistencies and user input for the interval.
+- Ensured correct behavior for user-defined intervals or defaults when adjusting intervals.
+
+## [1.0.2.2] - 2024-09-22
+### Improved
+- Modified `Confirm-IntervalWarning` function to return the final interval, allowing the direct assignment of the check interval.
+- Prevented conflicts with initial configuration values by directly returning the final interval and assigning it to `$GlobalCheckInterval`.
+- Cleaned up user prompt logic to make the flow more intuitive.
+
+## [1.0.2.1] - 2024-09-22
+### Fixed
+- Resolved the issue where the script used the initial configuration value for `$GlobalCheckInterval` even after setting a new value.
+- Added logic to handle interval assignment dynamically based on user input, ensuring correct use of new or default intervals.
+
+## [1.0.2.0] - 2024-09-22
+### Added
+- Enhanced logging flexibility by refining the `Write-LogMessage` function to check global logging configurations.
+- Global configuration variables (`$GlobalLogToFile` and `$GlobalDebug`) control logging behavior without needing to modify individual `Write-LogMessage` calls.
+- Added functionality to allow logging to console, file, or both based on global settings.
+  
+### Fixed
+- Corrected logic in `IsAllowedDub` and `NotifyViaTray` to ensure correct matching and notification behavior.
+
+## [1.0.1.3] - 2024-09-22
+### Added
+- Implemented a time-remaining display, showing the user the countdown before the next RSS feed check.
+- Added a countdown display, ensuring clarity of time left between RSS checks.
+
+## [1.0.1.2] - 2024-09-22
+### Fixed
+- Resolved an issue where the script would erroneously apply the check interval from the initial configuration instead of the user-provided value.
+- Corrected the prompt behavior to offer users the option to set a new interval when the selected one is below the recommended threshold.
+
+## [1.0.1.1] - 2024-09-22
+### Added
+- Introduced a user prompt to ask whether they want to proceed with a risky interval when set below 10 minutes.
+- Provided users with the ability to set a new check interval or revert to the recommended value (10 minutes) in case of an unsafe interval.
+  
+### Fixed
+- Corrected the check interval warning behavior to properly handle intervals under 10 minutes and allow users to proceed or adjust.
+
+## [1.0.1.0] - 2024-09-22
+### Added
+- Added a user-friendly prompt to warn users when the check interval is set below 10 minutes, due to the risk of an IP ban.
+- The script now asks if users want to continue with the current interval or switch to a safer, recommended value (10 minutes).
+
+## [1.0.0.2] - 2024-09-22
+### Added
+- Introduced interval-based logic, allowing users to configure the script to check the RSS feed at custom intervals (in minutes).
+- Added the ability to convert the user-defined interval (in minutes) to seconds for accurate `Start-Sleep` functionality.
+
+## [1.0.0.1] - 2024-09-22
+### Fixed
+- Improved the handling of flattened RSS structures by adjusting how the script processes the series title and episode details.
+- Refined the logic to ensure the script properly matches user-specified series and dub combinations, considering the flattened XML structure
 # ----------------
 # Config Start
 # ----------------
