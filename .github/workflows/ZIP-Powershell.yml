@@ -46,15 +46,16 @@ jobs:
           # Replace spaces with hyphens for valid tag names
           TAG_PREFIX="${CAPITALIZED_PREFIX// /-}"
 
-          # Fetch the latest tag for this subdirectory or default to v0.0.0
+          # Fetch the latest tag for this subdirectory or default to v0.0.0.0
           LATEST_TAG=$(git tag --list "${TAG_PREFIX}-v*" | sort -V | tail -n 1)
           echo "Latest tag for $TAG_PREFIX: $LATEST_TAG"
           
           if [ -z "$LATEST_TAG" ]; then
-            # No existing tags, start with v0.0.0
+            # No existing tags, start with v0.0.0.0
             MAJOR=0
             MINOR=0
             PATCH=0
+            FIX=0
           else
             # Extract major, minor, and patch numbers from the tag
             VERSION=${LATEST_TAG##*-v}
@@ -62,10 +63,11 @@ jobs:
             MAJOR=${VERSION_PARTS[0]}
             MINOR=${VERSION_PARTS[1]}
             PATCH=${VERSION_PARTS[2]}
-          fi
+            FIX=${VERSION_PARTS[2]}
+            fi
 
           # Increment the patch version
-          PATCH=$((PATCH + 1))
+          FIX=$((PATCH + 1))
           
           NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
