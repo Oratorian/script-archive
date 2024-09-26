@@ -1,0 +1,92 @@
+name: zip PowerShell subdirs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - PowerShell/fivemupdater/**
+      - PowerShell/cr-notify/**
+
+jobs:
+  zip:
+    name: "zip:${{ matrix.subdir }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        subdir:
+          - fivemupdater
+          - cr-notify
+
+    steps:
+      # Step to checkout the code from the repository
+      - uses: actions/checkout@v4
+
+      # Zip the subdirectory based on the matrix value
+      - name: Zip subdirectory
+        run: |
+          zip -r ${{ matrix.subdir }}.zip PowerShell/${{ matrix.subdir }}
+
+      # List created zip files for logging
+      - name: List created ZIP files
+        run: ls -lh *.zip
+
+      # Get the latest tag and increment for subdir-specific release
+      - name: Get latest tag and increment for subdir-specific release
+        id: new_tag
+        run: |
+          # Use the matrix subdir to set the prefix
+          PREFIX="${{ matrix.subdir }}"
+
+          # Capitalize the prefix for better readability in tags and releases
+          CAPITALIZED_PREFIX=$(echo $PREFIX | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+          
+          # Fetch the latest tag for this subdirectory or default to v0.0.0
+          LATEST_TAG=$(git tag --list "${CAPITALIZED_PREFIX} v*" | sort -V | tail -n 1)
+          echo "Latest tag for $CAPITALIZED_PREFIX: $LATEST_TAG"
+          
+          if [ -z "$LATEST_TAG" ]; then
+            # No existing tags, start with v0.0.0
+            MAJOR=0
+            MINOR=0
+            PATCH=0
+          else
+            # Extract major, minor, and patch numbers from the tag
+            VERSION=${LATEST_TAG##*v}
+            IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
+            MAJOR=${VERSION_PARTS[0]}
+            MINOR=${VERSION_PARTS[1]}
+            PATCH=${VERSION_PARTS[2]}
+          fi
+
+          # Increment the patch version
+          PATCH=$((PATCH + 1))
+          
+          NEW_TAG="${CAPITALIZED_PREFIX} v$MAJOR.$MINOR.$PATCH"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
+          echo "New tag: $NEW_TAG"
+
+      # Create a release with the new tag specific to the subdir
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ env.NEW_TAG }}  # Reference NEW_TAG from environment
+          release_name: Release ${{ env.NEW_TAG }}
+          draft: false
+          prerelease: false
+
+      # Upload the zip file as an asset to the subdir-specific release
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ matrix.subdir }}.zip  # Use matrix.subdir for the asset path
+          asset_name: ${{ matrix.subdir }}.zip  # Name the asset based on the subdir
+          asset_content_type: application/zip
