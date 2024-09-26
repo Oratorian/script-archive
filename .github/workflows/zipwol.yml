@@ -1,4 +1,4 @@
-name: Zip and Release Python/wol Directory
+name: Zip Wake-On-Lan
 
 on:
   push:
