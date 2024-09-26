@@ -35,11 +35,6 @@ source venv/bin/activate   # On Windows use: venv\Scripts\activate
 ```
 pip install -r requirements.txt
 ```
-- Create a .env file in the root directory of the project:
-
-```
-touch .env
-```
 
 - Add the following contents to the .env file:
 
