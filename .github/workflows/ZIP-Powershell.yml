@@ -7,7 +7,7 @@ on:
       - master
     paths:
       - PowerShell/fivemupdater/**
-      - PowerShell/crunchyroll-notify/**
+      - PowerShell/cr-notify/**
 
 jobs:
   zip:
@@ -43,9 +43,12 @@ jobs:
           # Capitalize the prefix for better readability in tags and releases
           CAPITALIZED_PREFIX=$(echo $PREFIX | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
           
+          # Replace spaces with hyphens for valid tag names
+          TAG_PREFIX="${CAPITALIZED_PREFIX// /-}"
+
           # Fetch the latest tag for this subdirectory or default to v0.0.0
-          LATEST_TAG=$(git tag --list "${CAPITALIZED_PREFIX} v*" | sort -V | tail -n 1)
-          echo "Latest tag for $CAPITALIZED_PREFIX: $LATEST_TAG"
+          LATEST_TAG=$(git tag --list "${TAG_PREFIX}-v*" | sort -V | tail -n 1)
+          echo "Latest tag for $TAG_PREFIX: $LATEST_TAG"
           
           if [ -z "$LATEST_TAG" ]; then
             # No existing tags, start with v0.0.0
@@ -54,7 +57,7 @@ jobs:
             PATCH=0
           else
             # Extract major, minor, and patch numbers from the tag
-            VERSION=${LATEST_TAG##*v}
+            VERSION=${LATEST_TAG##*-v}
             IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
             MAJOR=${VERSION_PARTS[0]}
             MINOR=${VERSION_PARTS[1]}
@@ -64,7 +67,7 @@ jobs:
           # Increment the patch version
           PATCH=$((PATCH + 1))
           
-          NEW_TAG="${CAPITALIZED_PREFIX} v$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
           echo "New tag: $NEW_TAG"
 
