@@ -7,7 +7,7 @@ on:
       - master
     paths:
       - PowerShell/fivemupdater/**
-      - PowerShell/cr-notify/**
+      - PowerShell/crunchyroll-notify/**
 
 jobs:
   zip:
