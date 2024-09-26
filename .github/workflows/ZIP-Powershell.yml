@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - PowerShell/fivemupdater/**
-      - PowerShell/cr-notify/**
+      - PowerShell/crunchyroll-notify/**
 
 jobs:
   zip:
@@ -18,7 +18,7 @@ jobs:
       matrix:
         subdir:
           - fivemupdater
-          - cr-notify
+          - crunchyroll-notify
 
     steps:
       # Step to checkout the code from the repository
