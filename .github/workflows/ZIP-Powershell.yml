@@ -52,7 +52,7 @@ jobs:
           
           if [ -z "$LATEST_TAG" ]; then
             # No existing tags, start with v0.0.0.0
-            MAJOR=0
+            MAJOR=1
             MINOR=0
             PATCH=0
             FIX=0
@@ -69,7 +69,7 @@ jobs:
           # Increment the patch version
           FIX=$((FIX + 1))
           
-          NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH.$FIX"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
           echo "New tag: $NEW_TAG"
 
