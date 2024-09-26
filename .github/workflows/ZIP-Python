@@ -1,0 +1,125 @@
+name: zip Python subdirs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - Python/api/**
+      - Python/wol/**
+
+jobs:
+  zip:
+    name: "zip:${{ matrix.subdir }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        subdir:
+          - api
+          - wol
+
+    steps:
+      # Step to checkout the code from the repository
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure all tags and commits are fetched
+
+      # Check if there are changes in the specific subdirectory
+      - name: Check if changes were made in ${{ matrix.subdir }}
+        id: changes
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -q "Python/${{ matrix.subdir }}/"; then
+            echo "Changes found in ${{ matrix.subdir }}"
+            echo "CHANGES_FOUND=true" >> $GITHUB_ENV
+          else
+            echo "No changes found in ${{ matrix.subdir }}"
+            echo "CHANGES_FOUND=false" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      # Only continue if changes were found
+      - name: Continue if changes were found
+        if: env.CHANGES_FOUND == 'true'
+        run: echo "Proceeding with release creation for ${{ matrix.subdir }}"
+
+      # Zip the subdirectory based on the matrix value, only if changes were made
+      - name: Zip subdirectory
+        if: env.CHANGES_FOUND == 'true'
+        run: |
+          zip -r ${{ matrix.subdir }}.zip Python/${{ matrix.subdir }}
+
+      # List created zip files for logging
+      - name: List created ZIP files
+        if: env.CHANGES_FOUND == 'true'
+        run: ls -lh *.zip
+
+      # Get the latest tag and increment for subdir-specific release
+      - name: Get latest tag and increment for subdir-specific release
+        if: env.CHANGES_FOUND == 'true'
+        id: new_tag
+        run: |
+          # Fetch all tags from the remote
+          git fetch --tags
+
+          # Use the matrix subdir to set the prefix
+          PREFIX="${{ matrix.subdir }}"
+
+          # Capitalize the prefix for better readability in tags and releases
+          CAPITALIZED_PREFIX=$(echo $PREFIX | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+          
+          # Replace spaces with hyphens for valid tag names
+          TAG_PREFIX="${CAPITALIZED_PREFIX// /-}"
+
+          # Fetch the latest tag for this subdirectory or default to v0.0.0
+          LATEST_TAG=$(git tag --list "${TAG_PREFIX}-v*" | sort -V | tail -n 1)
+          echo "Latest tag for $TAG_PREFIX: $LATEST_TAG"
+          
+          if [ -z "$LATEST_TAG" ]; then
+            # No existing tags, start with v0.0.0
+            MAJOR=1
+            MINOR=0
+            PATCH=2
+            BUILD=2
+          else
+            # Extract major, minor, patch, and build numbers from the tag
+            VERSION=${LATEST_TAG##*-v}
+            IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
+            MAJOR=${VERSION_PARTS[0]}
+            MINOR=${VERSION_PARTS[1]}
+            PATCH=${VERSION_PARTS[2]}
+            BUILD=${VERSION_PARTS[3]}
+          fi
+
+          # Increment the build version
+          BUILD=$((BUILD + 1))
+
+          NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH.$BUILD"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
+          echo "New tag: $NEW_TAG"
+
+      # Create a release with the new tag specific to the subdir
+      - name: Create Release
+        if: env.CHANGES_FOUND == 'true'
+        id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: ${{ env.NEW_TAG }}  # Reference NEW_TAG from environment
+          release_name: Release ${{ env.NEW_TAG }}
+          draft: false
+          prerelease: false
+
+      # Upload the zip file as an asset to the subdir-specific release
+      - name: Upload Release Asset
+        if: env.CHANGES_FOUND == 'true'
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ matrix.subdir }}.zip  # Use matrix.subdir for the asset path
+          asset_name: ${{ matrix.subdir }}.zip  # Name the asset based on the subdir
+          asset_content_type: application/zip
