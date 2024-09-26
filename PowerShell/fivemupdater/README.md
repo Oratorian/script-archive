@@ -13,10 +13,6 @@ This PowerShell script automates the process of updating a FiveM server, ensurin
 # Changelog
 
 ## [1.0.3.9] - 2024-09-26
-### Improved
-- Optimized the 7-Zip download process to validate file integrity before installation.
-- Enabled multi-threaded downloads for faster update file retrieval (up to 5 concurrent downloads).
-
 ### Fixed
 - Resolved an issue with the `$UPDATE_DIR` creation when the directory path contained special characters.
 - Fixed a bug where spaces in file paths caused the update process to fail.
