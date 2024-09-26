@@ -5,78 +5,60 @@
 # Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
 # as the original Author
 #---------------------------------------------------------------------------------------------
-## Version: 1.0.11
+## Version: 1.2.0
 
 # Changelog
 
-## [1.0.11] - 2024-09-26
+## [1.2.0] - 2024-09-22
 ### Added
-- Changelog, Version information and copyright notices.
-
-## [1.0.10] - 2024-09-22
-### Added
-- Finalized logging and interval adjustment behavior.
-- Implemented stable behavior for RSS feed checks and notifications.
-- Polished the script flow and ensured consistency across configurations and user prompts.
-
-## [1.0.2.3] - 2024-09-22
+- **Finalized behavior for check intervals:** 
+  - The `Confirm-IntervalWarning` function now returns the final interval, ensuring the correct assignment to `$GlobalCheckInterval`.
+  - Enhanced logic for confirming check intervals below 10 minutes, asking the user to confirm or change the interval.
+  - Added a timer display showing the remaining time before the next check.
+  - Introduced global logging configuration (`$GlobalLogToFile` and `$GlobalDebug`) to control where log messages are written (file, console, or both).
+  
 ### Fixed
-- Adjusted the `Confirm-IntervalWarning` logic to handle interval reassignment correctly after user input.
-- Resolved minor issues related to logging inconsistencies and user input for the interval.
-- Ensured correct behavior for user-defined intervals or defaults when adjusting intervals.
-
-## [1.0.2.2] - 2024-09-22
+- **Corrected check interval behavior:** 
+  - The script now correctly uses the returned interval, ensuring that the user’s choice or the recommended value (10 minutes) is applied.
+  
 ### Improved
-- Modified `Confirm-IntervalWarning` function to return the final interval, allowing the direct assignment of the check interval.
-- Prevented conflicts with initial configuration values by directly returning the final interval and assigning it to `$GlobalCheckInterval`.
-- Cleaned up user prompt logic to make the flow more intuitive.
+- **Logging adjustments:** 
+  - Refined the `Write-LogMessage` function to handle logging based on global settings, avoiding manual changes for each log instance.
 
-## [1.0.2.1] - 2024-09-22
+## [1.1.1] - 2024-09-22
 ### Fixed
-- Resolved the issue where the script used the initial configuration value for `$GlobalCheckInterval` even after setting a new value.
-- Added logic to handle interval assignment dynamically based on user input, ensuring correct use of new or default intervals.
+- **Resolved interval issues:**
+  - Fixed a problem where the script used the initial configuration value for `$GlobalCheckInterval` even after the user set a new interval.
+  - Ensured that the script correctly applies new or default intervals as specified by the user.
 
-## [1.0.2.0] - 2024-09-22
+## [1.1.0] - 2024-09-22
 ### Added
-- Enhanced logging flexibility by refining the `Write-LogMessage` function to check global logging configurations.
-- Global configuration variables (`$GlobalLogToFile` and `$GlobalDebug`) control logging behavior without needing to modify individual `Write-LogMessage` calls.
-- Added functionality to allow logging to console, file, or both based on global settings.
+- **User prompts for interval warnings:** 
+  - Implemented a warning message when the check interval is set below 10 minutes, allowing the user to confirm or adjust the interval.
+  - If the user chooses not to proceed, they are given the option to set a new interval or use the recommended value (10 minutes).
   
 ### Fixed
-- Corrected logic in `IsAllowedDub` and `NotifyViaTray` to ensure correct matching and notification behavior.
+- **Check interval validation:** 
+  - Corrected logic for handling unsafe intervals and prompted the user to make an informed decision on whether to proceed or modify the interval.
 
-## [1.0.1.3] - 2024-09-22
+## [1.0.1] - 2024-09-22
 ### Added
-- Implemented a time-remaining display, showing the user the countdown before the next RSS feed check.
-- Added a countdown display, ensuring clarity of time left between RSS checks.
-
-## [1.0.1.2] - 2024-09-22
-### Fixed
-- Resolved an issue where the script would erroneously apply the check interval from the initial configuration instead of the user-provided value.
-- Corrected the prompt behavior to offer users the option to set a new interval when the selected one is below the recommended threshold.
-
-## [1.0.1.1] - 2024-09-22
-### Added
-- Introduced a user prompt to ask whether they want to proceed with a risky interval when set below 10 minutes.
-- Provided users with the ability to set a new check interval or revert to the recommended value (10 minutes) in case of an unsafe interval.
+- **Countdown display for check intervals:**
+  - Added a time remaining display showing how long until the next RSS feed check.
   
 ### Fixed
-- Corrected the check interval warning behavior to properly handle intervals under 10 minutes and allow users to proceed or adjust.
+- **RSS feed structure handling:**
+  - Adjusted the script to handle the flattened RSS structure from Crunchyroll, ensuring proper matching of series titles and dubs.
 
-## [1.0.1.0] - 2024-09-22
-### Added
-- Added a user-friendly prompt to warn users when the check interval is set below 10 minutes, due to the risk of an IP ban.
-- The script now asks if users want to continue with the current interval or switch to a safer, recommended value (10 minutes).
-
-## [1.0.0.2] - 2024-09-22
-### Added
-- Introduced interval-based logic, allowing users to configure the script to check the RSS feed at custom intervals (in minutes).
-- Added the ability to convert the user-defined interval (in minutes) to seconds for accurate `Start-Sleep` functionality.
-
-## [1.0.0.1] - 2024-09-22
-### Fixed
-- Improved the handling of flattened RSS structures by adjusting how the script processes the series title and episode details.
-- Refined the logic to ensure the script properly matches user-specified series and dub combinations, considering the flattened XML structure
+## [1.0.0] - 2024-09-22
+### Initial Release
+- **Core functionality:**
+  - Fetches and processes Crunchyroll’s RSS feed.
+  - Allows configuration of user-specified series and allowed dubs for filtering.
+  - BurntToast notifications for Windows tray alerts.
+  - Logs script execution events to a file and/or console.
+  - Filters announcements based on a configurable time range.
+  
 # ----------------
 # Config Start
 # ----------------
