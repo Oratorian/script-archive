@@ -63,11 +63,11 @@ jobs:
             MAJOR=${VERSION_PARTS[0]}
             MINOR=${VERSION_PARTS[1]}
             PATCH=${VERSION_PARTS[2]}
-            FIX=${VERSION_PARTS[2]}
+            FIX=${VERSION_PARTS[3]}
             fi
 
           # Increment the patch version
-          FIX=$((PATCH + 1))
+          FIX=$((FIX + 1))
           
           NEW_TAG="${TAG_PREFIX}-v$MAJOR.$MINOR.$PATCH"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV  # Save to environment
