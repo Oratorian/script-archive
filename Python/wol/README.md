@@ -36,13 +36,6 @@ source venv/bin/activate   # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-- Add the following contents to the .env file:
-
-```
-WOL_SERVER_PORT=5000
-SECRET_KEY=your_secret_key
-```
-
 - Run the server:
 
 ```
