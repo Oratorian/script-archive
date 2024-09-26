@@ -99,7 +99,6 @@ This PowerShell script automates the process of updating a FiveM server, ensurin
 ## [1.0.0.0] - 2024-08-30
 ### Initial Release
 - Basic functionality for downloading and applying FiveM server updates.
-- Automatically detects the FiveM installation directory.
 - Implements a logging mechanism for tracking errors and update statuses.
 - Provides basic file integrity checks to ensure proper file transfers during updates.
 
