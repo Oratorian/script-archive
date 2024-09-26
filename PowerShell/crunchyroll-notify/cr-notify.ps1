@@ -5,15 +5,15 @@
 # Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
 # as the original Author
 #---------------------------------------------------------------------------------------------
-## Version: 1.0.2.5
+## Version: 1.0.11
 
 # Changelog
 
-## [1.0.2.25] - 2024-09-26
+## [1.0.11] - 2024-09-26
 ### Added
 - Changelog, Version information and copyright notices.
 
-## [1.0.2.4] - 2024-09-22
+## [1.0.10] - 2024-09-22
 ### Added
 - Finalized logging and interval adjustment behavior.
 - Implemented stable behavior for RSS feed checks and notifications.
