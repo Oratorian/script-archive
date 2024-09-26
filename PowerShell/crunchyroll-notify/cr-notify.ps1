@@ -11,6 +11,7 @@
 ## [1.0.2.25] - 2024-09-26
 ### Added
 - Changelog, Version information and copyright notices
+
 ## [1.0.2.4] - 2024-09-22
 ### Added
 - Finalized logging and interval adjustment behavior.
