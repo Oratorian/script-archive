@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion ENABLEEXTENSIONS
-title Batch Password Generator 1.0
+title Batch Password Generator 1.0.0.0
 
 set /a Length=15
 set /a TempLength=!Length!
