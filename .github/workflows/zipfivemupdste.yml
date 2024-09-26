@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'Powershell/fivemupdater/**'
+      - 'PowerShell/fivemupdater/**'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -14,15 +14,15 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Fetch all tags to ensure they are available locally
     - name: Fetch all tags
       run: git fetch --tags
 
-    - name: Zip the Python/wol directory
+    - name: Zip the PowerShell/fivemupdater
       run: |
-        zip -r fivemupdater.zip Powershell/fivemupdater/
+        zip -r fivemupdater.zip PowerShell/fivemupdater/
 
     # Get the latest tag and automatically increment if the tag exists
     - name: Get latest tag and increment if exists
