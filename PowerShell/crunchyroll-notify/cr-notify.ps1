@@ -5,60 +5,89 @@
 # Reproduction and modifications are allowed as long as I Oratorian@github.com is credited
 # as the original Author
 #---------------------------------------------------------------------------------------------
-## Version: 1.2.0
+
+## Version: 2.0.1
 
 # Changelog
 
-## [1.2.0] - 2024-09-22
-### Added
-- **Finalized behavior for check intervals:** 
-  - The `Confirm-IntervalWarning` function now returns the final interval, ensuring the correct assignment to `$GlobalCheckInterval`.
-  - Enhanced logic for confirming check intervals below 10 minutes, asking the user to confirm or change the interval.
-  - Added a timer display showing the remaining time before the next check.
-  - Introduced global logging configuration (`$GlobalLogToFile` and `$GlobalDebug`) to control where log messages are written (file, console, or both).
-  
+## [2.0.1] - 2024-09-27
 ### Fixed
-- **Corrected check interval behavior:** 
-  - The script now correctly uses the returned interval, ensuring that the user’s choice or the recommended value (10 minutes) is applied.
-  
-### Improved
-- **Logging adjustments:** 
-  - Refined the `Write-LogMessage` function to handle logging based on global settings, avoiding manual changes for each log instance.
+# - Added the `ModuleToProcess` field to `.psd1` manifest files to correctly link `.psm1` files, resolving an issue where modules were not being loaded during import.
 
-## [1.1.1] - 2024-09-22
-### Fixed
-- **Resolved interval issues:**
-  - Fixed a problem where the script used the initial configuration value for `$GlobalCheckInterval` even after the user set a new interval.
-  - Ensured that the script correctly applies new or default intervals as specified by the user.
-
-## [1.1.0] - 2024-09-22
 ### Added
-- **User prompts for interval warnings:** 
-  - Implemented a warning message when the check interval is set below 10 minutes, allowing the user to confirm or adjust the interval.
-  - If the user chooses not to proceed, they are given the option to set a new interval or use the recommended value (10 minutes).
-  
-### Fixed
-- **Check interval validation:** 
-  - Corrected logic for handling unsafe intervals and prompted the user to make an informed decision on whether to proceed or modify the interval.
+# - Specified module dependencies in the `.psd1` manifest files using the `RequiredModules` field to ensure that required modules (e.g., `BurntToast`, `Pester`) are automatically loaded or installed when the module is imported.
 
-## [1.0.1] - 2024-09-22
+#---
+
+## [2.0.0] - 2024-09-26
+### Major Changes
+# - Refactored the script into a modular architecture by separating functions into individual PowerShell modules.
+# - Implemented manifest files for each module for better modularity and reusability.
+# - Changed versioning to Semantic Versioning (SemVer) from 4-digit versioning.
+
+#---
+
+## [1.2.0] - 2024-09-26
+
 ### Added
-- **Countdown display for check intervals:**
-  - Added a time remaining display showing how long until the next RSS feed check.
-  
+# - Added `$checkinterval` variable for controlling the interval between RSS feed checks, defaulting to 10 minutes, with configurable options.
+# - Added `Confirm-IntervalWarning` function to alert users when the check interval is set to less than 10 minutes, with an option to proceed or set a new interval.
+# - Introduced user-configurable logging options (`$GlobalLogToFile`, `$GlobalDebug`) allowing logging to console, file, or both, controlled via config without editing `Write-LogMessage` calls.
+
+### Changed
+# - Refined `Write-LogMessage` to support logging configuration, reducing the need for manual changes when switching between logging modes.
+# - Reworked the check interval logic so `Confirm-IntervalWarning` returns the final interval value, which is used for future checks, preventing reliance on initial config values.
+# - Integrated user confirmation for check intervals less than 10 minutes and added handling for setting a new interval if declined.
+
 ### Fixed
-- **RSS feed structure handling:**
-  - Adjusted the script to handle the flattened RSS structure from Crunchyroll, ensuring proper matching of series titles and dubs.
+# - Corrected a bug where setting an interval below 10 minutes would still use the original value from the config due to improper value reassignment logic.
+# - Fixed an issue where incorrect log messages were displayed when setting new intervals that did not meet the minimum threshold.
+# - Adjusted logic for checking `seriesTitle` and dub permissions to ensure the proper handling of allowed dubs and titles from `$userMediaIDs`.
+
+# ---
+
+## [1.1.1] - 2024-09-25
+
+### Changed
+# - Adjusted the logging mechanism to include color-coded messages for warnings, errors, and normal logs, enhancing visual debugging.
+# - Updated the structure of RSS feed handling due to the flattened XML returned by `Invoke-RestMethod`, eliminating reliance on nested item structures.
+# - Modified the notification system to use BurntToast with clickable buttons (`New-BTButton`) to open the episode URL when clicked.
+
+### Fixed
+# - Resolved an issue where all anime titles were being announced instead of filtering by `$userMediaIDs`.
+# - Corrected the RSS feed parsing logic to ensure items are processed from the flattened XML structure and not dependent on nested `channel.item`.
+# - Addressed a minor logging issue where incorrect messages were being shown when setting a new check interval below the allowed range.
+
+# ---
+
+## [1.1.0] - 2024-09-24
+
+### Added
+# - Introduced support for clickable notifications using BurntToast `New-BTButton` to launch the episode link directly from the tray notification.
+# - Added `$userMediaIDs` to filter specific series based on user preferences, allowing users to track only their chosen anime series.
+# - Implemented a time range check using `$announceRange`, limiting notifications to episodes within a certain release window (in minutes).
+
+### Changed
+# - Replaced hardcoded time ranges with the `$announceRange` variable, giving users control over the time window for which episodes are announced.
+# - Added color-coded log messages throughout the script to improve readability and debug output.
+
+### Fixed
+# - Fixed an issue where tray notifications did not send clickable buttons for watching the episode link directly from the notification.
+# - Corrected the dub filtering logic to ensure only allowed dubs are notified.
+# - Resolved a bug with `seriesTitle` and `episodeTitle` parsing, ensuring titles are correctly processed and logged.
+
+# ---
 
 ## [1.0.0] - 2024-09-22
-### Initial Release
-- **Core functionality:**
-  - Fetches and processes Crunchyroll’s RSS feed.
-  - Allows configuration of user-specified series and allowed dubs for filtering.
-  - BurntToast notifications for Windows tray alerts.
-  - Logs script execution events to a file and/or console.
-  - Filters announcements based on a configurable time range.
-  
+
+### Added
+# - Initial release of the script with basic RSS feed parsing functionality using `Invoke-RestMethod` to fetch Crunchyroll updates.
+# - Implemented series title and dub filtering based on user input via `$userMediaIDs`.
+# - Added time-based filtering to ensure episod# es within a certain time window are notified.
+# - Introduced BurntToast for tray notifications of new episode releases.
+# 
+
+
 # ----------------
 # Config Start
 # ----------------
@@ -91,28 +120,25 @@ $GlobalCheckInterval = 10  # Default check interval in minutes
 # Config End
 # ----------------
 #================================================================================================================================================================================================================================================================================================================
-# ----------------
-# Functions Start
-# -----------------
-$logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
+# ---------------------
+# Main Section Start
+# ---------------------
 
-function Write-LogMessage {
-    param (
-        [string] $message,
-        [string] $color = "red"
-    )
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logMessage = "$timestamp - $message"
+Get-ChildItem -Path "$PSScriptRoot\Modules" -Directory | ForEach-Object {
 
-    if ($GlobalLogToFile -or $GlobalDebug) {
-        Add-Content -Path $logFilePath -Value $logMessage
-    }
-
-    if (-not $GlobalLogToFile -or $GlobalDebug) {
-        Write-Host $logMessage -ForegroundColor $color
+    $manifestPath = "$($_.FullName)\$($_.Name).psd1"
+    if (Test-Path $manifestPath) {
+        Import-Module "$manifestPath" -Verbose
+        Write-Host "Module $($_.Name) imported successfully."
+    } else {
+        Write-Host "Manifest file not found for module $($_.Name)." -ForegroundColor Red
     }
 }
 
+$logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
+$GlobalCheckInterval = Confirm-IntervalWarning -interval $GlobalCheckInterval
+$lastRunDateFile = "$env:TEMP\lastRunDate"
+$currentDate = Get-Date -Format "yyyy-MM-dd"
 Write-LogMessage "Script started." "green"
 
 if (-not (Get-Module -ListAvailable -Name BurntToast)) {
@@ -136,106 +162,6 @@ if (-not (Get-Module -Name BurntToast)) {
         exit 1
     }
 }
-
-function IsAllowedDub($title, $allowedDubs) {
-    $lowerTitle = $title.ToLower()
-
-    if ($lowerTitle -notmatch '\(.*dub\)') {
-        return $true
-    }
-
-    if (-not $allowedDubs) {
-        return $false
-    }
-
-    foreach ($dub in $allowedDubs.Split(',')) {
-        if ($lowerTitle -like "*$($dub.ToLower())*dub*") {
-            return $true
-        }
-    }
-
-    return $false
-}
-
-function Confirm-IntervalWarning {
-    param (
-        [int]$interval
-    )
-
-    if ($interval -lt 10) {
-        Write-LogMessage "WARNING: The check interval is set to less than 10 minutes, which may result in an IP ban from the RSS feed." "red"
-        $response = Read-Host "Do you want to proceed with this interval? (yes/no)"
-
-        if ($response.ToLower() -ne "yes") {
-            Write-LogMessage "User opted not to continue with a risky check interval." "red"
-            $newIntervalResponse = Read-Host "Do you want to set a new interval? (yes to set, no to use recommended value of 10)"
-            if ($newIntervalResponse.ToLower() -eq "yes") {
-                $newInterval = [int](Read-Host "Please enter the new interval in minutes (minimum 10):")
-                if ($newInterval -ge 10) {
-                    Write-LogMessage "New check interval set to $newInterval minutes." "green"
-                    return $newInterval
-                }
-                else {
-                    Write-LogMessage "Invalid interval entered. Using recommended value of 10 minutes." "yellow"
-                    return 10
-                }
-            }
-            else {
-                Write-LogMessage "Using the recommended interval of 10 minutes." "yellow"
-                return 10
-            }
-        }
-        else {
-            Write-LogMessage "User acknowledged the risk and chose to proceed." "yellow"
-        }
-    }
-
-    return $interval
-}
-function IsWithinTimeRange($pubDate, $rangeInMinutes) {
-    $pubDateTime = [DateTime]::Parse($pubDate)
-    $currentTime = Get-Date
-    $timeDifference = $currentTime - $pubDateTime
-
-    return $timeDifference.TotalMinutes -le $rangeInMinutes -and $timeDifference.TotalMinutes -ge - $rangeInMinutes
-}
-
-function IsTitleAnnounced($keyword) {
-    if (Test-Path $announcedFile) {
-        $announcedTitles = Get-Content $announcedFile
-        return $announcedTitles -contains $keyword
-    }
-    return $false
-}
-
-function AddTitleToAnnounced($title) {
-    Add-Content -Path $announcedFile -Value $title
-    Write-LogMessage "Title '$title' added to the announced list." "green"
-}
-
-function NotifyViaTray($title, $link) {
-    $button = New-BTButton -Content "Watch Now" -Arguments $link
-    New-BurntToastNotification -Text "New Anime Release: $title", "Watch on Crunchyroll" -Button $button
-    Write-LogMessage "Notification sent for '$title'." "green"
-}
-
-function Invoke-NextCheckTimer {
-    $nextCheckTime = (Get-Date).AddMinutes($GlobalCheckInterval)
-    $remainingTime = $nextCheckTime - (Get-Date)
-    Write-LogMessage "Time remaining before next check: $([math]::floor($remainingTime.TotalMinutes)) minute(s) $([math]::floor($remainingTime.Seconds)) second(s)" "yellow"
-}
-
-# -----------------
-# Functions End
-# -----------------
-#================================================================================================================================================================================================================================================================================================================
-# ---------------------
-# Main Section Start
-# ---------------------
-
-$GlobalCheckInterval = Confirm-IntervalWarning -interval $GlobalCheckInterval
-$lastRunDateFile = "$env:TEMP\lastRunDate"
-$currentDate = Get-Date -Format "yyyy-MM-dd"
 
 if (-not (Test-Path $announcedFile)) {
     New-Item -Path $announcedFile -ItemType File -Force | Out-Null
