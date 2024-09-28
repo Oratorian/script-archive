@@ -19,6 +19,9 @@ param (
 # port      = 8080      - Port to bind the Daemon or as start parameter with -port
 # secretKey =           - Secret used to communicate with the Wake-on-LAN server, cannot be empty and must be set either in .env or as start parameter with -secretKey
 #                         If not set via -secretKey or in .env prompt will come up to enter it.
+# wolip =               - The IP of the Wake-On-Lan Server, cannot be empty and must be set either in .env or as start parameter with -wolip
+#                         If not set via -wolip or in .env prompt will come up to enter it.
+# wolport = 8889        - Port to which the Wake-On-Lan server listens ons ( default 8889 or 5000 )
 #------------------------------------------------------------------------------
 
 
