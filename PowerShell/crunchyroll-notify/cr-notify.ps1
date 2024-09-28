@@ -7,7 +7,7 @@ cls
 # as the original Author
 #---------------------------------------------------------------------------------------------
 
-## Version: 2.0.1
+## Version: 2.1.2
 
 #================================================================================================================================================================================================================================================================================================================
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
@@ -41,11 +41,11 @@ catch {
 
 $userMediaIDs = $config.userMediaIDs
 $announceRange = $config.announceRange
-$GlobalLogToFile = $config.GlobalLogToFile
-$GlobalDebug = $config.GlobalDebug
+$Global:GlobalLogToFile = $config.GlobalLogToFile
+$Global:GlobalDebug = $config.GlobalDebug
 #$GlobalCheckInterval = $config.GlobalCheckInterval
 $announcedFile = $config.announcedFile
-$logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
+$Global:logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
 $Global:GlobalCheckInterval = Confirm-IntervalWarning -interval $config.GlobalCheckInterval
 $lastRunDateFile = "$env:TEMP\lastRunDate"
 $currentDate = Get-Date -Format "yyyy-MM-dd"
@@ -177,11 +177,11 @@ while ($true) {
     while ($sleepTime -gt 0) {
         $minutesLeft = [math]::Floor($sleepTime / 60)
         $secondsLeft = $sleepTime % 60
-        Write-LogMessage "Time remaining before next check: $minutesLeft minute(s) $secondsLeft second(s)" "cyan"
+        Write-Host "Time remaining before next check: $minutesLeft minute(s) $secondsLeft second(s)" -ForegroundColor "cyan"
 
         Start-Sleep -Seconds 60
         $sleepTime -= 60
     }
 
-    Write-LogMessage "Waking up for the next check..." "green"
+    Write-Host "Waking up for the next check..." -ForegroundColor "green"
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.2 - 2024-09-28
+
+### Fixed
+- **Invoke-NextCheckTimer**: Depending on Write-LogMessage, which resulted in Timer not being displayed when **GlobalDebug** was set to **false**
+
 ## 2.1.1 - 2024-09-28
 
 ### Added

@@ -7,7 +7,7 @@
     },
     "announceRange": 60,
     "GlobalLogToFile": true,
-    "GlobalDebug": true,
+    "GlobalDebug": false,
     "GlobalCheckInterval": 10,
     "announcedFile": "C:\\Temp\\announced_series_titles"
 }

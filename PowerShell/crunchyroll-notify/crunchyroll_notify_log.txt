@@ -1,0 +1,388 @@
+2024-09-28 10:44:03 - Configuration file loaded successfully.
+2024-09-28 10:44:03 - Announced file exists.
+2024-09-28 10:44:03 - Script started.
+2024-09-28 10:44:03 - Checking for new releases...
+2024-09-28 10:44:05 - RSS feed fetched successfully.
+2024-09-28 10:44:05 - Found elements in the RSS feed.
+2024-09-28 10:44:05 - Series 'Shadowverse' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'CARDFIGHT!! VANGUARD overDress' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Crunchyroll Presents: The Anime Effect' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:44:05 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:44:05 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:05 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:05 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:44:06 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:06 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:06 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:44:06 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:06 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:06 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:44:06 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:06 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:06 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:44:06 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:06 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:06 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:44:06 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:44:06 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:44:06 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:44:06 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:44:06 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:44:06 - Time remaining before next check: 9 minute(s) 59 second(s)
+2024-09-28 10:44:06 - Time remaining before next check: 10 minute(s) 0 second(s)
+2024-09-28 10:45:25 - Configuration file loaded successfully.
+2024-09-28 10:45:25 - Announced file exists.
+2024-09-28 10:45:25 - Script started.
+2024-09-28 10:45:25 - Checking for new releases...
+2024-09-28 10:45:26 - RSS feed fetched successfully.
+2024-09-28 10:45:26 - Found elements in the RSS feed.
+2024-09-28 10:45:26 - Series 'Shadowverse' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'CARDFIGHT!! VANGUARD overDress' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Crunchyroll Presents: The Anime Effect' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:45:26 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:26 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:26 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:45:26 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:45:26 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:26 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:26 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:45:26 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:45:26 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:26 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:26 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:45:26 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:45:26 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:26 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:26 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:45:26 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:45:26 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:26 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:26 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:45:27 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:45:27 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:45:27 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:45:27 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:45:27 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Time remaining before next check: 9 minute(s) 59 second(s)
+2024-09-28 10:46:50 - Configuration file loaded successfully.
+2024-09-28 10:46:50 - Announced file exists.
+2024-09-28 10:46:50 - Script started.
+2024-09-28 10:46:50 - Checking for new releases...
+2024-09-28 10:46:52 - RSS feed fetched successfully.
+2024-09-28 10:46:52 - Found elements in the RSS feed.
+2024-09-28 10:46:52 - Series 'Shadowverse' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'CARDFIGHT!! VANGUARD overDress' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Crunchyroll Presents: The Anime Effect' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'Bye Bye, Earth' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Series 'That Time I Got Reincarnated as a Slime' is not in user-specified list. Skipping.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 24 - The Dream That God Saw' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 23 - The Promise Made in a Dream' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 22 - Liebarschend, the God of Vestiges' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 21 - Demon King Hymn No. 6 "Neighbors"' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 13 - Moon of Creation' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 20 - Kingdom of the Dragon God' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:46:52 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:46:52 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:52 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:52 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 15 - Institute of the Gods' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 14 - Goddess of Selection' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 17 - Battle of Pride' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 18 - Almighty Demon King' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Spanish Dub) - Episode 19 - The Great Demon King Drills' is outside the allowed time range.
+2024-09-28 10:46:53 - Dubs for The Misfit of Demon King Academy : Spanish, Portuguese
+2024-09-28 10:46:53 - Processing: The Misfit of Demon King Academy with allowed dubs: 'Spanish Portuguese'
+2024-09-28 10:46:53 - Allowed dub found for 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage'.
+2024-09-28 10:46:53 - Title 'The Misfit of Demon King Academy Ⅱ(Portuguese Dub) - Episode 16 - With a Pinch of Courage' is outside the allowed time range.
+2024-09-28 10:46:53 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'NieR:Automata Ver1.1a' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:46:53 - Time remaining before next check: 9 minute(s) 59 second(s)
