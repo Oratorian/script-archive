@@ -200,6 +200,13 @@ if (-not $PSBoundParameters.ContainsKey('port')) {
 if (-not $PSBoundParameters.ContainsKey('secretKey')) {
     $secretKey = $global:envData.secretKey
 }
+if (-not $PSBoundParameters.ContainsKey('wolip')) {
+    $wolip = $global:envData.wolip
+}
+
+if (-not $PSBoundParameters.ContainsKey('wolport')) {
+    $wolport = $global:envData.wolport
+}
 
 if (-not $secretKey) {
 
