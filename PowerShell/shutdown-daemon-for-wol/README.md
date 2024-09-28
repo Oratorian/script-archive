@@ -54,6 +54,7 @@ Place this file in the directory specified by `$appDataPath`.
 ### Prompts for Missing Values
 
 If the `secretKey` is not provided via the `.env` file or as a command-line parameter, the script will prompt you to enter it interactively.
+If the `wolip` is not provided via the `.env` file or as a command-line parameter, the script will prompt you to enter it interactively.
 
 ## How to Configure
 
