@@ -17,9 +17,10 @@ This script automates the process of backing up specified directories using `rsy
 ## Usage
 
 1. **Configure the Script**:
-   - Set the source directory to be backed up by modifying the `source` variable.
-   - Set the destination directory for backups by modifying the `backup` variable.
-   - Optional: Add files or directories to exclude from backups in the `exclude.txt` file.
+The script includes several configuration variables that can be modified to suit your environment:
+
+- `source`: point to the directory you want to back up.
+- `backup`: Specify the destination directory for backups.
 
 2. **Schedule Backups**:
    - Daily backups are scheduled for every day except the 1st, 9th, 16th, and 24th days of the month.
