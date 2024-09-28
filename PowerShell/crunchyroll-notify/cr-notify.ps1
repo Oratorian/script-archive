@@ -7,7 +7,7 @@ cls
 # as the original Author
 #---------------------------------------------------------------------------------------------
 
-## Version: 2.1.2
+## Version: 2.1.3
 
 #================================================================================================================================================================================================================================================================================================================
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
@@ -127,7 +127,7 @@ while ($true) {
                 Write-LogMessage "Dubs for $seriesTitle : $allowedDubs"
             }
             else {
-                Write-LogMessage "Series '$seriesTitle' is not in user-specified list. Skipping." "yellow"
+                Write-LogMessage "Skipping '$title' because '$seriesTitle' is not in user-specified list." "yellow"
                 continue
             }
         

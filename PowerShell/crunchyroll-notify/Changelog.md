@@ -1,9 +1,26 @@
 # Changelog
 
+## 2.1.3 - 2024-09-28
+
+### Fixed
+- **Logging**: The Logfile now shows which episode and show in particual got skipped instead of just repeated showing the Show got skipped.
+-- ```
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
+```
+---
+
 ## 2.1.2 - 2024-09-28
 
 ### Fixed
 - **Invoke-NextCheckTimer**: Depending on Write-LogMessage, which resulted in Timer not being displayed when **GlobalDebug** was set to **false**
+
+---
 
 ## 2.1.1 - 2024-09-28
 
@@ -21,6 +38,7 @@
 - **Allowed Dubs Retrieval**: Resolved an issue where allowed dubs were incorrectly retrieved as an empty string due to key mismatches in the JSON configuration. The new logic ensures correct retrieval of allowed dubs based on the exact series title key from the RSS feed.
 - **Key Matching for JSON**: Fixed an issue where normalizing series titles caused mismatches with JSON keys. Now, exact key matching is used to ensure proper retrieval of values from the configuration.
 
+---
 
 ## [2.0.1] - 2024-09-27
 ### Fixed
