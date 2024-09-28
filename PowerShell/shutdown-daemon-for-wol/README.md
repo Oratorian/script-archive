@@ -1,4 +1,3 @@
-
 # Shutdown Daemon PowerShell Script
 
 ## Overview
@@ -9,6 +8,7 @@ The Shutdown Daemon is a PowerShell script designed to manage remote shutdowns b
 
 - Binds to a specified IP address and port to listen for shutdown requests.
 - Uses a secret key for secure communication with the Wake-on-LAN server.
+- Configurable Wake-on-LAN (WOL) IP and port for integration with WOL servers.
 - Supports configuration through both command-line parameters and a `.env` file for flexible deployment.
 - Prompts for missing configuration values, such as the secret key.
 
@@ -21,10 +21,10 @@ The Shutdown Daemon is a PowerShell script designed to manage remote shutdowns b
 
 ### Basic Command
 
-Run the script by providing necessary parameters such as `ipAddress`, `port`, and `secretKey`:
+Run the script by providing necessary parameters such as `ipAddress`, `port`, `secretKey`, `wolip`, and `wolport`:
 
 ```powershell
-.\shutdown-daemon.ps1 -ipAddress "0.0.0.0" -port 8080 -secretKey "your_secret_key"
+.\shutdown-daemon.ps1 -ipAddress "0.0.0.0" -port 8080 -secretKey "your_secret_key" -wolip "100.125.20.111" -wolport 8889
 ```
 
 ### Configuration via `.env` File
@@ -34,6 +34,8 @@ You can configure the script using a `.env` file located in your `$appDataPath`.
 - `ipAddress`: `0.0.0.0`
 - `port`: `8080`
 - `secretKey`: (Must be provided either via the `.env` file or as a parameter.)
+- `wolip`: `100.125.20.111`
+- `wolport`: `8889`
 
 ### Example `.env` File
 
@@ -43,6 +45,8 @@ Create a `.env` file with the following format:
 ipAddress=192.168.1.100
 port=8080
 secretKey=your_secret_key
+wolip=100.125.20.111
+wolport=8889
 ```
 
 Place this file in the directory specified by `$appDataPath`.
@@ -53,14 +57,15 @@ If the `secretKey` is not provided via the `.env` file or as a command-line para
 
 ## How to Configure
 
-1. **Command-line Parameters**: Use `-ipAddress`, `-port`, and `-secretKey` as arguments when running the script to specify the binding IP address, port, and communication secret.
-2. **Environment Variables**: Alternatively, configure these settings in a `.env` file in your `$appDataPath`. This allows you to set the IP address, port, and secret key without specifying them every time the script runs.
+1. **Command-line Parameters**: Use `-ipAddress`, `-port`, `-secretKey`, `-wolip`, and `-wolport` as arguments when running the script to specify the binding IP address, port, and communication secret.
+2. **Environment Variables**: Alternatively, configure these settings in a `.env` file in your `$appDataPath`. This allows you to set the IP address, port, WOL IP, WOL port, and secret key without specifying them every time the script runs.
 
 ## Notes
 
 - The `secretKey` is required for secure communication and must be kept private.
 - The daemon listens for shutdown commands and requires proper network and security configurations to function correctly.
+- The WOL IP (`wolip`) and WOL port (`wolport`) are required to communicate with the Wake-on-LAN server.
 
 ## Version
 
-Current version: **1.0.3**
+Current version: **1.0.4**
