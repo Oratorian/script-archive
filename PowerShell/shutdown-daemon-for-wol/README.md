@@ -12,6 +12,11 @@ The Shutdown Daemon is a PowerShell script designed to manage remote shutdowns b
 - Supports configuration through both command-line parameters and a `.env` file for flexible deployment.
 - Prompts for missing configuration values, such as the secret key.
 
+---
+## Only works in conjection with my
+- [Python Wake-On-Lan Server](https://github.com/Oratorian/script-archive/tree/main/Python/wol)
+---
+
 ## Usage
 
 ### Basic Command
