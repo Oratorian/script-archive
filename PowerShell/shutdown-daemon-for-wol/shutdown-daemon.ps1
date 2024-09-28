@@ -5,7 +5,9 @@
 param (
     [string] $ipAddress,
     [int] $port,
-    [string] $secretKey
+    [string] $secretKey,
+    [string] $wolip,
+    [int] $wolport
 )
 
 #--------------------------------------------------------------------------------
@@ -167,15 +169,21 @@ function Get-EnvValues {
     }
 
     # Set default values for ipAddress, port, and secretKey if they are not set or are empty
-    $ipAddress = if ($envValues['ipAddress']) { $envValues['ipAddress'] } else { "0.0.0.0" }   # Default to 0.0.0.0 or another value
-    $port = if ($envValues['port']) { $envValues['port'] } else { "8080" }                      # Default to port 80 or another value
-    $secretKey = if ($envValues['secretKey']) { $envValues['secretKey'] } else { "" }         # Default to an empty string
+    $ipAddress = if ($envValues['ipAddress']) { $envValues['ipAddress'] } else { "0.0.0.0" }     # Default to 0.0.0.0
+    $port = if ($envValues['port']) { $envValues['port'] } else { "8080" }                       # Default to port 8080
+    $secretKey = if ($envValues['secretKey']) { $envValues['secretKey'] } else { "" }            # Default to an empty string
+    
+    # Set default values for wolip and wolport if they are not set or are empty
+    $wolip = if ($envValues['wolip']) { $envValues['wolip'] } else { "" }                        # Default to an empty string
+    $wolport = if ($envValues['wolport']) { $envValues['wolport'] } else { "8889" }              # Default to 8889
 
     # Return the values as an object
     return [pscustomobject]@{
         ipAddress = $ipAddress
         port      = $port
         secretKey = $secretKey
+        wolip     = $wolip
+        wolport   = $wolport
     }
 }
 $global:envData = Get-EnvValues
@@ -216,6 +224,33 @@ if (-not $secretKey) {
     $secretKey = Read-Host -Prompt "secrektKey"
     if (-not $secretKey) {
         Write-LogMessage "❌ Error: The secretKey parameter is required and was not provided." Red
+        exit 1
+    }
+}
+
+if (-not $wolip) {
+
+    if ($PSCommandPath) {
+        # Running as a .ps1 script
+        $scriptName = Split-Path $PSCommandPath -Leaf
+    }
+    elseif ($MyInvocation.MyCommand.Path) {
+        # Running as a compiled executable or script
+        $scriptName = Split-Path $MyInvocation.MyCommand.Path -Leaf
+    }
+    elseif ([System.AppDomain]::CurrentDomain.FriendlyName) {
+        # Use FriendlyName to get the executable name when running as a compiled executable
+        $scriptName = [System.AppDomain]::CurrentDomain.FriendlyName
+    }
+    else {
+        # Fallback for unknown cases
+        $scriptName = "UnknownScript"
+    }
+
+    Write-Host "🔷 Please enter the IP of your wol_server.py.`n`   To skip this message Run : $scriptName -wolip <ip>"
+    $wolip = Read-Host -Prompt "IP of the Wake-On-Lan Server"
+    if (-not $secretKey) {
+        Write-LogMessage "❌ Error: The IP parameter is required and was not provided." Red
         exit 1
     }
 }
