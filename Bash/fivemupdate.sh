@@ -64,4 +64,4 @@ else
 fi
 
 # Clean up old versions, keeping the last 5
-ls -t "${UPDATE_DIR}" | grep -E '^[0-9]{4}(-.*)?\.tar\.xz$' | tail -n +6 | xargs -r rm --
+ls -t "${UPDATE_DIR}" | grep -E '^[0-9]+(-.*)?\.tar\.xz$' | tail -n +6 | xargs -r rm --
