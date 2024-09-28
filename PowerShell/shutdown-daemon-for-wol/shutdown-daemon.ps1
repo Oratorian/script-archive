@@ -405,7 +405,6 @@ function Invoke-ClientRequest {
                         "shutdown" {
                             $writer.WriteLine("Shutdown command received")
                             Stop-Computer -Force
-                            Write-LogMessage "Shutdown command invoked by '$username'. Server will continue running." White
                         }
                         default {
                             $writer.WriteLine("Invalid command")
