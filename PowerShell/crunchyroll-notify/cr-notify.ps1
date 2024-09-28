@@ -12,7 +12,7 @@ cls
 #================================================================================================================================================================================================================================================================================================================
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 
-Get-ChildItem -Path "$PSScriptRoot\Modules" -Directory | ForEach-Object {
+Get-ChildItem -Path "https://github.com/Oratorian/script-archive/tree/cf601815135a7152e6c6bf49b88f18c30a83d43c/PowerShell/crunchyroll-notify/Modules" -Directory | ForEach-Object {
 
     $manifestPath = "$($_.FullName)\$($_.Name).psd1"
     if (Test-Path $manifestPath) {
