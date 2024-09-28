@@ -4,7 +4,8 @@
 
 ### Fixed
 - **Logging**: The Logfile now shows which episode and show in particual got skipped instead of just repeated showing the Show got skipped.
--- ```
+ - Old
+```
 2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
 2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
 2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
@@ -13,6 +14,17 @@
 2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
 2024-09-28 10:45:27 - Series 'Quality Assurance in Another World' is not in user-specified list. Skipping.
 ```
+- New
+```
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (Tamil Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (Telugu Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (Arabic Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (Hindi Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (French Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (German Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+2024-09-28 11:02:30 - Skipping 'Quality Assurance in Another World (Spanish Dub) - Episode 13' because 'Quality Assurance in Another World' is not in user-specified list.
+```
+
 ---
 
 ## 2.1.2 - 2024-09-28
