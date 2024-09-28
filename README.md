@@ -10,6 +10,6 @@ This repository contains a variety of PowerShell, Bash, and Batch scripts design
 - [auth-backup](Bash/auth-backup): Restores Google Authenticator files for SSH 2FA.
 - [backup.sh](Bash/backup.sh): A basic backup script using `rsync`.
 - [fivemupdate.sh](Bash/fivemupdate.sh): Fetches and installs the latest FiveM server artifacts on Linux.
-- [wol.ps1](Python/wol): A Python script to send Wake-on-LAN (WOL) packets to wake up network devices.
+- [Wake-On-Lan](Python/wol): A Python script to send Wake-on-LAN (WOL) packets to wake up network devices.
 
 Feel free to fork, use, and contribute by sending pull requests!
