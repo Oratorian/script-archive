@@ -1,0 +1,13 @@
+{
+    "userMediaIDs": {
+        "Wistoria: Wand and Sword": "",
+        "Tower of God": "",
+        "Pseudo Harem": "",
+        "The Misfit of Demon King Academy": "Spanish, Portuguese"
+    },
+    "announceRange": 60,
+    "GlobalLogToFile": true,
+    "GlobalDebug": true,
+    "GlobalCheckInterval": 10,
+    "announcedFile": "C:\\Temp\\announced_series_titles"
+}
