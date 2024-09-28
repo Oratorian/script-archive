@@ -14,11 +14,9 @@ This Bash script automates the process of updating a FiveM server. It downloads 
 
 The script includes several configuration variables that can be modified to suit your environment:
 
-- `UPDATE_DIR`: Directory where updates are downloaded.
-- `SESSION_NAME`: The name of the session used for `tmux` or `screen`.
-- `USE_TMUX`: Boolean value to choose between `tmux` (true) or `screen` (false).
-- `RELEASE`: Specifies whether to use the 'latest' or 'recommended' version of FiveM.
-- `FIVEM_DIR`: Directory where the FiveM server files are installed.
+- `source`: Point to the directory you want to back up.
+- `backup`: Specify the destination directory for backups.
+
 
 ## How It Works
 
