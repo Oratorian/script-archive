@@ -1,6 +1,6 @@
 ﻿# ------------------------------------
 # Shutdown Daemon PowerShell Script
-# Version 1.1.0.0
+# Version 1.0.2
 # -------------------------------------
 param (
     [string] $ipAddress,
@@ -164,7 +164,6 @@ if (-not $PSBoundParameters.ContainsKey('port')) {
 
 if (-not $PSBoundParameters.ContainsKey('secretKey')) {
     $secretKey = $global:envData.secretKey
-    Write-Host $secretKey
 }
 
 if (-not $secretKey) {
@@ -226,10 +225,7 @@ function Invoke-Key {
 }
 
 function Import-KeyUserBinary {
-    Write-LogMessage $secretKey Cyan
     # Generate the current timestamp
-    #$timestamp = [int][double]::Parse((Get-Date -UFormat %s)).ToString()
-    # Remove fractional part
     $timestamp = [math]::Floor([double]::Parse((Get-Date -UFormat %s))).ToString()
 
 
