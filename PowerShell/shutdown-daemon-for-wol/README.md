@@ -34,7 +34,7 @@ You can configure the script using a `.env` file located in your `$appDataPath`.
 - `ipAddress`: `0.0.0.0`
 - `port`: `8080`
 - `secretKey`: (Must be provided either via the `.env` file or as a parameter.)
-- `wolip`: `100.125.20.111`
+- `wolip`: (Must be provided either via the `.env` file or as a parameter.)
 - `wolport`: `8889`
 
 ### Example `.env` File
