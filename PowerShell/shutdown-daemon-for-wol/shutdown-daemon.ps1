@@ -1,6 +1,6 @@
 ﻿# ------------------------------------
 # Shutdown Daemon PowerShell Script
-# Version 1.0.3
+# Version 1.0.4
 # -------------------------------------
 param (
     [string] $ipAddress,
