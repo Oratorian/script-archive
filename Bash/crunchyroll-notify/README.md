@@ -79,4 +79,4 @@ The script also allows you to filter anime announcements based on the available 
 
 ## License
 
-This project is open-source and available under the [GPL-3 License](LICENSE).
+This project is open-source and available under the [GPL-3 License](https://github.com/Oratorian/script-archive/blob/main/LICENSE).
