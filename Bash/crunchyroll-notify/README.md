@@ -2,9 +2,9 @@
 
 ## Overview
 
-This Bash script monitors Crunchyroll's RSS feed for new anime releases and notifies users when a series from their watchlist is released. The notifications are configurable to be sent through various services like email, Pushover, IFTTT, Slack, Discord, or directly to the terminal.
+This Bash script monitors Crunchyroll's RSS feed for new anime releases and notifies you when a series from their watchlist is released. The notifications are configurable to be sent through various services like email, Pushover, IFTTT, Slack, Discord, or directly to the terminal.
 
-The script also allows users to filter anime announcements based on the available dubs and ensures that Japanese releases (the default language) are always notified. Additionally, it has a built-in mechanism to prevent duplicate notifications by keeping track of previously announced titles.
+The script also allows you to filter anime announcements based on the available dubs and ensures that Japanese releases (the default language) are always notified. Additionally, it has a built-in mechanism to prevent duplicate notifications by keeping track of previously announced titles.
 
 ## Features
 
