@@ -1,5 +1,35 @@
 #!/bin/bash
 
+# ------------------------------------------------------------
+#  Crunchyroll Notify Script - Version 2.0.1
+#  Author: Oratorian 'Mahesvara'
+#  License: GPL-3.0
+# ------------------------------------------------------------
+#
+#  Description:
+#  This script monitors Crunchyroll's RSS feed for new anime 
+#  releases and sends notifications for series in your watchlist.
+#  See 'declare -A user_media_ids=(' to find the Watchlist.
+#  Notifications can be sent via:
+#    - Email
+#    - Pushover
+#    - IFTTT
+#    - Slack
+#    - Discord
+#    - Echo (terminal output)
+#
+#  You can specify which series and dubs you are interested in, 
+#  and the script prevents duplicate notifications by tracking 
+#  previously announced titles.
+#
+# ------------------------------------------------------------
+#  License:
+#  This script is licensed under the GNU General Public License 
+#  v3.0 (GPL-3.0). For more details, visit:
+#  https://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------------------
+
+
 #----------------
 # Config Start
 #----------------
