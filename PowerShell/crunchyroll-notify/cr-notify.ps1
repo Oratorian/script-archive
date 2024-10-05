@@ -7,7 +7,7 @@ cls
 # as the original Author
 #---------------------------------------------------------------------------------------------
 
-## Version: 2.1.3
+## Version: 2.1.4
 
 #================================================================================================================================================================================================================================================================================================================
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
@@ -44,11 +44,11 @@ $announceRange = $config.announceRange
 $Global:GlobalLogToFile = $config.GlobalLogToFile
 $Global:GlobalDebug = $config.GlobalDebug
 #$GlobalCheckInterval = $config.GlobalCheckInterval
-$announcedFile = $config.announcedFile
+$Global:announcedFile = $config.announcedFile
 $Global:logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
 $Global:GlobalCheckInterval = Confirm-IntervalWarning -interval $config.GlobalCheckInterval
-$lastRunDateFile = "$env:TEMP\lastRunDate"
-$currentDate = Get-Date -Format "yyyy-MM-dd"
+$Global:lastRunDateFile = "$env:TEMP\lastRunDate"
+$Global:currentDate = Get-Date -Format "yyyy-MM-dd"
 
 if (-not (Get-Module -ListAvailable -Name BurntToast)) {
     try {
@@ -120,7 +120,7 @@ while ($true) {
             $episodeTitle = $item.episodeTitle
             $pubDate = $item.pubDate
             $link = $item.link
-        
+
             # Check if the exact series title exists in userMediaIDs
             if ($userMediaIDs.PSObject.Properties.Name -contains $seriesTitle) {
                 $allowedDubs = $userMediaIDs.$seriesTitle
@@ -130,23 +130,32 @@ while ($true) {
                 Write-LogMessage "Skipping '$title' because '$seriesTitle' is not in user-specified list." "yellow"
                 continue
             }
-        
+
             # Split allowed dubs into an array if they are not empty
             $allowedDubsArray = @()
             if ($allowedDubs -and $allowedDubs.Trim() -ne "") {
                 $allowedDubsArray = $allowedDubs -split ',\s*'  # Split by comma and optional spaces
             }
-        
+
             Write-LogMessage "Processing: $seriesTitle with allowed dubs: '$allowedDubsArray'"
-        
-            # Check if the title has an allowed dub
-            if (IsAllowedDub $title $allowedDubsArray) {
+
+            # Automatically allow dubless titles (treated as Japanese)
+            if (-not $allowedDubsArray -or $allowedDubsArray.Count -eq 0) {
+                Write-LogMessage "No dubs specified for '$seriesTitle'. Treating it as Japanese." "green"
+                $isAllowed = $true
+            }
+            else {
+                # Check if the title has an allowed dub
+                $isAllowed = IsAllowedDub $title $allowedDubsArray
+            }
+
+            if ($isAllowed) {
                 Write-LogMessage "Allowed dub found for '$title'." "green"
-        
+
                 # Check if the title is within the allowed time range
                 if (IsWithinTimeRange $pubDate $announceRange) {
                     Write-LogMessage "Title '$title' is within the allowed time range." "green"
-        
+
                     # Check if the title has already been announced
                     if (-not (IsTitleAnnounced $title)) {
                         NotifyViaTray $seriesTitle $link
@@ -164,6 +173,7 @@ while ($true) {
                 Write-LogMessage "No allowed dub found for '$title'. Skipping." "red"
             }
         }
+
     }
     else {
         Write-LogMessage "No elements found in RSS feed." "red"

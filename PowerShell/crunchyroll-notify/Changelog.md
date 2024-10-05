@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.1.4 - 2024-10-05
+
+### Fixed
+- **Dubless Titles Handling**: Titles without dub information are now treated as Japanese by default, ensuring they are processed correctly. This resolves the issue where dubless titles (e.g., "Demon Lord, Retry! R - Episode 2 - ReStart") were incorrectly skipped.
+- **Allowed Dubs Array**: Improved logic to ensure that allowed dubs are correctly processed from the configuration and handled properly during RSS feed checks.
+
+### Changed
+- **Global Variables**: The variables `$announcedFile`, `$lastRunDateFile`, and `$currentDate` have been changed to global variables for better accessibility across the script.
+- **Script Logic**: Refactored the main script loop to handle both dubless and dubbed titles more effectively, improving processing of titles from the RSS feed.
+
+---
+
 ## 2.1.3 - 2024-09-28
 
 ### Fixed
