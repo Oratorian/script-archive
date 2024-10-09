@@ -1,104 +1,220 @@
 #!/bin/bash
-# Specify the path to the source and backup directory without a trailing slash '/'.
-dir=$(dirname "$(realpath "$0")")
-source=/mnt/fivem/losthope         		# Which directory should be backed up?
-backup=/mnt/fivembackup       		# Where should the backups be stored?
-excludeFile=$dir/exclude.txt # Exclusions are entered line by line in this file.
-# From here you don't really need to change anything.
+set -euo pipefail
 
-lastBackupFile="$dir/.last_backup_path"
-if [ -f "$lastBackupFile" ]; then
-  lastBackupPath=$(cat "$lastBackupFile")
+# Set umask for file permissions
+umask 027  # Files will have permissions 750
+
+# Get the directory of the script
+dir=$(dirname "$(realpath "$0")")
+
+# Configuration file path
+config_file="$dir/backup_config.conf"
+
+# Check if config file exists
+if [ -f "$config_file" ]; then
+    source "$config_file"
 else
-  lastBackupPath="" # If the file doesn't exist, default to empty
+    echo "Config file $config_file not found. Exiting."
+    exit 1
 fi
 
-# Create exclusion file, only if it does not already exist:
-touch $excludeFile
+# Verify required variables are set
+if [ -z "${source_dir:-}" ] || [ -z "${backup_dir:-}" ]; then
+    echo "source_dir and backup_dir must be set in the config file."
+    exit 1
+fi
 
-# Determine the date:
-weekday=$(date +"%a") # %a = Day of the week as short text. Note that the content of the variable depends on the system's set language.
+# Ensure Source and Backup Directories Exist
+if [ ! -d "$source_dir" ]; then
+    echo "Source directory $source_dir does not exist."
+    exit 1
+fi
+
+if [ ! -d "$backup_dir" ]; then
+    echo "Backup directory $backup_dir does not exist."
+    exit 1
+fi
+
+# Implement a lock file to prevent concurrent execution
+lock_file="$dir/backup_script.lock"
+
+if [ -e "$lock_file" ]; then
+    echo "Backup script is already running."
+    exit 1
+else
+    touch "$lock_file"
+fi
+
+# Ensure the lock file is removed when the script exits
+trap "rm -f $lock_file" EXIT
+
+# Read the last backup path
+last_backup_file="$dir/.last_backup_path"
+if [ -f "$last_backup_file" ]; then
+    last_backup_path=$(cat "$last_backup_file")
+else
+    last_backup_path="" # If the file doesn't exist, default to empty
+fi
+
+# Create exclusion file, only if it does not already exist
+if [ ! -f "$exclude_file" ]; then
+    touch "$exclude_file"
+fi
+
+# Determine the date
 day=$(date +"%d")       # %d = Day of the month as a two-digit number.
 month=$(date +"%m")     # %m = Month as a two-digit number.
+month_num=$(echo "$month" | sed 's/^0*//')  # Remove leading zero
+weekday_num=$(date +%u) # 1-7 (Monday to Sunday)
+weekday_names=("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
+weekday=${weekday_names[$((weekday_num - 1))]}
 
-# Define backup function:
-function backup ()
-{
+# Function to log messages
+function log_message() {
+    echo "$1" >> "$log_file"
+}
 
- startTime=$(date +%s)
- backupPath="$backup/$1/"
+# Function to send alert emails
+function send_alert() {
+    local message="$1"
+    echo "$message" | mail -s "Backup Script Alert" "$email_recipient"
+}
 
- echo >"$backup/_last_backup.txt"
- echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
- echo "Starting backup: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_last_backup.txt"
- echo "Backup Path: $backupPath" >> "$backup/_last_backup.txt"
- echo "Source Path: $source" >> "$backup/_last_backup.txt"
- echo "Link Destination used: $lastBackupPath" >> "$backup/_last_backup.txt"
- echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
- echo -e '\n' >>"$backup/_last_backup.txt"
+# Function to check if today is a specific day of the month
+function is_day_of_month() {
+    local day_check="$1"
+    [ "$day" -eq "$day_check" ]
+}
 
+# Function to check if the month is even
+function is_even_month() {
+    local month_num="$1"
+    [ $((month_num % 2)) -eq 0 ]
+}
 
+# Function to check if the month is odd
+function is_odd_month() {
+    local month_num="$1"
+    [ $((month_num % 2)) -ne 0 ]
+}
 
- if [ -n "$lastBackupPath" ]; then
-  linkDestOption="--link-dest=$lastBackupPath"
- else
-  linkDestOption=""
- fi
+# Backup function
+function backup() {
+    local backup_subdir_name="$1"
+    local start_time=$(date +%s)
+    local backup_subdir="$backup_dir/$backup_subdir_name"
+    
+    # Create backup subdirectory if it doesn't exist
+    mkdir -p "$backup_subdir"
+    
+    # Initialize the log file
+    log_file="$backup_subdir/_last_backup_$(date "+%Y-%m-%d").txt"
+    echo "-----------------------------------------------" > "$log_file"
+    log_message "Starting backup: $(date "+%Y-%m-%d %H:%M:%S")"
+    log_message "Backup Path: $backup_subdir"
+    log_message "Source Path: $source_dir"
+    log_message "Link Destination used: $last_backup_path"
+    echo >> "$log_file"
+    
+    # Prepare rsync options
+    if [ -n "$last_backup_path" ]; then
+        link_dest_option="--link-dest=$last_backup_path"
+    else
+        link_dest_option=""
+    fi
+    
+    # Check available disk space
+    available_space=$(df "$backup_dir" | awk 'NR==2 {print $4}')
+    if [ "$available_space" -lt "$required_space" ]; then
+        log_message "Not enough disk space for backup."
+        send_alert "Not enough disk space for backup."
+        exit 1
+    fi
+    
+    # Perform rsync for the main source directory
+    rsync -a --delete --checksum --exclude-from="$exclude_file" $link_dest_option "$source_dir/" "$backup_subdir/" >> "$log_file" 2>&1
+    
+    # Check if rsync was successful
+    if [ $? -ne 0 ]; then
+        log_message "Rsync failed for $source_dir"
+        send_alert "Rsync failed for $source_dir"
+        exit 1
+    fi
+    
+    # Perform rsync for OldScripts directory
+    rsync -a --delete --checksum --exclude-from="$exclude_file" --link-dest="/mnt/fivem/OldScripts/" "/mnt/fivem/OldScripts/" "$backup_subdir/OldScripts/" >> "$log_file" 2>&1
+    
+    # Check if rsync was successful
+    if [ $? -ne 0 ]; then
+        log_message "Rsync failed for /mnt/fivem/OldScripts/"
+        send_alert "Rsync failed for /mnt/fivem/OldScripts/"
+        exit 1
+    fi
+    
+    # Perform MySQL dump
+    mysqldump --single-transaction fivem > "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+    if [ $? -ne 0 ]; then
+        log_message "MySQL dump failed"
+        send_alert "MySQL dump failed"
+        exit 1
+    fi
+    
+    # Compress MySQL dump
+    gzip "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+    
+    local end_time=$(date +%s)
+    local duration=$((end_time - start_time))
+    local backup_size=$(du -sh "$backup_subdir" | cut -f1)
+    
+    echo >> "$log_file"
+    log_message "-----------------------------------------------"
+    log_message "Backup completed: $(date "+%Y-%m-%d %H:%M:%S")"
+    log_message "Duration: $duration seconds"
+    log_message "Backup Size: $backup_size"
+    log_message "-----------------------------------------------"
+    
+    # Update last backup path
+    echo "$backup_subdir" > "$last_backup_file"
+}
 
- rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$excludeFile" $linkDestOption "$source/" "$backup/$1/" >>"$backup/_last_backup.txt" 2>&1
- rsync -rtpgov --delete --checksum -hh --stats --exclude-from="$excludeFile" --link-dest="/mnt/fivem/OldScripts/" "/mnt/fivem/OldScripts/" "$backup/$1/OldScripts/" 2>&1
- mysqldump --single-transaction -u fivem -pnewaera -h 49.13.172.228 fivem>"$backup/$1/sql_backup_$(date "+%Y-%m-%d").sql" 
-
-
- endTime=$(date +%s)
- duration=$((endTime - startTime))
- backupSize=$(du -sh "$backupPath" | cut -f1)
-
- echo -e '\n'>> "$backup/_last_backup.txt"
- echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
- echo "Backup completed: $(date "+%Y-%m-%d %H:%M:%S")" >> "$backup/_last_backup.txt"
- echo "Duration: $duration seconds" >> "$backup/_last_backup.txt"
- echo "Backup Size: $backupSize" >> "$backup/_last_backup.txt"
- echo "-----------------------------------------------" >> "$backup/_last_backup.txt"
-
- mv $backup/_last_backup.txt $backup/$1/_last_backup_$(date "+%Y-%m-%d").txt
- echo "$backup/$1" > $lastBackupFile
- }
-
-## Daily backup (Monday - Sunday):
-# Only if the day is not the 1st, 9th, 16th or 24th, a backup is made here - otherwise a weekly or monthly backup is performed:
-if [[ $day != 01 && $day != 09 && $day != 16 && $day != 24 ]]; then
- # and if weekday = ... then backup in the subfolder of the weekday:
- case "$weekday" in Mon|Tue|Wed|Thu|Fri|Sat|Sun) backup $weekday ;; esac
- # Note: For an operating system with German language settings, the weekday names must be changed as follows: 'Mo|Di|Mi|Do|Fr|Sa|So'.
+# Perform daily backup if today is not a weekly or monthly backup day
+if ! is_day_of_month 1 && ! is_day_of_month 9 && ! is_day_of_month 16 && ! is_day_of_month 24; then
+    backup "$weekday"
 fi
 
-## Weekly backups:
-# Note:
-# 1st week is the month's backup.
+# Perform weekly backups
+if is_day_of_month 9; then
+    backup "09"
+fi
 
-# 2nd week (9th day):
-case "$day" in 09) backup 09 ;; esac
+if is_day_of_month 16; then
+    backup "16"
+fi
 
-# 3rd week (16th day):
-case "$day" in 16) backup 16 ;; esac
+if is_day_of_month 24; then
+    backup "24"
+fi
 
-# 4th week (24th day):
-case "$day" in 24) backup 24 ;; esac
+# Perform monthly backups
+if is_day_of_month 1; then
+    if is_even_month "$month_num"; then
+        backup "Mg"  # Even months
+    else
+        backup "Mu"  # Odd months
+    fi
+fi
 
-## Monthly backups:
-# if even month (Mg):
-case "$month" in 02|04|06|08|10|12)
- # and if 1st of the month:
- case "$day" in 01)
- backup Mg
- ;; esac
-;; esac
+# Cleanup old backups
+function cleanup_old_backups() {
+    # Delete daily backups older than 7 days
+    find "$backup_dir" -mindepth 1 -maxdepth 1 -type d -name "Mon" -o -name "Tue" -o -name "Wed" -o -name "Thu" -o -name "Fri" -o -name "Sat" -o -name "Sun" -mtime +7 -exec rm -rf {} \; 2>/dev/null
+    
+    # Delete weekly backups older than 30 days
+    find "$backup_dir" -mindepth 1 -maxdepth 1 -type d -name "09" -o -name "16" -o -name "24" -mtime +30 -exec rm -rf {} \; 2>/dev/null
+    
+    # Optionally, delete monthly backups older than a certain number of days
+    # Uncomment the following lines if needed
+    # find "$backup_dir" -mindepth 1 -maxdepth 1 -type d -name "Mg" -o -name "Mu" -mtime +180 -exec rm -rf {} \; 2>/dev/null
+}
 
-# if odd month (Mu):
-case "$month" in 01|03|05|07|09|11)
- # and if 1st of the month:
- case "$day" in 01)
- backup Mu
- ;; esac
-;; esac
+cleanup_old_backups
