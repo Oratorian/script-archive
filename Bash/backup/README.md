@@ -95,18 +95,18 @@ Add paths to exclude, one per line.
 
 All configurations are managed via the backup_config.conf file.
 
--source_dir: Absolute path to the directory you want to back up.
+ - source_dir: Absolute path to the directory you want to back up.
 
--backup_dir: Absolute path where backups will be stored.
+ - backup_dir: Absolute path where backups will be stored.
 
--exclude_file: Path to the exclude file.
+ - exclude_file: Path to the exclude file.
 
--required_space: Minimum required disk space for the backup (supports units: KB, MB, GB, TB).
+ - required_space: Minimum required disk space for the backup (supports units: KB, MB, GB, TB).
 
 -email_recipient: Email address for failure notifications.
 
 
-Example Configuration
+## Example Configuration
 
 # backup_config.conf
 ```
@@ -139,30 +139,25 @@ email_recipient="admin@example.com"
 
 
 2. Run the Script Manually:
-```
-
-./backup.sh
-```
-
+```./backup.sh```
 
 3. Automate with Cron:
 
 Schedule the script to run automatically (see Example Cron Job).
 
 
-
 ## Scheduling Backups
 
 The script's internal logic determines the backup schedule:
 
-- Daily Backups: Every day except on the 1st, 9th, 16th, and 24th.
+**Daily Backups**: Every day except on the 1st, 9th, 16th, and 24th.
 
-- Weekly Backups: On the 9th, 16th, and 24th of each month.
+**Weekly Backups**: On the 9th, 16th, and 24th of each month.
 
-- Monthly Backups: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
+**Monthly Backups**: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
 
 
-Example Cron Job
+# Example Cron Job
 
 To run the backup script daily at 2:00 AM, add the following line to your crontab:
 
