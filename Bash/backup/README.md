@@ -91,7 +91,7 @@ Add paths to exclude, one per line.
 
 ## Configuration
 
-Configuration Options
+# Configuration Options
 
 All configurations are managed via the backup_config.conf file.
 
@@ -155,87 +155,87 @@ Schedule the script to run automatically (see Example Cron Job).
 
 The script's internal logic determines the backup schedule:
 
-Daily Backups: Every day except on the 1st, 9th, 16th, and 24th.
+- Daily Backups: Every day except on the 1st, 9th, 16th, and 24th.
 
-Weekly Backups: On the 9th, 16th, and 24th of each month.
+- Weekly Backups: On the 9th, 16th, and 24th of each month.
 
-Monthly Backups: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
+- Monthly Backups: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
 
 
 Example Cron Job
 
 To run the backup script daily at 2:00 AM, add the following line to your crontab:
 
-0 2 * * * /path/to/backup.sh
+```0 2 * * * /path/to/backup.sh```
 
 Edit your crontab with:
 
-crontab -e
+```crontab -e```
 
-Logging and Notifications
+## Logging and Notifications
 
-Log Files: Located in each backup subdirectory with the format _last_backup_YYYY-MM-DD.txt.
+- Log Files: Located in each backup subdirectory with the format _last_backup_YYYY-MM-DD.txt.
 
-Email Notifications: Sent to email_recipient if an error occurs during the backup process.
+- Email Notifications: Sent to email_recipient if an error occurs during the backup process.
 
 
-Backup Retention Policies
+## Backup Retention Policies
 
 The script automatically cleans up old backups:
 
-Daily Backups: Deletes backups older than 7 days.
+**Daily Backups**: Deletes backups older than 7 days.
 
-Weekly Backups: Deletes backups older than 30 days.
+**Weekly Backups**: Deletes backups older than 30 days.
 
-Monthly Backups: Retention policy can be adjusted by editing the cleanup_old_backups function in backup.sh.
-
-
-Security Considerations
-
-MySQL Credentials: Store in ~/.my.cnf with permissions set to 600 to prevent unauthorized access.
-
-Script and Config Permissions: Restrict access to the script and configuration files (chmod 700 if necessary).
-
-Sensitive Data: Avoid logging sensitive information.
+**Monthly Backups**: Retention policy can be adjusted by editing the cleanup_old_backups function in backup.sh.
 
 
-Error Handling
+## Security Considerations
 
-Strict Error Checking: The script exits immediately on any error (set -euo pipefail).
+**MySQL Credentials**: Store in ~/.my.cnf with permissions set to 600 to prevent unauthorized access.
 
-Exit Status Checks: Verifies the success of critical commands like rsync and mysqldump.
+**Script and Config Permissions**: Restrict access to the script and configuration files (chmod 700 if necessary).
 
-Alerts: Sends email notifications on failure.
-
-
-Concurrency Control
-
-Lock File: Located at backup_script.lock in the script directory to prevent concurrent executions.
-
-Cleanup: Ensures the lock file is removed upon script exit, even if interrupted.
+**Sensitive Data**: Avoid logging sensitive information.
 
 
-Customization
+# Error Handling
 
-Adjust Retention Policies: Modify the cleanup_old_backups function in backup.sh.
+**Strict Error Checking**: The script exits immediately on any error (set -euo pipefail).
 
-Disk Space Requirements: Update required_space in backup_config.conf with your desired threshold.
+**Exit Status Checks**: Verifies the success of critical commands like rsync and mysqldump.
 
-Exclude Paths: Add or remove entries in exclude.txt.
-
-
-Troubleshooting
-
-Insufficient Disk Space: Ensure backup_dir has enough free space as specified in required_space.
-
-Email Notifications Not Working: Confirm that an MTA is installed and properly configured.
-
-Permission Denied Errors: Check file and directory permissions for the script, configuration files, and backup directories.
-
-MySQL Dump Fails: Verify MySQL credentials and network connectivity to the MySQL server.
+**Alerts**: Sends email notifications on failure.
 
 
-Version History
+## Concurrency Control
+
+**Lock File**: Located at backup_script.lock in the script directory to prevent concurrent executions.
+
+**Cleanup**: Ensures the lock file is removed upon script exit, even if interrupted.
+
+
+## Customization
+
+**Adjust Retention Policies**: Modify the cleanup_old_backups function in backup.sh.
+
+**Disk Space Requirements**: Update required_space in backup_config.conf with your desired threshold.
+
+**Exclude Paths**: Add or remove entries in exclude.txt.
+
+
+## Troubleshooting
+
+**Insufficient Disk Space**: Ensure backup_dir has enough free space as specified in required_space.
+
+**Email Notifications Not Working**: Confirm that an MTA is installed and properly configured.
+
+**Permission Denied Errors**: Check file and directory permissions for the script, configuration files, and backup directories.
+
+**MySQL Dump Fails**: Verify MySQL credentials and network connectivity to the MySQL server.
+
+
+## Version History
 
 See changelog.md for detailed version history and changes.
 
