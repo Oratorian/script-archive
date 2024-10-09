@@ -172,18 +172,21 @@ function backup() {
         log_message "Rsync failed for $source_dir"
         send_alert "Rsync failed for $source_dir"
         exit 1
-    fi    
-     
-    # Perform MySQL dump
-    mysqldump --single-transaction fivem > "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
-    if [ $? -ne 0 ]; then
-        log_message "MySQL dump failed"
-        send_alert "MySQL dump failed"
-        exit 1
     fi
     
-    # Compress MySQL dump
-    gzip "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+       # Perform MySQL dump if enabled
+    if [ "${do_mysql_dump,,}" == "true" ]; then
+        # Perform MySQL dump
+        mysqldump --single-transaction $database > "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+        if [ $? -ne 0 ]; then
+            log_message "MySQL dump failed"
+            send_alert "MySQL dump failed"
+            exit 1
+        fi
+        
+        # Compress MySQL dump
+        gzip "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+    fi
     
     local end_time=$(date +%s)
     local duration=$((end_time - start_time))
