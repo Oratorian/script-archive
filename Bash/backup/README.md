@@ -150,11 +150,11 @@ Schedule the script to run automatically (see Example Cron Job).
 
 The script's internal logic determines the backup schedule:
 
-**Daily Backups**: Every day except on the 1st, 9th, 16th, and 24th.
+- **Daily Backups**: Every day except on the 1st, 9th, 16th, and 24th.
 
-**Weekly Backups**: On the 9th, 16th, and 24th of each month.
+- **Weekly Backups**: On the 9th, 16th, and 24th of each month.
 
-**Monthly Backups**: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
+- **Monthly Backups**: On the 1st day of the month; stores in Mg (even months) or Mu (odd months).
 
 
 # Example Cron Job
@@ -169,38 +169,38 @@ Edit your crontab with:
 
 ## Logging and Notifications
 
-- Log Files: Located in each backup subdirectory with the format _last_backup_YYYY-MM-DD.txt.
+- **Log Files**: Located in each backup subdirectory with the format _last_backup_YYYY-MM-DD.txt.
 
-- Email Notifications: Sent to email_recipient if an error occurs during the backup process.
+- **Email Notifications**: Sent to email_recipient if an error occurs during the backup process.
 
 
 ## Backup Retention Policies
 
 The script automatically cleans up old backups:
 
-**Daily Backups**: Deletes backups older than 7 days.
+- **Daily Backups**: Deletes backups older than 7 days.
 
-**Weekly Backups**: Deletes backups older than 30 days.
+- **Weekly Backups**: Deletes backups older than 30 days.
 
-**Monthly Backups**: Retention policy can be adjusted by editing the cleanup_old_backups function in backup.sh.
+- **Monthly Backups**: Retention policy can be adjusted by editing the cleanup_old_backups function in backup.sh.
 
 
 ## Security Considerations
 
-**MySQL Credentials**: Store in ~/.my.cnf with permissions set to 600 to prevent unauthorized access.
+- **MySQL Credentials**: Store in ~/.my.cnf with permissions set to 600 to prevent unauthorized access.
 
-**Script and Config Permissions**: Restrict access to the script and configuration files (chmod 700 if necessary).
+- **Script and Config Permissions**: Restrict access to the script and configuration files (chmod 700 if necessary).
 
-**Sensitive Data**: Avoid logging sensitive information.
+- **Sensitive Data**: Avoid logging sensitive information.
 
 
-# Error Handling
+## Error Handling
 
-**Strict Error Checking**: The script exits immediately on any error (set -euo pipefail).
+- **Strict Error Checking**: The script exits immediately on any error (set -euo pipefail).
 
-**Exit Status Checks**: Verifies the success of critical commands like rsync and mysqldump.
+- **Exit Status Checks**: Verifies the success of critical commands like rsync and mysqldump.
 
-**Alerts**: Sends email notifications on failure.
+- **Alerts**: Sends email notifications on failure.
 
 
 ## Concurrency Control
@@ -212,22 +212,22 @@ The script automatically cleans up old backups:
 
 ## Customization
 
-**Adjust Retention Policies**: Modify the cleanup_old_backups function in backup.sh.
+- **Adjust Retention Policies**: Modify the cleanup_old_backups function in backup.sh.
 
-**Disk Space Requirements**: Update required_space in backup_config.conf with your desired threshold.
+- **Disk Space Requirements**: Update required_space in backup_config.conf with your desired threshold.
 
-**Exclude Paths**: Add or remove entries in exclude.txt.
+- **Exclude Paths**: Add or remove entries in exclude.txt.
 
 
 ## Troubleshooting
 
-**Insufficient Disk Space**: Ensure backup_dir has enough free space as specified in required_space.
+- **Insufficient Disk Space**: Ensure backup_dir has enough free space as specified in required_space.
 
-**Email Notifications Not Working**: Confirm that an MTA is installed and properly configured.
+- **Email Notifications Not Working**: Confirm that an MTA is installed and properly configured.
 
-**Permission Denied Errors**: Check file and directory permissions for the script, configuration files, and backup directories.
+- **Permission Denied Errors**: Check file and directory permissions for the script, configuration files, and backup directories.
 
-**MySQL Dump Fails**: Verify MySQL credentials and network connectivity to the MySQL server.
+- **MySQL Dump Fails**: Verify MySQL credentials and network connectivity to the MySQL server.
 
 
 ## Version History
