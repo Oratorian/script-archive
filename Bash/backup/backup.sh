@@ -98,6 +98,39 @@ function is_odd_month() {
     [ $((month_num % 2)) -ne 0 ]
 }
 
+# Function to convert human-readable sizes to kilobytes
+function convert_to_kb() {
+    local size="$1"
+    local num unit
+    num=$(echo "$size" | sed -E 's/^([0-9]+).*/\1/')
+    unit=$(echo "$size" | sed -E 's/^[0-9]+(.*)/\1/' | tr '[:upper:]' '[:lower:]')
+    case "$unit" in
+        t|tb)
+            echo $((num * 1024 * 1024 * 1024))
+            ;;
+        g|gb)
+            echo $((num * 1024 * 1024))
+            ;;
+        m|mb)
+            echo $((num * 1024))
+            ;;
+        k|kb|"")
+            echo "$num"
+            ;;
+        *)
+            echo "Invalid size unit: $unit"
+            return 1
+            ;;
+    esac
+}
+
+# Convert required_space to kilobytes
+required_space_kb=$(convert_to_kb "$required_space")
+if [ $? -ne 0 ]; then
+    echo "Failed to convert required_space to kilobytes."
+    exit 1
+fi
+
 # Backup function
 function backup() {
     local backup_subdir_name="$1"
@@ -124,8 +157,8 @@ function backup() {
     fi
     
     # Check available disk space
-    available_space=$(df "$backup_dir" | awk 'NR==2 {print $4}')
-    if [ "$available_space" -lt "$required_space" ]; then
+    available_space=$(df -k "$backup_dir" | awk 'NR==2 {print $4}')
+    if [ "$available_space" -lt "$required_space_kb" ]; then
         log_message "Not enough disk space for backup."
         send_alert "Not enough disk space for backup."
         exit 1
