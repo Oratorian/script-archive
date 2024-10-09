@@ -124,6 +124,12 @@ required_space="10GB"
 
 # Email address for notifications
 email_recipient="admin@example.com"
+
+# Whether to perform MySQL dump ("true" or "false")
+do_mysql_dump="true"
+
+# MySQL database to dump
+mysql_dump_db="database-to-dump"
 ```
 
 ## Usage
