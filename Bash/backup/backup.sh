@@ -174,18 +174,24 @@ function backup() {
         exit 1
     fi
     
-       # Perform MySQL dump if enabled
+    # Perform MySQL dump if enabled
     if [ "${do_mysql_dump,,}" == "true" ]; then
+        if [ -z "${mysql_dump_db:-}" ]; then
+            log_message "MySQL database name is not set in configuration."
+            send_alert "MySQL database name is not set in configuration."
+            exit 1
+        fi
+        
         # Perform MySQL dump
-        mysqldump --single-transaction $database > "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+        mysqldump --single-transaction "$mysql_dump_db" > "$backup_subdir/sql_backup_${mysql_dump_db}_$(date "+%Y-%m-%d").sql"
         if [ $? -ne 0 ]; then
-            log_message "MySQL dump failed"
-            send_alert "MySQL dump failed"
+            log_message "MySQL dump failed for database $mysql_dump_db"
+            send_alert "MySQL dump failed for database $mysql_dump_db"
             exit 1
         fi
         
         # Compress MySQL dump
-        gzip "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
+        gzip "$backup_subdir/sql_backup_${mysql_dump_db}_$(date "+%Y-%m-%d").sql"
     fi
     
     local end_time=$(date +%s)
