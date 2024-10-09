@@ -172,18 +172,8 @@ function backup() {
         log_message "Rsync failed for $source_dir"
         send_alert "Rsync failed for $source_dir"
         exit 1
-    fi
-    
-    # Perform rsync for OldScripts directory
-    rsync -a --delete --checksum --exclude-from="$exclude_file" --link-dest="/mnt/fivem/OldScripts/" "/mnt/fivem/OldScripts/" "$backup_subdir/OldScripts/" >> "$log_file" 2>&1
-    
-    # Check if rsync was successful
-    if [ $? -ne 0 ]; then
-        log_message "Rsync failed for /mnt/fivem/OldScripts/"
-        send_alert "Rsync failed for /mnt/fivem/OldScripts/"
-        exit 1
-    fi
-    
+    fi    
+     
     # Perform MySQL dump
     mysqldump --single-transaction fivem > "$backup_subdir/sql_backup_$(date "+%Y-%m-%d").sql"
     if [ $? -ne 0 ]; then
