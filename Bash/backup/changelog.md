@@ -1,10 +1,26 @@
 # Changelog
 
-## [2.0.0] - 2024.10.09
+## [2.1.0] - 2024.10.09
 
 ### Added
 
-- **Support for Size Prefixes in `required_space`**: You can now specify the `required_space` in the configuration file using units like MB, GB, or TB. The script includes a function to parse and convert this value into kilobytes for accurate disk space checking.
+- **Conditional MySQL Dump**: Introduced a new configuration option `do_mysql_dump` in `backup_config.conf`. When set to `"true"`, the script will perform a MySQL database dump during backups. When set to `"false"`, the MySQL dump step will be skipped.
+
+### Changed
+
+- **Backup Script**: Updated `backup.sh` to conditionally perform the MySQL dump based on the `do_mysql_dump` setting.
+
+### Notes
+
+- Users should update their `backup_config.conf` file to include the new `do_mysql_dump` setting.
+- The default behavior is to perform the MySQL dump (`do_mysql_dump="true"`).
+
+---
+
+## [2.0.0] - Previous date
+
+### Added
+
 - **Security Enhancements**: Removed hard-coded passwords by utilizing `~/.my.cnf` for MySQL credentials.
 - **Error Handling**: Implemented checks for exit statuses of `rsync` and `mysqldump` commands, exiting and sending alerts on failure.
 - **Locale Independence**: Adjusted date formats to be locale-independent by using numeric representations.
@@ -37,19 +53,3 @@
 
 - **Hard-Coded Passwords**: Eliminated hard-coded MySQL passwords from the script.
 - **Redundant Code**: Removed unnecessary checks and simplified conditions.
-
----
-
-**Note**: This release marks a significant overhaul of the backup script, introducing numerous enhancements for security, reliability, and maintainability. Users should:
-
-- Update their configurations by creating or modifying the `backup_config.conf` file.
-- Ensure that the `required_space` is specified with the desired units (e.g., `10GB`, `500MB`).
-- Create the MySQL credentials file `~/.my.cnf` with appropriate permissions.
-- Verify the existence of the `exclude.txt` file or adjust its path in the configuration.
-- Adjust the `email_recipient` setting in the configuration file according to their environment.
-- Install and configure an MTA (Mail Transfer Agent) like `sendmail` or `postfix` if email notifications are desired.
-- Thoroughly test the updated script in a controlled environment before deploying it to production to ensure it operates as expected.
-
----
-
-**Versioning Note**: Incremented the version to **2.0.0** due to the extensive changes and improvements, which constitute a major update from the initial release.
