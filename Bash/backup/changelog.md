@@ -74,7 +74,7 @@
 ## Versioning Note
 
 - **Version 2.2.0**: Incremented due to the removal of the `OldScripts` rsync operation, which is a notable change affecting the script's functionality.
-- **Version 2.1.0**: Introduced the `do_mysql_dump` option for conditional MySQL backups.
+- **Version 2.1.0**: Introduced the `do_mysql_dump` and `mysql_dump_db` option for conditional MySQL backups.
 - **Version 2.0.0**: Major overhaul with numerous enhancements for security, reliability, and maintainability.
 
 ---
@@ -86,5 +86,3 @@
 - **Backup Coverage**: Verify that all necessary directories are still being backed up according to your requirements.
 
 ---
-
-If you need any further assistance or have additional requests, please let me know!
