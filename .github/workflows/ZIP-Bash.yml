@@ -82,7 +82,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ env.NEW_TAG }}  # Reference NEW_TAG from environment
-          release_name: Release ${{ env.NEW_TAG }}
+          release_name: ${{ env.NEW_TAG }}
           draft: false
           prerelease: false
 
