@@ -30,7 +30,7 @@ jobs:
       - name: Zip subdirectory
         run: |
           cd Bash/${{ matrix.subdir }}
-          zip -r ../../${{ matrix.subdir }}.zip
+          zip -r ../../${{ matrix.subdir }}.zip .
 
       # List created zip files for logging
       - name: List created ZIP files
