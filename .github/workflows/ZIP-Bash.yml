@@ -28,7 +28,7 @@ jobs:
       - name: Check if changes were made in ${{ matrix.subdir }}
         id: changes
         run: |
-          if git diff --name-only HEAD^ HEAD | grep -q "Batch/${{ matrix.subdir }}/"; then
+          if git diff --name-only HEAD^ HEAD | grep -q "Bash/${{ matrix.subdir }}/"; then
             echo "Changes found in ${{ matrix.subdir }}"
             echo "CHANGES_FOUND=true" >> $GITHUB_ENV
           else
