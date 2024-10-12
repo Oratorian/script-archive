@@ -50,12 +50,12 @@ jobs:
 
       # List created zip files for logging
       - name: List created ZIP files
-        if: env.CHANGES_FOUND == 'true'
+       # if: env.CHANGES_FOUND == 'true'
         run: ls -lh *.zip
 
       # Get the latest tag and increment for subdir-specific release
       - name: Get latest tag and increment for subdir-specific release
-        if: env.CHANGES_FOUND == 'true'
+        #if: env.CHANGES_FOUND == 'true'
         id: new_tag
         run: |
           # Fetch all tags from the remote
@@ -97,7 +97,7 @@ jobs:
 
       # Create a release with the new tag specific to the subdir
       - name: Create Release
-        if: env.CHANGES_FOUND == 'true'
+       # if: env.CHANGES_FOUND == 'true'
         id: create_release
         uses: actions/create-release@v1.1.4
         env:
@@ -110,7 +110,7 @@ jobs:
 
       # Upload the zip file as an asset to the subdir-specific release
       - name: Upload Release Asset
-        if: env.CHANGES_FOUND == 'true'
+       # if: env.CHANGES_FOUND == 'true'
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
