@@ -32,7 +32,9 @@ These dependencies must be installed on your system. The script will attempt to 
 
 1. Download this script and modules:
 
-2. Ensure that required tools are installed:
+   - [Releases](https://github.com/Oratorian/script-archive/releases)
+
+3. Ensure that required tools are installed:
    ```bash
    ./crunchyroll-notify.sh
    ```
