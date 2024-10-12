@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - Bash/crunchyroll-notify/**
+      - '!Bash/crunchyroll-notify/README.md'
+      - '!Bash/crunchyroll-notify/changelog.md'
 
 jobs:
   zip:
