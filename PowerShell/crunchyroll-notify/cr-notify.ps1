@@ -1,4 +1,4 @@
-cls
+Clear-Host
 #================================================================================================================================================================================================================================================================================================================
 
 #---------------------------------------------------------------------------------------------
@@ -11,18 +11,18 @@ cls
 
 #================================================================================================================================================================================================================================================================================================================
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-
 Get-ChildItem -Path "$PSScriptRoot\Modules" -Directory | ForEach-Object {
 
     $manifestPath = "$($_.FullName)\$($_.Name).psd1"
     if (Test-Path $manifestPath) {
-        Import-Module "$manifestPath" -Verbose
-        Write-Host "Module $($_.Name) imported successfully."
+        Import-Module "$manifestPath"
     }
     else {
         Write-Host "Manifest file not found for module $($_.Name)." -ForegroundColor Red
     }
 }
+
+Invoke-AsciiBanner
 
 $configPath = Join-Path -Path $PSScriptRoot -ChildPath "config.json"
 if (-not (Test-Path $configPath)) {
@@ -43,9 +43,8 @@ $userMediaIDs = $config.userMediaIDs
 $announceRange = $config.announceRange
 $Global:GlobalLogToFile = $config.GlobalLogToFile
 $Global:GlobalDebug = $config.GlobalDebug
-#$GlobalCheckInterval = $config.GlobalCheckInterval
 $Global:announcedFile = $config.announcedFile
-$Global:logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify_log.txt"
+$Global:logFilePath = Join-Path -Path $PSScriptRoot -ChildPath "crunchyroll_notify.log"
 $Global:GlobalCheckInterval = Confirm-IntervalWarning -interval $config.GlobalCheckInterval
 $Global:lastRunDateFile = "$env:TEMP\lastRunDate"
 $Global:currentDate = Get-Date -Format "yyyy-MM-dd"
@@ -194,4 +193,6 @@ while ($true) {
     }
 
     Write-Host "Waking up for the next check..." -ForegroundColor "green"
+    Clear-Host
+    Invoke-AsciiBanner
 }
