@@ -1,82 +1,133 @@
-# Crunchyroll Notify Script
 
-## Overview
+# Crunchyroll Anime Release Notifier
 
-This Bash script monitors Crunchyroll's RSS feed for new anime releases and notifies you when a series from their watchlist is released. The notifications are configurable to be sent through various services like email, Pushover, IFTTT, Slack, Discord, or directly to the terminal.
+## Description
 
-The script also allows you to filter anime announcements based on the available dubs and ensures that Japanese releases (the default language) are always notified. Additionally, it has a built-in mechanism to prevent duplicate notifications by keeping track of previously announced titles.
+This script monitors Crunchyroll RSS feeds for new anime releases and filters the results based on the user’s specified language dubs. The script supports notifications through multiple services, including email, Pushover, Slack, Discord, and more. It also uses a cron job to reset the notification list daily, ensuring fresh updates with each run.
 
 ## Features
 
-- Monitors Crunchyroll's RSS feed for new releases.
-- Filters notifications based on user-defined series and language dubs.
-- Sends notifications through:
+- Filters anime releases by user-specified dubs.
+- Supports notifications through:
   - Email
   - Pushover
   - IFTTT
   - Slack
   - Discord
-  - Terminal echo
-- Prevents duplicate announcements by keeping track of previously announced series.
-- Automatically resets the notification list daily through a cron job.
-- Configurable time range to accommodate delays between publishing and script execution.
-
-## Configuration
-
-1. **Series Watchlist**:
-   Define the series you want to monitor along with the specific dubs you are interested in. If no dubs are specified, the default (Japanese) language is assumed.
-   Modify the `user_media_ids` section:
-   ```bash
-   declare -A user_media_ids=(
-       ["Bye Bye, Earth"]=""
-       ["The Elusive Samurai"]="English"
-       ["My Hero Academia"]="English,German"
-   )
-   ```
-
-2. **Notification Methods**:
-   Enable or disable notification services by setting the following variables in the config section of the script:
-   ```bash
-   notify_email=false
-   notify_pushover=false
-   notify_ifttt=false
-   notify_slack=false
-   notify_discord=false
-   notify_echo=true
-   ```
-
-3. **Notification Range**:
-   Set the time in minutes to account for delays between publishing and when the script is run:
-   ```bash
-   announcerange="60"  # Default: 60 minutes
-   ```
-
-4. **Announced Titles File**:
-   The script keeps track of announced titles in a temporary file. By default, this file is located at `/tmp/announced_series_titles`. This file will be reset daily via a cron job.
-
-5. **Cron Job**:
-   The script installs a cron job to reset the announced titles file every day at midnight (00:00) by default. You can modify the cron job schedule by adjusting the `cron_time` variable:
-   ```bash
-   cron_time="0 0 * * *"
-   ```
-
-## How to Use
-
-1. Clone or download the script to your system.
-2. Open the script and modify the configuration section to suit your preferences (series titles, notification methods, etc.).
-3. Run the script:
-   ```bash
-   ./crunchyroll-notify.sh
-   ```
-4. (Optional) Add the script to your crontab if you want it to run automatically at regular intervals.
+  - Echo (output to terminal)
+- Cron job integration to reset the notification list daily.
+- Easy configuration via `config.json`.
 
 ## Prerequisites
 
+- `jq`
 - `curl`
 - `xmlstarlet`
-- `jq`
-- Proper setup for any notification services you intend to use (e.g., Slack webhook URL, Pushover API keys, etc.).
+- `bash`
+- `cron`
+
+These dependencies must be installed on your system. The script will attempt to install missing dependencies based on your operating system.
+
+## Installation
+
+1. Download this script and modules:
+
+2. Ensure that required tools are installed:
+   ```bash
+   ./crunchyroll-notify.sh
+   ```
+
+   The script will automatically check if the required tools (`jq`, `curl`, `xmlstarlet`, etc.) are installed. If any are missing, it will attempt to install them.
+
+## Configuration
+
+Before running the script, you need to configure it by setting your preferences in `./cfg/config.json`.
+
+### Configuration File Structure
+
+Here is the default `config.json` structure:
+
+```json
+{
+  "cron_time": "0 0 * * *",
+  "anime": {
+    "Example Anime": "ExampleDub",
+  },
+  "notification_services": {
+    "email": false,
+    "pushover": false,
+    "ifttt": false,
+    "slack": false,
+    "discord": false,
+    "echo": true
+  },
+  "announcerange": 60,
+  "announced_file": "/tmp/announced_series_titles",
+  "email_recipient": "your_email@example.com",
+  "pushover": {
+    "user_key": "your_pushover_user_key",
+    "app_token": "your_pushover_app_token"
+  },
+  "ifttt": {
+    "event": "your_ifttt_event",
+    "key": "your_ifttt_key"
+  },
+  "slack": {
+    "webhook_url": "https://hooks.slack.com/services/your/slack/webhook/url"
+  },
+  "discord": {
+    "webhook_url": "https://discord.com/your/discord/channel/webhook/"
+  }
+}
+```
+
+### Steps to Configure
+
+1. **Set your desired cron schedule**:
+   - Modify `"cron_time"` to determine how often the script should check for new anime releases. The default is set to run daily at midnight (`0 0 * * *`).
+
+2. **Specify which anime titles to monitor**:
+   - Under `"anime"`, replace `"Example Anime"` with actual anime titles you want to monitor from the Crunchyroll RSS feed.
+   - The format is `"<Anime Title>": "<Dubs>"`. The dubs are a comma-separated list of languages (e.g., `"English,German"`).
+
+3. **Configure Notification Services**:
+   - Under `"notification_services"`, enable or disable services (`email`, `pushover`, `ifttt`, etc.) by setting them to `true` or `false`.
+   - Make sure to configure the relevant fields such as `"email_recipient"`, `"pushover"` keys, and Slack/Discord webhook URLs if those services are enabled.
+
+4. **Adjust announcerange**:
+   - The `"announcerange"` field specifies the time range in minutes in which new anime releases should be considered for notification.
+
+## Running the Script
+
+Once configured, you can run the script:
+
+```bash
+./crunchyroll-notify.sh
+```
+
+The script will:
+1. Check for new anime releases from the Crunchyroll RSS feed.
+2. Filter releases by the specified dubs in `config.json`.
+3. Send notifications through the selected services.
+
+If `config.json` is missing, the script will automatically create one with default values and prompt you to configure it.
+
+## Setting Up Cron
+
+To ensure the script runs periodically, you can install the cron job as specified in `config.json`:
+
+```bash
+crontab -e
+```
+
+Add the following line to schedule the script according to the `cron_time` specified in your config:
+
+```bash
+0 0 * * * /path/to/crunchyroll-notify.sh
+```
+
+This example will run the script daily at midnight. You can modify the schedule based on your needs.
 
 ## License
 
-This project is open-source and available under the [GPL-3 License](https://github.com/Oratorian/script-archive/blob/main/LICENSE).
+This project is licensed under the GPL-3 License. See the `LICENSE` file for details.
