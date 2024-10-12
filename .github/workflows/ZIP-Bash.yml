@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - Baash/crunchyroll-notify/**
+      - Bash/crunchyroll-notify/**
 
 jobs:
   zip:
