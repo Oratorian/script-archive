@@ -29,7 +29,8 @@ jobs:
       # Zip the subdirectory based on the matrix value, only if changes were made
       - name: Zip subdirectory
         run: |
-          zip -r ${{ matrix.subdir }}.zip Bash/${{ matrix.subdir }}
+          cd Bash/${{ matrix.subdir }}
+          zip -r ../../${{ matrix.subdir }}.zip
 
       # List created zip files for logging
       - name: List created ZIP files
