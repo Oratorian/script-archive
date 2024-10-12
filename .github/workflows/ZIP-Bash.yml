@@ -38,15 +38,15 @@ jobs:
         shell: bash
 
       # Only continue if changes were found
-      - name: Continue if changes were found
-        if: env.CHANGES_FOUND == 'true'
-        run: echo "Proceeding with release creation for ${{ matrix.subdir }}"
+     # - name: Continue if changes were found
+       # if: env.CHANGES_FOUND == 'true'
+        #run: echo "Proceeding with release creation for ${{ matrix.subdir }}"
 
       # Zip the subdirectory based on the matrix value, only if changes were made
       - name: Zip subdirectory
-        if: env.CHANGES_FOUND == 'true'
+       # if: env.CHANGES_FOUND == 'true'
         run: |
-          zip -r ${{ matrix.subdir }}.zip Batch/${{ matrix.subdir }}
+          zip -r ${{ matrix.subdir }}.zip Bash/${{ matrix.subdir }}
 
       # List created zip files for logging
       - name: List created ZIP files
