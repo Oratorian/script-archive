@@ -43,7 +43,7 @@ function update_server {
     fi
 
     # Extract the four-digit version number from the download URL
-    versionCode=$(echo "$downloadUrl" | grep -oP '(?<=/)[0-9]{4}(?=-)')
+    versioncode=$(echo "$downloadUrl" | grep -oP '(?<=master/)[0-9]+(?=-)')
 
     # Download the file with wget, naming it with the version code
     if [[ -z "$versionCode" ]] || [[ -f "${UPDATE_DIR}${versionCode}.tar.xz" ]]
