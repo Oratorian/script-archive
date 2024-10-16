@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.1.1 - 2024-10-015
+
+### Added
+- none
+
+### Changed
+- none
+
+### Fixed
+- Retrieval of Version number from downloadUrl
+
+---
 ## 2.1.0 - 2024-10-02
 
 ### Added
