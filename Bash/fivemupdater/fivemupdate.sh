@@ -6,7 +6,7 @@
 # as the original Author
 #---------------------------------------------------------------------------------------------
 
-## Version 2.1.0
+## Version 2.1.1
 
 # Configuration variables
 UPDATE_DIR="/opt/fivemupdates/"  # Directory where updates are downloaded
